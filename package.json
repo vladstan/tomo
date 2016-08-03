@@ -18,6 +18,6 @@
   "homepage": "https://github.com/vladstan/ClaireBot#readme",
   "dependencies": {
     "claudia-bot-builder": "1.4.0",
-    "huh": "1.1.4"
+    "node-wit": "github:aluxian/node-wit"
   }
 }
