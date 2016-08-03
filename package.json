@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/vladstan/ClaireBot/issues"
   },
-  "homepage": "https://github.com/vladstan/ClaireBot#readme"
+  "homepage": "https://github.com/vladstan/ClaireBot#readme",
+  "dependencies": {
+    "claudia-bot-builder": "1.4.0",
+    "huh": "1.1.4"
+  }
 }
