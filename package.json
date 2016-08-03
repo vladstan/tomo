@@ -1,0 +1,19 @@
+{
+  "name": "clairebot",
+  "version": "0.1.0",
+  "description": "Bot for Real Estate",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vladstan/ClaireBot.git"
+  },
+  "author": "Alexandru Rosianu <rosian_alex@yahoo.com> (http://www.aluxian.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vladstan/ClaireBot/issues"
+  },
+  "homepage": "https://github.com/vladstan/ClaireBot#readme"
+}
