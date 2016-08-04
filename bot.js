@@ -1,5 +1,4 @@
 const botBuilder = require('claudia-bot-builder');
-const excuse = require('huh');
 const wit = require('node-wit');
 const Wit = wit.Wit;
 
