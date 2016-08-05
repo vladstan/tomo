@@ -186,6 +186,26 @@ async function distUpdateAlias() {
   }
 }
 
+async function distUpdatePermission() {
+  const region = getArgs().region;
+  const distEnv = getArgs().env;
+  const lambda = getLambda({region});
+
+  const alias = await lambda.getAlias({
+    FunctionName: lambdaJson.FunctionName,
+    Name: distEnv
+  }).promise();
+
+  const response = await lambda.addPermission({
+    Action: 'lambda:InvokeFunction',
+    FunctionName: alias.data.AliasArn,
+    Principal: 'apigateway.amazonaws.com',
+    StatementId: uuid.v4()
+  }).promise();
+
+  console.log(response.data);
+}
+
 const clean = parallel(cleanBuild, cleanDist);
 const build = series(lintJs, compileJs);
 const deploy = series(
@@ -196,7 +216,8 @@ const deploy = series(
   ),
   distArchive,
   distUpload,
-  distUpdateAlias
+  distUpdateAlias,
+  distUpdatePermission
 );
 const deployClean = series(clean, deploy);
 
