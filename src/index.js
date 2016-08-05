@@ -1,4 +1,3 @@
-export function handler(event, context) {
+export function handler(event, context, callback) {
   console.log('Running index.handler');
-  context.done();
 }

@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "predeploy": "npm run build",
     "deploy": "node-lambda deploy --configFile deploy.env",
-    "build": "babel src --out-dir build",
+    "build": "babel src --out-dir dist",
     "lint": "eslint src"
   },
   "dependencies": {
