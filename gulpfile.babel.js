@@ -5,6 +5,7 @@ import eslint from 'gulp-eslint';
 import zip from 'gulp-zip';
 
 import npmi from 'npmi';
+import uuid from 'node-uuid';
 import aws from 'aws-sdk-promise';
 import minimist from 'minimist';
 import fs from 'fs.promised';
@@ -133,7 +134,7 @@ async function distUpload() {
   }
 }
 
-async function distAlias() {
+async function distUpdateAlias() {
   const region = getArgs().region;
   const distEnv = getArgs().env;
   const lambda = getLambda({region});
@@ -160,11 +161,20 @@ async function distAlias() {
   }
 
   async function createNew() {
-    await lambda.createAlias({
+    const response1 = await lambda.createAlias({
       FunctionName: lambdaJson.FunctionName,
       FunctionVersion: '$LATEST',
       Name: distEnv
     }).promise();
+
+    const response2 = await lambda.addPermission({
+      Action: 'lambda:InvokeFunction',
+      FunctionName: response1.data.AliasArn,
+      Principal: 'apigateway.amazonaws.com',
+      StatementId: uuid.v4()
+    }).promise();
+
+    console.log(response2.data);
   }
 
   async function updateExisting() {
@@ -174,6 +184,26 @@ async function distAlias() {
       Name: distEnv
     }).promise();
   }
+}
+
+async function distUpdatePermission() {
+  const region = getArgs().region;
+  const distEnv = getArgs().env;
+  const lambda = getLambda({region});
+
+  const alias = await lambda.getAlias({
+    FunctionName: lambdaJson.FunctionName,
+    Name: distEnv
+  }).promise();
+
+  const response = await lambda.addPermission({
+    Action: 'lambda:InvokeFunction',
+    FunctionName: alias.data.AliasArn,
+    Principal: 'apigateway.amazonaws.com',
+    StatementId: uuid.v4()
+  }).promise();
+
+  console.log(response.data);
 }
 
 const clean = parallel(cleanBuild, cleanDist);
@@ -186,7 +216,8 @@ const deploy = series(
   ),
   distArchive,
   distUpload,
-  distAlias
+  distUpdateAlias,
+  distUpdatePermission
 );
 const deployClean = series(clean, deploy);
 

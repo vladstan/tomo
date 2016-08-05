@@ -28,6 +28,7 @@
     "gulp-eslint": "3.0.1",
     "gulp-zip": "3.2.0",
     "minimist": "1.2.0",
+    "node-uuid": "1.4.7",
     "npmi": "2.0.1"
   },
   "author": "Alexandru Rosianu <rosian_alex@yahoo.com> (http://www.aluxian.com)",
