@@ -58,11 +58,11 @@ function compileJs() {
 
 function distCheckParams(done) {
   if (!getArgs().region) {
-    throw new Error('--region parameter is required');
+    return done(new Error('--region parameter is required'));
   }
 
   if (!['development', 'staging', 'production'].includes(getArgs().env)) {
-    throw new Error('--env parameter is required (development, staging, or production)');
+    return done(new Error('--env parameter is required (development, staging, or production)'));
   }
 
   done();
@@ -186,7 +186,7 @@ async function distUpdateAlias() {
   }
 }
 
-async function distUpdatePermission() {
+async function distAddPermission() {
   const region = getArgs().region;
   const distEnv = getArgs().env;
   const lambda = getLambda({region});
@@ -216,13 +216,13 @@ const deploy = series(
   ),
   distArchive,
   distUpload,
-  distUpdateAlias,
-  distUpdatePermission
+  distUpdateAlias
 );
 const deployClean = series(clean, deploy);
+const deployPermission = series(distCheckParams, distAddPermission);
 
 // EXPORTS
 
 export {cleanBuild, cleanDist, clean};
 export {lintJs, compileJs};
-export {build, deploy, deployClean};
+export {build, deploy, deployClean, deployPermission};
