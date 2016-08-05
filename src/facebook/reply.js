@@ -26,6 +26,7 @@ export default async function(recipientId, messages, fbAccessToken) {
       })
     };
 
+    console.info('sending reply', options);
     // Await in series to ensure messages are sent in order
     const result = await rp(options); // eslint-disable-line babel/no-await-in-loop
     results.push(result);
