@@ -4,7 +4,17 @@
   "description": "Bot for Real Estate",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src --out-dir build",
+    "predeploy": "npm run build",
+    "deploy": "claudia update"
+  },
+  "dependencies": {
+    "claudia-bot-builder": "1.4.0",
+    "node-wit": "github:aluxian/node-wit"
+  },
+  "devDependencies": {
+    "babel-cli": "6.11.4"
   },
   "repository": {
     "type": "git",
@@ -15,9 +25,5 @@
   "bugs": {
     "url": "https://github.com/vladstan/ClaireBot/issues"
   },
-  "homepage": "https://github.com/vladstan/ClaireBot#readme",
-  "dependencies": {
-    "claudia-bot-builder": "1.4.0",
-    "node-wit": "github:aluxian/node-wit"
-  }
+  "homepage": "https://github.com/vladstan/ClaireBot#readme"
 }
