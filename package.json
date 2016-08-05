@@ -2,15 +2,7 @@
   "name": "clairebot",
   "version": "0.1.0",
   "description": "Bot for Real Estate",
-  "main": "index.js",
-  "scripts": {
-    "pretest": "npm run lint",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "predeploy": "npm run build",
-    "deploy": "node-lambda deploy --configFile deploy.env",
-    "build": "babel src --out-dir dist",
-    "lint": "eslint src"
-  },
+  "private": true,
   "dependencies": {
     "babel-plugin-default-import-checker": "1.0.8",
     "babel-plugin-transform-runtime": "6.12.0",
@@ -19,8 +11,10 @@
     "node-wit": "github:aluxian/node-wit"
   },
   "devDependencies": {
-    "babel-cli": "6.11.4",
+    "aws-sdk": "2.4.13",
+    "aws-sdk-promise": "0.0.2",
     "babel-eslint": "6.1.2",
+    "del": "2.2.1",
     "eslint": "2.13.1",
     "eslint-config-semistandard": "6.0.2",
     "eslint-config-standard": "5.3.5",
@@ -28,14 +22,30 @@
     "eslint-plugin-promise": "1.3.2",
     "eslint-plugin-react": "5.2.2",
     "eslint-plugin-standard": "1.3.3",
-    "node-lambda": "0.8.6"
+    "fs.promised": "3.0.0",
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-babel": "6.1.2",
+    "gulp-eslint": "3.0.1",
+    "gulp-zip": "3.2.0",
+    "minimist": "1.2.0",
+    "npmi": "2.0.1"
   },
+  "aws": {
+    "FunctionName": "myClaireBotT2",
+    "Description": "Bot for Real Estate",
+    "Role": "arn:aws:iam::898844291538:role/myClaireBot",
+    "Handler": "js/index.handler",
+    "Runtime": "nodejs4.3",
+    "MemorySize": "128",
+    "Timeout": 3,
+    "VpcConfig": {}
+  },
+  "author": "Alexandru Rosianu <rosian_alex@yahoo.com> (http://www.aluxian.com)",
+  "license": "ISC",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vladstan/ClaireBot.git"
   },
-  "author": "Alexandru Rosianu <rosian_alex@yahoo.com> (http://www.aluxian.com)",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/vladstan/ClaireBot/issues"
   },
