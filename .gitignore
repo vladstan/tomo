@@ -1,5 +1,4 @@
 node_modules/
 build/
-.env
-deploy.env
+*.env
 npm-debug.log
