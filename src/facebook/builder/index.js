@@ -1,10 +1,10 @@
-const names = [
-  'FacebookMessage',
-  'Text'
-];
+import FacebookMessage from './FacebookMessage';
+import Text from './Text';
 
-const builders = names.map((name) => require('./' + name).default);
-export default builders;
+export {
+  FacebookMessage,
+  Text
+};
 
 // TODO
 // import {isUrl} from '../utils';
