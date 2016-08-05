@@ -4,7 +4,7 @@ import {Wit} from 'node-wit';
 import * as actions from './actions';
 
 const wit = new Wit({
-  accessToken: 'GZYELIAI26IAKUPUMG3W3626BG5EX32E',
+  accessToken: process.env.WIT_AI_ACCESS_TOKEN,
   actions
 });
 
