@@ -30,16 +30,6 @@
     "minimist": "1.2.0",
     "npmi": "2.0.1"
   },
-  "aws": {
-    "FunctionName": "myClaireBotT2",
-    "Description": "Bot for Real Estate",
-    "Role": "arn:aws:iam::898844291538:role/myClaireBot",
-    "Handler": "js/index.handler",
-    "Runtime": "nodejs4.3",
-    "MemorySize": "128",
-    "Timeout": 3,
-    "VpcConfig": {}
-  },
   "author": "Alexandru Rosianu <rosian_alex@yahoo.com> (http://www.aluxian.com)",
   "license": "ISC",
   "repository": {

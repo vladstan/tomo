@@ -10,7 +10,7 @@ import minimist from 'minimist';
 import fs from 'fs.promised';
 import del from 'del';
 
-import packageJson from './package.json';
+import lambdaJson from './aws/lambda.json';
 
 // UTILS
 
@@ -110,12 +110,12 @@ async function distUpload() {
   console.log(response.data);
 
   function getFunction() {
-    return lambda.getFunction({FunctionName: packageJson.aws.FunctionName}).promise();
+    return lambda.getFunction({FunctionName: lambdaJson.FunctionName}).promise();
   }
 
   async function uploadNew() {
     await lambda.createFunction({
-      ...packageJson.aws,
+      ...lambdaJson,
       Code: {
         ZipFile: await fs.readFile('./dist/app.zip')
       },
@@ -125,11 +125,11 @@ async function distUpload() {
 
   async function uploadExisting() {
     await lambda.updateFunctionCode({
-      FunctionName: packageJson.aws.FunctionName,
+      FunctionName: lambdaJson.FunctionName,
       ZipFile: await fs.readFile('./dist/app.zip'),
       Publish: true
     }).promise();
-    await lambda.updateFunctionConfiguration(packageJson.aws).promise();
+    await lambda.updateFunctionConfiguration(lambdaJson).promise();
   }
 }
 
@@ -154,14 +154,14 @@ async function distAlias() {
 
   function getAlias() {
     return lambda.getAlias({
-      FunctionName: packageJson.aws.FunctionName,
+      FunctionName: lambdaJson.FunctionName,
       Name: distEnv
     }).promise();
   }
 
   async function createNew() {
     await lambda.createAlias({
-      FunctionName: packageJson.aws.FunctionName,
+      FunctionName: lambdaJson.FunctionName,
       FunctionVersion: '$LATEST',
       Name: distEnv
     }).promise();
@@ -169,7 +169,7 @@ async function distAlias() {
 
   async function updateExisting() {
     await lambda.updateAlias({
-      FunctionName: packageJson.aws.FunctionName,
+      FunctionName: lambdaJson.FunctionName,
       FunctionVersion: '$LATEST',
       Name: distEnv
     }).promise();
