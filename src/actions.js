@@ -1,9 +1,11 @@
-export async function send({sessionId}, {text, quickreplies}) {
+// import * as utils from './utils';
+
+export async function send ({sessionId}, {text, quickreplies}) {
   console.info('action:send', ...arguments);
-  sendQueue.push(response.text);
+  // sendQueue.push(response.text);
 }
 
-export async function getForecast({context, entities}) {
+export async function getForecast ({context, entities}) {
   console.info('action:getForecast', ...arguments);
   // const location = firstEntityValue(request.entities, 'location');
   // if (location) {
