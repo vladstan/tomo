@@ -1,3 +1,5 @@
+import crypto from 'crypto';
+
 export function firstEntityValue(entities, entityName) {
   const val = entities &&
     Array.isArray(entities[entityName]) &&
@@ -9,19 +11,14 @@ export function firstEntityValue(entities, entityName) {
   return typeof val === 'object' ? val.value : val;
 }
 
-// const findOrCreateSession = (fbid) => {
-//   let sessionId;
-//   // Let's see if we already have a session for the user fbid
-//   Object.keys(sessions).forEach(k => {
-//     if (sessions[k].fbid === fbid) {
-//       // Yep, got it!
-//       sessionId = k;
-//     }
-//   });
-//   if (!sessionId) {
-//     // No session found for user fbid, let's create a new one
-//     sessionId = new Date().toISOString();
-//     sessions[sessionId] = {fbid: fbid, context: {}};
-//   }
-//   return sessionId;
-// };
+export function isUrl(url) {
+  const pattern = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,63}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+  return pattern.test(url);
+}
+
+export function verifyXHubSignature(signature, secret, buffer) {
+  const hmac = crypto.createHmac('sha1', secret);
+  hmac.update(buffer, 'utf-8');
+  const expected = 'sha1=' + hmac.digest('hex');
+  return signature === expected;
+}

@@ -11,8 +11,6 @@ import minimist from 'minimist';
 import fs from 'fs.promised';
 import del from 'del';
 
-import lambdaJson from './aws/lambda.json';
-
 // UTILS
 
 let _args = null;
@@ -31,6 +29,26 @@ function getLambda(options) {
     _lambda = new aws.Lambda(options);
   }
   return _lambda;
+}
+
+function getRegion() {
+  const args = getArgs();
+  if (!args.region) {
+    throw new Error('--region parameter is required');
+  }
+  return args.region;
+}
+
+function getEnv() {
+  const args = getArgs();
+  if (!['development', 'staging', 'production'].includes(args.env)) {
+    throw new Error('--env parameter is required (development, staging, or production)');
+  }
+  return args.env;
+}
+
+function getLambdaJson() {
+  return require('./aws/lambda.json');
 }
 
 // TASKS
@@ -54,18 +72,6 @@ function compileJs() {
   return src('./src/**')
     .pipe(babel())
     .pipe(dest('./build'));
-}
-
-function distCheckParams(done) {
-  if (!getArgs().region) {
-    return done(new Error('--region parameter is required'));
-  }
-
-  if (!['development', 'staging', 'production'].includes(getArgs().env)) {
-    return done(new Error('--env parameter is required (development, staging, or production)'));
-  }
-
-  done();
 }
 
 function distCopyJs() {
@@ -92,137 +98,114 @@ function distArchive() {
     .pipe(dest('./dist'));
 }
 
-async function distUpload() {
-  const region = getArgs().region;
-  const lambda = getLambda({region});
+async function lambdaCreateFunction() {
+  const lambda = getLambda({
+    region: getRegion()
+  });
 
-  try {
-    await getFunction();
-    await uploadExisting();
-  } catch (err) {
-    if (err.statusCode === 404) {
-      await uploadNew();
-    } else {
-      throw err;
-    }
-  }
-
-  const response = await getFunction();
-  console.log(response.data);
-
-  function getFunction() {
-    return lambda.getFunction({FunctionName: lambdaJson.FunctionName}).promise();
-  }
-
-  async function uploadNew() {
-    await lambda.createFunction({
-      ...lambdaJson,
-      Code: {
-        ZipFile: await fs.readFile('./dist/app.zip')
-      },
-      Publish: true
-    }).promise();
-  }
-
-  async function uploadExisting() {
-    await lambda.updateFunctionCode({
-      FunctionName: lambdaJson.FunctionName,
-      ZipFile: await fs.readFile('./dist/app.zip'),
-      Publish: true
-    }).promise();
-    await lambda.updateFunctionConfiguration(lambdaJson).promise();
-  }
-}
-
-async function distUpdateAlias() {
-  const region = getArgs().region;
-  const distEnv = getArgs().env;
-  const lambda = getLambda({region});
-
-  try {
-    await getAlias();
-    await updateExisting();
-  } catch (err) {
-    if (err.statusCode === 404) {
-      await createNew();
-    } else {
-      throw err;
-    }
-  }
-
-  const response = await getAlias();
-  console.log(response.data);
-
-  function getAlias() {
-    return lambda.getAlias({
-      FunctionName: lambdaJson.FunctionName,
-      Name: distEnv
-    }).promise();
-  }
-
-  async function createNew() {
-    const response1 = await lambda.createAlias({
-      FunctionName: lambdaJson.FunctionName,
-      FunctionVersion: '$LATEST',
-      Name: distEnv
-    }).promise();
-
-    const response2 = await lambda.addPermission({
-      Action: 'lambda:InvokeFunction',
-      FunctionName: response1.data.AliasArn,
-      Principal: 'apigateway.amazonaws.com',
-      StatementId: uuid.v4()
-    }).promise();
-
-    console.log(response2.data);
-  }
-
-  async function updateExisting() {
-    await lambda.updateAlias({
-      FunctionName: lambdaJson.FunctionName,
-      FunctionVersion: '$LATEST',
-      Name: distEnv
-    }).promise();
-  }
-}
-
-async function distAddPermission() {
-  const region = getArgs().region;
-  const distEnv = getArgs().env;
-  const lambda = getLambda({region});
-
-  const alias = await lambda.getAlias({
-    FunctionName: lambdaJson.FunctionName,
-    Name: distEnv
+  const response = await lambda.createFunction({
+    ...getLambdaJson(),
+    Code: {
+      ZipFile: await fs.readFile('./dist/app.zip')
+    },
+    Publish: true
   }).promise();
 
-  const response = await lambda.addPermission({
+  console.log(response.data);
+}
+
+async function lambdaUploadCode() {
+  const lambda = getLambda({
+    region: getRegion()
+  });
+
+  const response = await lambda.updateFunctionCode({
+    FunctionName: getLambdaJson().FunctionName,
+    ZipFile: await fs.readFile('./dist/app.zip'),
+    Publish: true
+  }).promise();
+
+  console.log(response.data);
+}
+
+async function lambdaUpdateConfig() {
+  const lambda = getLambda({
+    region: getRegion()
+  });
+
+  const params = getLambdaJson();
+  const response = await lambda.updateFunctionConfiguration(params).promise();
+
+  console.log(response.data);
+}
+
+async function lambdaCreateAlias() {
+  const lambda = getLambda({
+    region: getRegion()
+  });
+
+  const response = await lambda.createAlias({
+    FunctionName: getLambdaJson().FunctionName,
+    FunctionVersion: '$LATEST',
+    Name: getEnv()
+  }).promise();
+
+  console.log(response.data);
+}
+
+async function lambdaUpdateAlias() {
+  const lambda = getLambda({
+    region: getRegion()
+  });
+
+  const response = await lambda.updateAlias({
+    FunctionName: getLambdaJson().FunctionName,
+    FunctionVersion: '$LATEST',
+    Name: getEnv()
+  }).promise();
+
+  console.log(response.data);
+}
+
+async function lambdaAddPermissions() {
+  const lambda = getLambda({
+    region: getRegion()
+  });
+
+  const response1 = await lambda.getAlias({
+    FunctionName: getLambdaJson().FunctionName,
+    Name: getEnv()
+  }).promise();
+
+  const response2 = await lambda.addPermission({
     Action: 'lambda:InvokeFunction',
-    FunctionName: alias.data.AliasArn,
+    FunctionName: response1.data.AliasArn,
     Principal: 'apigateway.amazonaws.com',
     StatementId: uuid.v4()
   }).promise();
 
-  console.log(response.data);
+  console.log(response2.data);
 }
 
 const clean = parallel(cleanBuild, cleanDist);
 const build = series(lintJs, compileJs);
 const deploy = series(
-  distCheckParams,
   parallel(
     series(build, distCopyJs),
     series(distCopyPackageJson, distInstallDeps)
   ),
-  distArchive,
-  distUpload,
-  distUpdateAlias
+  distArchive
 );
-const deployClean = series(clean, deploy);
-const deployPermission = series(distCheckParams, distAddPermission);
+const createFunction = series(deploy, lambdaCreateFunction);
+const uploadCode = series(deploy, lambdaUploadCode);
+const updateConfig = lambdaUpdateConfig;
+const createAlias = lambdaCreateAlias;
+const updateAlias = lambdaUpdateAlias;
+const addPermissions = lambdaAddPermissions;
 
 // EXPORTS
 
 export {cleanBuild, cleanDist, clean};
-export {lintJs, compileJs};
-export {build, deploy, deployClean, deployPermission};
+export {lintJs, compileJs, build, deploy};
+export {createFunction, uploadCode, updateConfig};
+export {createAlias, updateAlias, addPermissions};

@@ -9,14 +9,27 @@
   "paths": {
     "/": {
       "get": {
-        "produces": [
+        "consumes": [
           "application/json"
+        ],
+        "produces": [
+          "text/plain"
         ],
         "responses": {
           "200": {
             "description": "200 response",
-            "schema": {
-              "$ref": "#/definitions/Empty"
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            }
+          },
+          "500": {
+            "description": "500 response",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
             }
           }
         }
@@ -24,36 +37,77 @@
     },
     "/facebook": {
       "get": {
-        "produces": [
+        "consumes": [
           "application/json"
+        ],
+        "produces": [
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "name": "hub.mode",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "hub.challenge",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "hub.verify_token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
         ],
         "responses": {
           "200": {
             "description": "200 response",
-            "schema": {
-              "$ref": "#/definitions/Empty"
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            }
+          },
+          "500": {
+            "description": "500 response",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
             }
           }
         }
       },
       "post": {
-        "produces": [
+        "consumes": [
           "application/json"
+        ],
+        "produces": [
+          "text/plain"
         ],
         "responses": {
           "200": {
             "description": "200 response",
-            "schema": {
-              "$ref": "#/definitions/Empty"
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            }
+          },
+          "500": {
+            "description": "500 response",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
             }
           }
         }
       }
-    }
-  },
-  "definitions": {
-    "Empty": {
-      "type": "object"
     }
   }
 }

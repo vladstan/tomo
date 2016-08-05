@@ -1,7 +1,7 @@
 {
   "FunctionName": "myClaireBot",
   "Description": "Bot for Real Estate",
-  "Role": "arn:aws:iam::898844291538:role/myClaireBot",
+  "Role": "arn:aws:iam::898844291538:role/clairebot-executor",
   "Handler": "js/index.handler",
   "Runtime": "nodejs4.3",
   "MemorySize": "128",
