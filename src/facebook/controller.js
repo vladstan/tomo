@@ -29,14 +29,14 @@ export async function webhook(req) {
     throw new Error('unknown object type: ' + body.object);
   }
 
-  const tasks = [];
+  const tasks = {};
   const addTask = (receiver, event) => {
-    const directReply = (...messages) => reply(event.recipient.id, messages, env.facebookAccessToken);
-    let task = receiver(req, event, directReply);
-
-    // Log errors so that other message events are still handled
-    task = task.catch((err) => console.error('error trying to handle Facebook event', event, err.stack));
-    tasks.push(task);
+    const senderId = event.sender.id;
+    const directReply = (...messages) => reply(senderId, messages, env.facebookAccessToken);
+    const task = receiver(req, event, directReply)
+      .catch((err) => console.error('error trying to handle Facebook event', event, err.stack));
+    tasks[senderId] = tasks[senderId] || [];
+    tasks[senderId].push(task);
   };
 
   for (let entry of body.entry) {
@@ -51,6 +51,14 @@ export async function webhook(req) {
     }
   }
 
-  await Promise.all(tasks);
+  const tasksById = Object.keys(tasks).map((senderId) => {
+    return (async () => {
+      for (let task of tasks[senderId]) {
+        await task;  // eslint-disable-line babel/no-await-in-loop
+      }
+    })();
+  });
+
+  await Promise.all(tasksById);
   return 'ok';
 }
