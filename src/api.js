@@ -9,19 +9,20 @@ for (let method of methods) {
   };
 }
 
-api.router = async (event, callback) => {
+api.router = async (req, callback) => {
   try {
-    const methodHandlers = handlers[event.method];
+    const methodHandlers = handlers[req.method];
     if (!methodHandlers) {
-      throw new Error('unknown HTTP method: ' + event.method);
+      throw new Error('unknown HTTP method: ' + req.method);
     }
 
-    const handler = methodHandlers[event.path];
+    const handler = methodHandlers[req.path];
     if (!handler) {
-      throw new Error('no handler for path: ' + event.path);
+      throw new Error('no handler for path: ' + req.path);
     }
 
-    const resp = await handler(event);
+    console.log(req.method, req.path, req);
+    const resp = await handler(req);
     callback(null, resp);
   } catch (err) {
     callback(err);
