@@ -34,7 +34,7 @@ export async function webhook(req) {
     const senderId = event.sender.id;
     const directReply = (...messages) => reply(senderId, messages, env.facebookAccessToken);
     const task = receiver(req, event, directReply)
-      .catch((err) => console.error('error trying to handle Facebook event', event, err.stack));
+      .catch((err) => console.error('error trying to handle Facebook event', event, err, err.stack));
     tasks[senderId] = tasks[senderId] || [];
     tasks[senderId].push(task);
   };
