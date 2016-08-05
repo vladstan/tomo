@@ -17,7 +17,7 @@ class Text extends FacebookMessage {
       text: this.text
     };
 
-    if (this.quickReplies) {
+    if (Array.isArray(this.quickReplies) && this.quickReplies.length > 0) {
       reply.quick_replies = this.quickReplies;
     }
 
