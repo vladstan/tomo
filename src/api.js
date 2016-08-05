@@ -21,7 +21,7 @@ api.router = async (req, callback) => {
       throw new Error('no handler for path: ' + req.path);
     }
 
-    console.log(req.method, req.path);
+    console.info(req.method, req.path);
     const resp = await handler(req);
     callback(null, resp);
   } catch (err) {
