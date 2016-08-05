@@ -1,4 +1,5 @@
 import reply from './reply';
+import wit from './wit';
 
 import receiverMessage from './receivers/message';
 import receiverPostback from './receivers/postback';
@@ -33,7 +34,8 @@ export async function webhook(req) {
   const addTask = (receiver, event) => {
     const senderId = event.sender.id;
     const directReply = (...messages) => reply(senderId, messages, env.facebookAccessToken);
-    const task = receiver(req, event, directReply)
+    const witInstance = wit(env.witAiAccessToken, directReply);
+    const task = receiver(req, event, directReply, witInstance)
       .catch((err) => console.error('error trying to handle Facebook event', event, err, err.stack));
     tasks[senderId] = tasks[senderId] || [];
     tasks[senderId].push(task);
