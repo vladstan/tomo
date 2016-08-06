@@ -3,9 +3,10 @@ import {Image, Text} from './builder';
 
 class Actions {
 
-  constructor(reply, db) {
+  constructor(reply, db, openWeather) {
     this.reply = reply;
     this.db = db;
+    this.openWeather = openWeather;
   }
 
   storeContext(sessionId, context) {
@@ -33,14 +34,20 @@ class Actions {
   async getForecast({sessionId, context, entities}) {
     console.info('action:getForecast', ...arguments);
     const location = firstEntityValue(entities, 'location');
+    const weather = firstEntityValue(entities, 'weather');
 
     if (location) {
-      context.forecast = 'sunny in ' + location;
+      const forecast = await this.openWeather.city(location).now();
+      context.forecast = forecast.weather[0].description + ' – ' + forecast.main.temp + 'ºC';
+      console.info('forecast', JSON.stringify(context.forecast));
       delete context.missingLocation;
     } else {
       context.missingLocation = true;
       delete context.forecast;
     }
+
+    context.location = location;
+    context.weather = weather;
 
     await this.storeContext(sessionId, context);
     return context;

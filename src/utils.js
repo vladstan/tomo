@@ -6,7 +6,7 @@ export function firstEntityValue(entities, entityName) {
     entities[entityName].length > 0 &&
     entities[entityName][0].value;
   if (!val) {
-    return null;
+    return undefined;
   }
   return typeof val === 'object' ? val.value : val;
 }

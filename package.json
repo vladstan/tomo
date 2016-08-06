@@ -7,6 +7,7 @@
     "babel-runtime": "6.11.6",
     "dynasty": "0.2.5",
     "minimal-request-promise": "1.3.0",
+    "node-openweather": "0.0.5",
     "node-wit": "github:aluxian/node-wit"
   },
   "devDependencies": {

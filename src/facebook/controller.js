@@ -1,5 +1,7 @@
 import Dynasty from 'dynasty';
 import {Wit} from 'node-wit';
+import OpenWeather from 'node-openweather';
+import {Text} from './builder';
 
 import Actions from './actions';
 import Reply from './reply';
@@ -37,6 +39,14 @@ export async function webhook(req) {
   const addTask = (receiver, event) => {
     const senderId = event.sender.id;
     const reply = new Reply(senderId, env.facebookAccessToken);
+
+    const openWeather = new OpenWeather({
+      key: env.openWeatherApiKey,
+      accuracy: 'like',
+      units: 'metric',
+      language: 'en'
+    });
+
     const db = new Dynasty({}).table('claireBotData');
     db.findOrInsert = async (selector, defaultDoc) => {
       let doc = await db.find(selector);
@@ -45,13 +55,17 @@ export async function webhook(req) {
       }
       return doc;
     };
+
     const wit = new Wit({
       accessToken: env.witAiAccessToken,
-      actions: new Actions(reply, db).getActions()
+      actions: new Actions(reply, db, openWeather).getActions()
     });
 
     const task = receiver(req, event, reply, wit, db)
-      .catch((err) => console.error('error trying to handle Facebook event', event, err, err.stack));
+      .catch((err) => {
+        console.error('error trying to handle Facebook event', event, err, err.stack);
+        return reply.message(new Text('Beep boop, error.'));
+      });
 
     tasks[senderId] = tasks[senderId] || [];
     tasks[senderId].push(task);

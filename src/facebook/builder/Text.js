@@ -9,6 +9,10 @@ class Text extends FacebookMessage {
       throw new Error('parameter text is required');
     }
 
+    if (text.length > 320) {
+      throw new Error('text is too long');
+    }
+
     this.text = text;
   }
 
