@@ -1,4 +1,4 @@
-import {firstEntityValue} from './utils';
+import {firstEntityValue} from '../utils';
 import {Image, Text} from './builder';
 
 class Actions {
