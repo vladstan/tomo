@@ -1,15 +1,20 @@
-export default async function(req, event, reply, wit) {
+export default async function(req, event, reply, wit, db) {
   const senderId = event.sender.id;
   const message = event.message;
-
-  const messageText = message.text;
-  // const messageAttachments = message.attachments;
-
   const sessionId = senderId;
-  const context0 = {};
 
   await reply.actions('mark_seen', 'typing_on');
-  if (messageText) {
-    await wit.runActions(sessionId, messageText, context0, 10);
+
+  const session = await db.findOrInsert(sessionId, {
+    sessionId: sessionId,
+    context: {}
+  });
+
+  if (message.text) {
+    await wit.runActions(sessionId, message.text, session.context, 10);
   }
+
+  // if (message.attachments) {
+  //
+  // }
 }

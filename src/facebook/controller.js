@@ -1,3 +1,4 @@
+import Dynasty from 'dynasty';
 import {Wit} from 'node-wit';
 
 import Actions from './actions';
@@ -36,12 +37,20 @@ export async function webhook(req) {
   const addTask = (receiver, event) => {
     const senderId = event.sender.id;
     const reply = new Reply(senderId, env.facebookAccessToken);
+    const db = new Dynasty({}).table('claireBotData');
+    db.findOrInsert = async (selector, defaultDoc) => {
+      let doc = await db.find(selector);
+      if (!doc) {
+        doc = await db.insert(defaultDoc);
+      }
+      return doc;
+    };
     const wit = new Wit({
       accessToken: env.witAiAccessToken,
-      actions: new Actions(reply)
+      actions: new Actions(reply, db).getActions()
     });
 
-    const task = receiver(req, event, reply, wit)
+    const task = receiver(req, event, reply, wit, db)
       .catch((err) => console.error('error trying to handle Facebook event', event, err, err.stack));
 
     tasks[senderId] = tasks[senderId] || [];
