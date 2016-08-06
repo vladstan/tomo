@@ -32,6 +32,7 @@ class Actions {
   async getForecast({sessionId, context, entities}) {
     console.info('action:getForecast', ...arguments);
     const location = firstEntityValue(entities, 'location');
+
     if (location) {
       context.forecast = 'sunny in ' + location;
       delete context.missingLocation;
@@ -39,7 +40,7 @@ class Actions {
       context.missingLocation = true;
       delete context.forecast;
     }
-    context.forecast = 'sunny';
+
     await this.saveContext(sessionId, context);
     return context;
   }
@@ -48,6 +49,31 @@ class Actions {
     console.info('action:showApartment', ...arguments);
     const msg = new Image('http://cretahomes.com/wp-content/uploads/2014/01/Beautiful-Apartment-Ideas-Design.jpg');
     await this.reply.messages(msg);
+  }
+
+  async findProperty({sessionId, context, entities}) {
+    console.info('action:findProperty', ...arguments);
+    const property = firstEntityValue(entities, 'property');
+    const intent = firstEntityValue(entities, 'intent');
+
+    if (property) {
+      context.property = property;
+      delete context.missingProperty;
+    } else {
+      context.missingProperty = true;
+      delete context.property;
+    }
+
+    if (intent) {
+      context.intent = intent;
+      delete context.missingIntent;
+    } else {
+      context.missingIntent = true;
+      delete context.intent;
+    }
+
+    await this.saveContext(sessionId, context);
+    return context;
   }
 
 }
