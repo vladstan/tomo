@@ -38,7 +38,7 @@ class Actions {
 
     if (location) {
       const forecast = await this.openWeather.city(location).now();
-      context.forecast = forecast.weather[0].description + ' – ' + forecast.main.temp + 'ºC';
+      context.forecast = forecast.weather[0].description + ' and the temperature ' + forecast.main.temp + 'ºC';
       console.info('forecast', JSON.stringify(context.forecast));
       delete context.missingLocation;
     } else {
