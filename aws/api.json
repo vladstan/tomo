@@ -1,8 +1,11 @@
 {
   "swagger": "2.0",
   "info": {
+    "version": "2016-08-05T20:03:15Z",
     "title": "myClaireBot"
   },
+  "host": "uokgdc9usa.execute-api.eu-central-1.amazonaws.com",
+  "basePath": "/development",
   "schemes": [
     "https"
   ],
@@ -32,6 +35,32 @@
               }
             }
           }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "500",
+              "responseParameters": {
+                "method.response.header.Content-Type": "'application/json'"
+              }
+            },
+            "^$": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Content-Type": "'text/plain'"
+              },
+              "responseTemplates": {
+                "text/plain": "$input.path('$')"
+              }
+            }
+          },
+          "passthroughBehavior": "when_no_templates",
+          "httpMethod": "POST",
+          "requestTemplates": {
+            "application/json": "{\n  \"method\": \"$context.httpMethod\",\n  \"path\": \"$context.resourcePath\",\n  #set ($type=$input.params().header.get('Content-Type'))\n  #if($type.contains(\";\"))\n\t#set ($type=$type.split(\";\")[0])\n  #end\n  #if($type == \"application/x-www-form-urlencoded\")\n   \"post\": {\n    #foreach($param in $input.path('$').split('&'))\n      #set ($kv = $param.split('='))\n      \"$util.urlDecode($kv[0])\":\n        #if($kv.size() > 1)\n          \"$util.escapeJavaScript($util.urlDecode($kv[1])).replace(\"\\'\", \"'\")\"\n        #else\n          \"\"\n        #end\n        #if($foreach.hasNext),#end\n    #end\n    },\n    \"body\" : \"$util.escapeJavaScript($input.body).replace(\"\\'\", \"'\")\",\n  #elseif($type == \"application/xml\" || $type == \"text/plain\" || $type == \"text/xml\")\n    \"body\" : \"$util.escapeJavaScript($input.body).replace(\"\\'\", \"'\")\",\n  #else\n    \"body\" : $input.json('$'),\n    \"rawBody\": \"$util.escapeJavaScript($input.body).replace(\"\\'\", \"'\")\",\n  #end\n  \"headers\": {\n    #foreach($param in $input.params().header.entrySet())\n      \"$param.getKey().toLowerCase()\": \"$util.escapeJavaScript($param.getValue()).replace(\"\\'\", \"'\")\" #if($foreach.hasNext),#end\n    #end\n  },\n  \"query\": {\n    #foreach($param in $input.params().querystring.entrySet())\n      \"$param.getKey()\": \"$util.escapeJavaScript($param.getValue()).replace(\"\\'\", \"'\")\" #if($foreach.hasNext),#end\n    #end\n  },\n  \"env\": {\n    #foreach($param in $stageVariables.entrySet())\n      \"$param.getKey()\": \"$util.escapeJavaScript($param.getValue())\" #if($foreach.hasNext),#end\n    #end\n  },\n  \"params\": {\n    #foreach($param in $input.params().path.entrySet())\n      \"$param.getKey()\": \"$util.escapeJavaScript($param.getValue()).replace(\"\\'\", \"'\")\" #if($foreach.hasNext),#end\n    #end\n  }\n}\n"
+          },
+          "uri": "arn:aws:apigateway:eu-central-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-central-1:898844291538:function:myClaireBot:${stageVariables.lambdaVersion}/invocations",
+          "type": "aws"
         }
       }
     },
@@ -80,6 +109,32 @@
               }
             }
           }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "500",
+              "responseParameters": {
+                "method.response.header.Content-Type": "'application/json'"
+              }
+            },
+            "^$": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Content-Type": "'text/plain'"
+              },
+              "responseTemplates": {
+                "text/plain": "$input.path('$')"
+              }
+            }
+          },
+          "passthroughBehavior": "when_no_templates",
+          "httpMethod": "POST",
+          "requestTemplates": {
+            "application/json": "{\n  \"method\": \"$context.httpMethod\",\n  \"path\": \"$context.resourcePath\",\n  #set ($type=$input.params().header.get('Content-Type'))\n  #if($type.contains(\";\"))\n\t#set ($type=$type.split(\";\")[0])\n  #end\n  #if($type == \"application/x-www-form-urlencoded\")\n   \"post\": {\n    #foreach($param in $input.path('$').split('&'))\n      #set ($kv = $param.split('='))\n      \"$util.urlDecode($kv[0])\":\n        #if($kv.size() > 1)\n          \"$util.escapeJavaScript($util.urlDecode($kv[1])).replace(\"\\'\", \"'\")\"\n        #else\n          \"\"\n        #end\n        #if($foreach.hasNext),#end\n    #end\n    },\n    \"body\" : \"$util.escapeJavaScript($input.body).replace(\"\\'\", \"'\")\",\n  #elseif($type == \"application/xml\" || $type == \"text/plain\" || $type == \"text/xml\")\n    \"body\" : \"$util.escapeJavaScript($input.body).replace(\"\\'\", \"'\")\",\n  #else\n    \"body\" : $input.json('$'),\n    \"rawBody\": \"$util.escapeJavaScript($input.body).replace(\"\\'\", \"'\")\",\n  #end\n  \"headers\": {\n    #foreach($param in $input.params().header.entrySet())\n      \"$param.getKey().toLowerCase()\": \"$util.escapeJavaScript($param.getValue()).replace(\"\\'\", \"'\")\" #if($foreach.hasNext),#end\n    #end\n  },\n  \"query\": {\n    #foreach($param in $input.params().querystring.entrySet())\n      \"$param.getKey()\": \"$util.escapeJavaScript($param.getValue()).replace(\"\\'\", \"'\")\" #if($foreach.hasNext),#end\n    #end\n  },\n  \"env\": {\n    #foreach($param in $stageVariables.entrySet())\n      \"$param.getKey()\": \"$util.escapeJavaScript($param.getValue())\" #if($foreach.hasNext),#end\n    #end\n  },\n  \"params\": {\n    #foreach($param in $input.params().path.entrySet())\n      \"$param.getKey()\": \"$util.escapeJavaScript($param.getValue()).replace(\"\\'\", \"'\")\" #if($foreach.hasNext),#end\n    #end\n  }\n}\n"
+          },
+          "uri": "arn:aws:apigateway:eu-central-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-central-1:898844291538:function:myClaireBot:${stageVariables.lambdaVersion}/invocations",
+          "type": "aws"
         }
       },
       "post": {
@@ -106,6 +161,32 @@
               }
             }
           }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "500",
+              "responseParameters": {
+                "method.response.header.Content-Type": "'application/json'"
+              }
+            },
+            "^$": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Content-Type": "'text/plain'"
+              },
+              "responseTemplates": {
+                "text/plain": "$input.path('$')"
+              }
+            }
+          },
+          "passthroughBehavior": "when_no_templates",
+          "httpMethod": "POST",
+          "requestTemplates": {
+            "application/json": "{\n  \"method\": \"$context.httpMethod\",\n  \"path\": \"$context.resourcePath\",\n  #set ($type=$input.params().header.get('Content-Type'))\n  #if($type.contains(\";\"))\n\t#set ($type=$type.split(\";\")[0])\n  #end\n  #if($type == \"application/x-www-form-urlencoded\")\n   \"post\": {\n    #foreach($param in $input.path('$').split('&'))\n      #set ($kv = $param.split('='))\n      \"$util.urlDecode($kv[0])\":\n        #if($kv.size() > 1)\n          \"$util.escapeJavaScript($util.urlDecode($kv[1])).replace(\"\\'\", \"'\")\"\n        #else\n          \"\"\n        #end\n        #if($foreach.hasNext),#end\n    #end\n    },\n    \"body\" : \"$util.escapeJavaScript($input.body).replace(\"\\'\", \"'\")\",\n  #elseif($type == \"application/xml\" || $type == \"text/plain\" || $type == \"text/xml\")\n    \"body\" : \"$util.escapeJavaScript($input.body).replace(\"\\'\", \"'\")\",\n  #else\n    \"body\" : $input.json('$'),\n    \"rawBody\": \"$util.escapeJavaScript($input.body).replace(\"\\'\", \"'\")\",\n  #end\n  \"headers\": {\n    #foreach($param in $input.params().header.entrySet())\n      \"$param.getKey().toLowerCase()\": \"$util.escapeJavaScript($param.getValue()).replace(\"\\'\", \"'\")\" #if($foreach.hasNext),#end\n    #end\n  },\n  \"query\": {\n    #foreach($param in $input.params().querystring.entrySet())\n      \"$param.getKey()\": \"$util.escapeJavaScript($param.getValue()).replace(\"\\'\", \"'\")\" #if($foreach.hasNext),#end\n    #end\n  },\n  \"env\": {\n    #foreach($param in $stageVariables.entrySet())\n      \"$param.getKey()\": \"$util.escapeJavaScript($param.getValue())\" #if($foreach.hasNext),#end\n    #end\n  },\n  \"params\": {\n    #foreach($param in $input.params().path.entrySet())\n      \"$param.getKey()\": \"$util.escapeJavaScript($param.getValue()).replace(\"\\'\", \"'\")\" #if($foreach.hasNext),#end\n    #end\n  }\n}\n"
+          },
+          "uri": "arn:aws:apigateway:eu-central-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-central-1:898844291538:function:myClaireBot:${stageVariables.lambdaVersion}/invocations",
+          "type": "aws"
         }
       }
     }
