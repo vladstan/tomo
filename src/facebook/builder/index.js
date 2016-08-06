@@ -1,8 +1,10 @@
 import FacebookMessage from './FacebookMessage';
+import Image from './Image';
 import Text from './Text';
 
 export {
   FacebookMessage,
+  Image,
   Text
 };
 
@@ -41,32 +43,6 @@ export {
 //   }
 // }
 //
-// class image {
-//   constructor(url) {
-//     if (!url || !isUrl(url))
-//       throw new Error('Image template requires a valid URL as a first paramether');
-//
-//     this.url = url;
-//   }
-//
-//   addQuickReply() {
-//     return quickReply.apply(this, arguments);
-//   }
-//
-//   get() {
-//     if (!this.url || !isUrl(this.url))
-//       throw new Error('Image template requires a valid URL as a first paramether');
-//
-//     return {
-//       attachment: {
-//         type: 'image',
-//         payload: {
-//           url: this.url
-//         }
-//       }
-//     };
-//   }
-// }
 //
 // class audio {
 //   constructor(url) {

@@ -2,35 +2,71 @@ import rp from 'minimal-request-promise';
 
 import {FacebookMessage} from './builder';
 
-export default async function(recipientId, messages, fbAccessToken) {
-  const results = [];
+class Reply {
 
-  for (let message of messages) {
-    if (message instanceof FacebookMessage) {
-      message = message.get();
-    }
+  constructor(recipientId, fbAccessToken) {
+    this.recipientId = recipientId;
+    this.fbAccessToken = fbAccessToken;
+  }
 
+  makeReq(body) {
     const options = {
       method: 'POST',
       hostname: 'graph.facebook.com',
-      path: '/v2.6/me/messages?access_token=' + fbAccessToken,
+      path: '/v2.6/me/messages?access_token=' + this.fbAccessToken,
       port: 443,
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        recipient: {
-          id: recipientId
-        },
-        message: message
-      })
+      body: JSON.stringify(body)
     };
 
     console.info('sending reply', options);
-    // Await in series to ensure messages are sent in order
-    const result = await rp(options); // eslint-disable-line babel/no-await-in-loop
-    results.push(result);
+    return rp(options);
   }
 
-  return results;
+  async messages(...messages) {
+    const results = [];
+
+    for (let message of messages) {
+      if (message instanceof FacebookMessage) {
+        message = message.get();
+      }
+
+      const body = {
+        recipient: {
+          id: this.recipientId
+        },
+        message: message
+      };
+
+      // Await in series to ensure messages are sent in order
+      const result = await this.makeReq(body); // eslint-disable-line babel/no-await-in-loop
+      results.push(result);
+    }
+
+    return results;
+  }
+
+  async actions(...actions) {
+    const results = [];
+
+    for (let action of actions) {
+      const body = {
+        recipient: {
+          id: this.recipientId
+        },
+        sender_action: action
+      };
+
+      // Await in series to ensure actions are sent in order
+      const result = await this.makeReq(body); // eslint-disable-line babel/no-await-in-loop
+      results.push(result);
+    }
+
+    return results;
+  }
+
 }
+
+export default Reply;

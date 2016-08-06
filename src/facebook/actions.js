@@ -1,18 +1,21 @@
 // import * as utils from './utils';
+import {Image, Text} from './builder';
+
+let reply = null;
 
 class Actions {
 
-  constructor() {
-    this.reply = async function() {};
-  }
-
-  setReplyHandler(handler) {
-    this.reply = handler;
+  constructor(replyInstance) {
+    reply = replyInstance;
   }
 
   async send({sessionId}, {text, quickreplies}) {
     console.info('action:send', ...arguments);
-    await this.reply(...arguments);
+    let msg = new Text(text);
+    if (quickreplies) {
+      console.log('should handle quickreplies', quickreplies);
+    }
+    await reply.messages(msg);
   }
 
   async getForecast({context, entities}) {
@@ -27,6 +30,12 @@ class Actions {
     // }
     context.forecast = 'sunny';
     return context;
+  }
+
+  async showApartment({context, entities}) {
+    console.info('action:showApartment', ...arguments);
+    const msg = new Image('http://cretahomes.com/wp-content/uploads/2014/01/Beautiful-Apartment-Ideas-Design.jpg');
+    await reply.messages(msg);
   }
 
 }

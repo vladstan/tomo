@@ -1,5 +1,7 @@
-import reply from './reply';
-import wit from './wit';
+import {Wit} from 'node-wit';
+
+import Actions from './actions';
+import Reply from './reply';
 
 import receiverMessage from './receivers/message';
 import receiverPostback from './receivers/postback';
@@ -33,10 +35,15 @@ export async function webhook(req) {
   const tasks = {};
   const addTask = (receiver, event) => {
     const senderId = event.sender.id;
-    const directReply = (...messages) => reply(senderId, messages, env.facebookAccessToken);
-    const witInstance = wit(env.witAiAccessToken, directReply);
-    const task = receiver(req, event, directReply, witInstance)
+    const reply = new Reply(senderId, env.facebookAccessToken);
+    const wit = new Wit({
+      accessToken: env.witAiAccessToken,
+      actions: new Actions(reply)
+    });
+
+    const task = receiver(req, event, reply, wit)
       .catch((err) => console.error('error trying to handle Facebook event', event, err, err.stack));
+
     tasks[senderId] = tasks[senderId] || [];
     tasks[senderId].push(task);
   };

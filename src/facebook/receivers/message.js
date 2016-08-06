@@ -8,7 +8,9 @@ export default async function(req, event, reply, wit) {
   const sessionId = senderId;
   const context0 = {};
 
+  await reply.actions('mark_seen', 'typing_on');
   if (messageText) {
     await wit.runActions(sessionId, messageText, context0, 10);
   }
+  await reply.actions('typing_off');
 }
