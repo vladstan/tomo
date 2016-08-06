@@ -42,7 +42,7 @@ class Actions {
       delete context.forecast;
     }
 
-    await this.saveContext(sessionId, context);
+    await this.storeContext(sessionId, context);
     return context;
   }
 
@@ -73,7 +73,7 @@ class Actions {
       delete context.intent;
     }
 
-    await this.saveContext(sessionId, context);
+    await this.storeContext(sessionId, context);
     return context;
   }
 
