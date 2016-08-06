@@ -16,7 +16,8 @@ class Actions {
     return {
       send: ::this.send,
       getForecast: ::this.getForecast,
-      showApartment: ::this.showApartment
+      showApartment: ::this.showApartment,
+      findProperty: ::this.findProperty
     };
   }
 
