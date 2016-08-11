@@ -1,4 +1,4 @@
-console.log('testok');
+console.log('x');
 
 // import Koa from 'koa';
 
@@ -8,4 +8,19 @@ console.log('testok');
 
 // app.use(async (ctx, next) => {
 //
+// });
+//
+//
+//
+// var mongoose = require('mongoose');
+//
+// mongoose.connect(process.env.MONGO_URL);
+//
+// var Cat = mongoose.model('Cat', { name: String });
+//
+// var kitty = new Cat({ name: 'Zildjian' });
+//
+// kitty.save(function (err) {
+//   if (err) throw;
+//   console.log('meow');
 // });
