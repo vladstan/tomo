@@ -64,7 +64,7 @@ export async function webhook(req) {
     const task = receiver(req, event, reply, wit, db)
       .catch((err) => {
         console.error('error trying to handle Facebook event', event, err, err.stack);
-        return reply.message(new Text('Beep boop, error.'));
+        return reply.messages(new Text('Beep boop, error.'));
       });
 
     tasks[senderId] = tasks[senderId] || [];
