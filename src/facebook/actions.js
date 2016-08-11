@@ -18,7 +18,8 @@ class Actions {
       send: ::this.send,
       getForecast: ::this.getForecast,
       showApartment: ::this.showApartment,
-      findProperty: ::this.findProperty
+      findProperty: ::this.findProperty,
+      realEstate: ::this.realEstate
     };
   }
 
@@ -29,6 +30,22 @@ class Actions {
       console.log('should handle quickreplies', quickreplies);
     }
     await this.reply.messages(msg);
+  }
+
+  async realEstate({sessionId, context, entities}) {
+    console.info('action:realEstate', ...arguments);
+    const re_intent = firstEntityValue(entities, 're_intent'); // eslint-disable-line camelcase
+
+    if (re_intent) { // eslint-disable-line camelcase
+      context.re_intent = re_intent; // eslint-disable-line camelcase
+      delete context.missing_re_intent;
+    } else {
+      context.missing_re_intent = true;
+      delete context.re_intent;
+    }
+
+    await this.storeContext(sessionId, context);
+    return context;
   }
 
   async getForecast({sessionId, context, entities}) {
