@@ -1,9 +1,11 @@
 import FacebookMessage from './FacebookMessage';
+import Generic from './Generic';
 import Image from './Image';
 import Text from './Text';
 
 export {
   FacebookMessage,
+  Generic,
   Image,
   Text
 };
