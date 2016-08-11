@@ -1,11 +1,11 @@
-import api from './api';
+console.log('testok');
 
-import * as facebookCtrl from './facebook/controller';
+// import Koa from 'koa';
 
-api.get('/', facebookCtrl.main);
-api.get('/facebook', facebookCtrl.verifyToken);
-api.post('/facebook', facebookCtrl.webhook);
+// const app = new Koa();
 
-export function handler(event, context, callback) {
-  api.router(event, callback);
-}
+// throw new Error('ops!l5');
+
+// app.use(async (ctx, next) => {
+//
+// });
