@@ -7,8 +7,7 @@
   "scripts": {
     "start": "node build/index.js",
     "build": "babel src --out-dir build",
-    "watch": "npm run build && (npm run build -- --watch &) && nodemon -w build build/index.js",
-    "deploy": "npm run build && modulus deploy"
+    "watch": "npm run build && (npm run build -- --watch &) && nodemon -w build build/index.js"
   },
   "dependencies": {
     "babel-runtime": "6.11.6",
