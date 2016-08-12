@@ -1,3 +1,2 @@
-import moduleIndex from 'module-index';
-
-moduleIndex(module);
+import moduleIndex from '../utils/module-index';
+export default moduleIndex(module);

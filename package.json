@@ -23,7 +23,6 @@
     "koa-bunyan-log": "2.0.1",
     "koa-json-body": "5.0.0",
     "koa-router": "7.0.1",
-    "module-index": "3.0.2",
     "mongodb": "2.2.5"
   },
   "devDependencies": {
