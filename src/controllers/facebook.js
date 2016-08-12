@@ -1,4 +1,3 @@
-import {BadRequestError} from '../errors';
 import config from '../config';
 
 import WitAiApi from '../apis/WitAiApi';
@@ -12,14 +11,14 @@ import receiverPostback from '../facebook/receivers/postback';
 
 export async function verifyToken(ctx) {
   if (ctx.query['hub.mode'] !== 'subscribe') {
-    throw new BadRequestError('unknown hub.mode: ' + ctx.query['hub.mode']);
+    ctx.throw(400, 'unknown hub.mode: ' + ctx.query['hub.mode']);
   }
 
   const tokenExpected = config.facebookVerifyToken;
   const tokenReceived = ctx.query['hub.verify_token'];
 
   if (tokenReceived !== tokenExpected) {
-    throw new BadRequestError('validation failed, expected ' + tokenExpected + ' but got ' + tokenReceived);
+    ctx.throw(400, 'validation failed, expected ' + tokenExpected + ' but got ' + tokenReceived);
   }
 
   ctx.body = ctx.query['hub.challenge'];
@@ -29,7 +28,7 @@ export async function webhook(ctx) {
   const body = ctx.request.body;
 
   if (body.object !== 'page') {
-    throw new BadRequestError('unknown object type: ' + body.object);
+    ctx.throw(400, 'unknown object type: ' + body.object);
   }
 
   const eventsBySenderId = body.entry

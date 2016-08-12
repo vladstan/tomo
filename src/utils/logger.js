@@ -1,11 +1,7 @@
 import winston from 'winston';
 
-const logger = winston;
+global.log = winston.info;
+global.logWarn = winston.warn;
+global.logError = winston.error;
 
-global.log = {
-  error: logger.error,
-  warn: logger.warn,
-  info: logger.info
-};
-
-export default logger;
+export default winston;
