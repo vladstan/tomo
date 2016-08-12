@@ -27,7 +27,6 @@ export async function verifyToken(ctx) {
 
 export async function webhook(ctx) {
   const body = ctx.request.body;
-  console.log('bunyan logger instance test'); // TODO winston?
 
   if (body.object !== 'page') {
     throw new BadRequestError('unknown object type: ' + body.object);
@@ -57,10 +56,10 @@ export async function webhook(ctx) {
         } else if (event.postback) {
           await receiverPostback(event, reply, wit, ctx.db); // eslint-disable-line babel/no-await-in-loop
         } else {
-          console.error('unknown event type:', event);
+          log.error('unknown event type:', event);
         }
       } catch (err) {
-        console.error('error trying to handle Facebook event', event, err.stack);
+        log.error('error trying to handle Facebook event', event, err.stack);
         await reply.messages(new TextMessage('Beep boop, error.')); // eslint-disable-line babel/no-await-in-loop
       }
     }
