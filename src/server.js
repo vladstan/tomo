@@ -12,9 +12,9 @@ const logger = new Logger();
 
 app.use(logger.attach());
 app.use(logger.attachRequest());
-app.use(router.routes());
 app.use(jsonBody({limit: '10kb'}));
 app.use(mongodb(config.mongoUrl, {native_parser: true}));
+app.use(router.routes());
 
 app.listen(config.port, () => {
   console.log('Listening on port %s', config.port);

@@ -8,9 +8,10 @@ export default function(module) {
   const dirFiles = fs.readdirSync(dirName);
 
   for (let file of dirFiles) {
-    if (!file.startsWith('.') && file !== module.filename) {
+    const filePath = path.join(dirName, file);
+    if (!file.startsWith('.') && filePath !== module.filename) {
       const moduleName = path.basename(file, path.extname(file));
-      modules[moduleName] = require(path.join(dirName, moduleName)).default;
+      modules[moduleName] = require(filePath).default;
     }
   }
 

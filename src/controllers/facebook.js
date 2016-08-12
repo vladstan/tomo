@@ -27,7 +27,7 @@ export async function verifyToken(ctx) {
 
 export async function webhook(ctx) {
   const body = ctx.request.body;
-  console.log('bunyan logger instance test', this.log); // TODO
+  console.log('bunyan logger instance test'); // TODO winston?
 
   if (body.object !== 'page') {
     throw new BadRequestError('unknown object type: ' + body.object);

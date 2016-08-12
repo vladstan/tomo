@@ -10,9 +10,9 @@ export default function(url, options = {}) {
   });
 
   return async function(ctx, next) {
+    ctx.db = await promisify(::pool.acquire)();
     try {
-      ctx.db = await promisify(::pool.acquire)();
-      await next;
+      await next();
     } catch (err) {
       throw err;
     } finally {
