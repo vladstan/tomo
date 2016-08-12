@@ -1,7 +1,7 @@
 import FacebookMessage from './FacebookMessage';
 import {isUrl} from '../../utils';
 
-class Image extends FacebookMessage {
+class ImageMessage extends FacebookMessage {
 
   constructor(url) {
     super();
@@ -28,4 +28,4 @@ class Image extends FacebookMessage {
 
 }
 
-export default Image;
+export default ImageMessage;

@@ -1,6 +1,6 @@
 import FacebookMessage from './FacebookMessage';
 
-class Text extends FacebookMessage {
+class TextMessage extends FacebookMessage {
 
   constructor(text) {
     super();
@@ -30,4 +30,4 @@ class Text extends FacebookMessage {
 
 }
 
-export default Text;
+export default TextMessage;

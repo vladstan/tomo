@@ -1,4 +1,4 @@
-export default async function(req, event, reply, wit, db) {
+export default async function(event, reply, wit, db) {
   const senderId = event.sender.id;
   const message = event.message;
   const sessionId = senderId;

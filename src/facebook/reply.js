@@ -1,28 +1,11 @@
-import rp from 'minimal-request-promise';
-
-import {FacebookMessage} from './builder';
+import {FacebookMessage} from './messages';
+import FacebookApi from '../apis/facebook';
 
 class Reply {
 
-  constructor(recipientId, fbAccessToken) {
+  constructor(recipientId, accessToken) {
     this.recipientId = recipientId;
-    this.fbAccessToken = fbAccessToken;
-  }
-
-  makeReq(body) {
-    const options = {
-      method: 'POST',
-      hostname: 'graph.facebook.com',
-      path: '/v2.6/me/messages?access_token=' + this.fbAccessToken,
-      port: 443,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    };
-
-    console.info('sending reply', options);
-    return rp(options);
+    this.api = new FacebookApi(accessToken);
   }
 
   async messages(...messages) {
@@ -41,7 +24,7 @@ class Reply {
       };
 
       // Await in series to ensure messages are sent in order
-      const result = await this.makeReq(body); // eslint-disable-line babel/no-await-in-loop
+      const result = await this.api.postMessage(body); // eslint-disable-line babel/no-await-in-loop
       results.push(result);
     }
 
@@ -60,7 +43,7 @@ class Reply {
       };
 
       // Await in series to ensure actions are sent in order
-      const result = await this.makeReq(body); // eslint-disable-line babel/no-await-in-loop
+      const result = await this.api.postMessage(body); // eslint-disable-line babel/no-await-in-loop
       results.push(result);
     }
 
