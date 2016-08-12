@@ -1,7 +1,7 @@
 import Router from 'koa-router';
 
 import xHubSignature from './middleware/xHubSignature';
-import facebookCtrl from './controllers/facebook';
+import * as facebookCtrl from './controllers/facebook';
 
 const router = new Router();
 

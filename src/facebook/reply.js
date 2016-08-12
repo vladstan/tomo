@@ -1,5 +1,5 @@
 import {FacebookMessage} from './messages';
-import FacebookApi from '../apis/facebook';
+import FacebookApi from '../apis/FacebookApi';
 
 class Reply {
 

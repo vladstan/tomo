@@ -2,10 +2,10 @@ import {BadRequestError} from '../errors';
 import config from '../config';
 
 import WitAiApi from '../apis/WitAiApi';
-import WitAiRunner from '../stories/WitRunner';
+import WitAiRunner from '../stories/WitAiRunner';
 
 import {TextMessage} from '../facebook/messages';
-import Reply from './reply';
+import Reply from '../facebook/reply';
 
 import receiverMessage from '../facebook/receivers/message';
 import receiverPostback from '../facebook/receivers/postback';
