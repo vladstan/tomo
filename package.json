@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "start": "node dist/server.js",
-    "build": "babel src --out-dir dist",
+    "build": "rm -rf dist && babel src --out-dir dist",
     "watch": "(npm run build -- --watch &) && sleep 3 && nodemon -w dist dist/server.js",
     "deploy": "npm run build && modulus deploy -p okclaire",
     "tunnel": "ngrok http $(node -e \"console.log(require('./dist/config').default.port)\")",
