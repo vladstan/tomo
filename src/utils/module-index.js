@@ -1,17 +1,28 @@
 import path from 'path';
 import fs from 'fs';
 
-export default function(module) {
+export default function(mod, exclusions = [], defaultProp = true) {
   const modules = {};
 
-  const dirName = path.dirname(module.filename);
+  const dirName = path.dirname(mod.filename);
   const dirFiles = fs.readdirSync(dirName);
 
-  for (let file of dirFiles) {
-    const filePath = path.join(dirName, file);
-    if (!file.startsWith('.') && filePath !== module.filename) {
-      const moduleName = path.basename(file, path.extname(file));
-      modules[moduleName] = require(filePath).default;
+  const parentModuleName = path.basename(mod.filename, '.js');
+  exclusions.push(parentModuleName);
+
+  for (let fileName of dirFiles) {
+    if (fileName.startsWith('.') || path.extname(fileName) !== '.js') {
+      continue;
+    }
+
+    const filePath = path.join(dirName, fileName);
+    const moduleName = path.basename(fileName, '.js');
+
+    if (!exclusions.includes(moduleName)) {
+      modules[moduleName] = require(filePath);
+      if (defaultProp) {
+        modules[moduleName] = modules[moduleName].default;
+      }
     }
   }
 

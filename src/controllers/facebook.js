@@ -1,10 +1,15 @@
 import config from '../config';
 
 import WitAiApi from '../apis/WitAiApi';
-import WitAiRunner from '../stories/WitAiRunner';
+import WitBot from '../bot/WitBot';
 
 import {TextMessage} from '../facebook/messages';
 import Reply from '../facebook/reply';
+
+import User from '../models/User';
+import Session from '../models/Session';
+import Profile from '../models/Profile';
+import Conversation from '../models/Conversation';
 
 import receiverMessage from '../facebook/receivers/message';
 import receiverPostback from '../facebook/receivers/postback';
@@ -44,24 +49,33 @@ export async function webhook(ctx) {
     }, {});
 
   const tasks = Object.keys(eventsBySenderId).map(async (senderId) => {
-    for (let event of eventsBySenderId[senderId]) {
-      const reply = new Reply(senderId, config.facebookAccessToken);
-      const witApi = new WitAiApi(config.witAiAccessToken);
-      const wit = new WitAiRunner(witApi);
+    const reply = new Reply(senderId, config.facebookAccessToken);
+    const witApi = new WitAiApi(config.witAiAccessToken);
 
+    const user = await User.findOneOrCreate({facebookId: senderId});
+    const session = await Session.findOneOrCreate({userId: user.id});
+    await Conversation.findOneOrCreate({sessionId: session.id});
+    await Profile.findOneOrCreate({userId: user.id});
+
+    const bot = new WitBot(user.id, witApi);
+    await bot.wakeUp();
+
+    for (let event of eventsBySenderId[senderId]) {
       try {
         if (event.message) {
-          await receiverMessage(event, reply, wit, ctx.db); // eslint-disable-line babel/no-await-in-loop
+          await receiverMessage(event, reply, bot); // eslint-disable-line babel/no-await-in-loop
         } else if (event.postback) {
-          await receiverPostback(event, reply, wit, ctx.db); // eslint-disable-line babel/no-await-in-loop
+          await receiverPostback(event, reply, bot); // eslint-disable-line babel/no-await-in-loop
         } else {
-          log.error('unknown event type:', event);
+          log.error('unknown event type', event);
         }
       } catch (err) {
-        log.error('error trying to handle Facebook event', event, err.stack);
-        await reply.messages(new TextMessage('Beep boop, error.')); // eslint-disable-line babel/no-await-in-loop
+        log.error('cannot handle event', event, err);
+        await reply.messages(new TextMessage('Beep boop, error')); // eslint-disable-line babel/no-await-in-loop
       }
     }
+
+    await bot.sleep();
   });
 
   await Promise.all(tasks);

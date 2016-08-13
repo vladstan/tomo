@@ -21,7 +21,7 @@
     "koa": "2.0.0",
     "koa-router": "7.0.1",
     "mixpanel": "0.4.0",
-    "mongodb": "2.2.5",
+    "mongoose": "4.5.8",
     "morgan": "1.7.0",
     "raw-body": "2.1.7",
     "winston": "2.2.0"
