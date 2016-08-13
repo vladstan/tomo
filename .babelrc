@@ -5,6 +5,7 @@
   ],
   "plugins": [
     "transform-runtime",
+    "transform-decorators-legacy",
     "default-import-checker"
   ],
   "retainLines": true
