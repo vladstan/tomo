@@ -10,6 +10,7 @@
     "watch": "(npm run build -- --watch &) && sleep 3 && nodemon -w dist dist/server.js",
     "deploy": "npm run build && modulus deploy -p okclaire",
     "tunnel": "ngrok http $(node -e \"console.log(require('./dist/config').default.port)\")",
+    "test": "npm run build && ava --watch",
     "lint": "eslint src"
   },
   "dependencies": {
@@ -27,6 +28,7 @@
     "winston": "2.2.0"
   },
   "devDependencies": {
+    "ava": "0.16.0",
     "babel-cli": "6.11.4",
     "babel-eslint": "6.1.2",
     "babel-plugin-default-import-checker": "1.0.8",
@@ -34,6 +36,7 @@
     "babel-plugin-transform-runtime": "6.12.0",
     "babel-preset-es2015": "6.13.2",
     "babel-preset-stage-0": "6.5.0",
+    "babel-register": "6.11.6",
     "eslint": "2.13.1",
     "eslint-config-semistandard": "6.0.2",
     "eslint-config-standard": "5.3.5",
@@ -41,6 +44,18 @@
     "eslint-plugin-promise": "1.3.2",
     "eslint-plugin-react": "5.2.2",
     "eslint-plugin-standard": "1.3.3",
+    "espower": "1.3.2",
     "ngrok": "2.2.2"
+  },
+  "ava": {
+    "files": [
+      "tests/**/*.js"
+    ],
+    "source": [
+      "dist/**/*.js"
+    ],
+    "concurrency": 5,
+    "require": "babel-register",
+    "babel": "inherit"
   }
 }

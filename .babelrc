@@ -4,6 +4,7 @@
     "stage-0"
   ],
   "plugins": [
+    "espower",
     "transform-runtime",
     "source-map-support-for-6",
     "default-import-checker"
