@@ -5,7 +5,8 @@
   ],
   "plugins": [
     "transform-runtime",
+    "source-map-support-for-6",
     "default-import-checker"
   ],
-  "retainLines": true
+  "sourceMaps": true
 }
