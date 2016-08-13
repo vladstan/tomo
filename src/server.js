@@ -1,7 +1,7 @@
 import './utils/globals';
+import './database';
 
 import Koa from 'koa';
-import mongoose from 'mongoose';
 
 import requestLogger from './middleware/request-logger';
 import bodyParser from './middleware/body-parser';
@@ -18,5 +18,3 @@ app.use(router.routes());
 app.listen(config.port, () => {
   log('listening on port %s', config.port);
 });
-
-mongoose.connect(config.mongoUrl);
