@@ -15,6 +15,6 @@ export default async function(event, reply, bot) {
   //
   // }
 
-  const fallbackTextMsg = new TextMessage(`Ops, I'm lost...`);
+  const fallbackTextMsg = new TextMessage("Ops, I'm lost...");
   await reply.messages(fallbackTextMsg);
 }

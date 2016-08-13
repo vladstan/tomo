@@ -5,8 +5,8 @@ class Story {
   }
 
   checkEntities(entities) {
-    for (let message of this.user.messages) {
-      for (let entityName of Object.keys(message.entities)) {
+    for (const message of this.user.messages) {
+      for (const entityName of Object.keys(message.entities)) {
         entities[entityName] = entities[entityName] || [];
       }
     }

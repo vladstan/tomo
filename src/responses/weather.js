@@ -15,5 +15,5 @@ export function CANNOT_FIND_FORECAST({location}) {
 }
 
 export function WHERE_LOCATION() {
-  return `Where?`;
+  return 'Where?';
 }

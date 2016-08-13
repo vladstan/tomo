@@ -18,9 +18,9 @@ class GenericMessage extends FacebookMessage {
         type: 'template',
         payload: {
           template_type: 'generic',
-          elements: this.bubbles
-        }
-      }
+          elements: this.bubbles,
+        },
+      },
     };
   }
 
@@ -51,7 +51,7 @@ class GenericMessage extends FacebookMessage {
 
     const bubble = {
       title: title,
-      subtitle: subtitle || undefined
+      subtitle: subtitle || undefined,
     };
 
     this.bubbles.push(bubble);
@@ -101,7 +101,7 @@ class GenericMessage extends FacebookMessage {
     }
 
     const button = {
-      title: title
+      title: title,
     };
 
     if (isUrl(value)) {

@@ -50,7 +50,7 @@ class WitBot {
   async sleep() {
     const tasks = [
       this.past.conversation.save(),
-      ...this.memory.memories.map((mem) => mem.save())
+      ...this.memory.memories.map((mem) => mem.save()),
     ];
     await Promise.all(tasks);
   }

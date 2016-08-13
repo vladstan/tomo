@@ -8,10 +8,10 @@ class BotActions {
   }
 
   async say(responseIds, responseContext) {
-    for (let responseId of responseIds) {
+    for (const responseId of responseIds) {
       const response = responses.get(responseId, responseContext);
       this.botResponses.push({
-        text: response
+        text: response,
       });
     }
   }
@@ -21,11 +21,11 @@ class BotActions {
   }
 
   async ask(targetIntent, responseIds, responseContext) {
-    for (let responseId of responseIds) {
+    for (const responseId of responseIds) {
       const response = responses.get(responseId, responseContext);
       this.botResponses.push({
         text: response,
-        intent: targetIntent
+        intent: targetIntent,
       });
     }
   }

@@ -18,7 +18,7 @@ class TextMessage extends FacebookMessage {
 
   get() {
     const reply = {
-      text: this.text
+      text: this.text,
     };
 
     if (Array.isArray(this.quickReplies) && this.quickReplies.length > 0) {

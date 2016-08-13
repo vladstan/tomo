@@ -18,9 +18,9 @@ class ImageMessage extends FacebookMessage {
       attachment: {
         type: 'image',
         payload: {
-          url: this.url
-        }
-      }
+          url: this.url,
+        },
+      },
     };
 
     return reply;

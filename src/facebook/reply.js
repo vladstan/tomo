@@ -18,9 +18,9 @@ class Reply {
 
       const body = {
         recipient: {
-          id: this.recipientId
+          id: this.recipientId,
         },
-        message: message
+        message: message,
       };
 
       // Await in series to ensure messages are sent in order
@@ -34,12 +34,12 @@ class Reply {
   async actions(...actions) {
     const results = [];
 
-    for (let action of actions) {
+    for (const action of actions) {
       const body = {
         recipient: {
-          id: this.recipientId
+          id: this.recipientId,
         },
-        sender_action: action
+        sender_action: action,
       };
 
       // Await in series to ensure actions are sent in order

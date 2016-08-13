@@ -7,7 +7,7 @@ export async function getLocation(location) {
   return {
     lat: 48.2000,
     long: 16.3667,
-    name: location
+    name: location,
   };
 }
 

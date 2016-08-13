@@ -11,7 +11,7 @@ class StoryUser {
   says(message) {
     this.messages.push({
       text: message,
-      entities: {}
+      entities: {},
     });
     return this;
   }

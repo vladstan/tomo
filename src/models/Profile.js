@@ -1,7 +1,7 @@
 import mongoose, {Schema} from 'mongoose';
 
 const Profile = new Schema({
-  userId: {type: String, required: true}
+  userId: {type: String, unique: true, required: true},
 });
 
 Profile.statics.findOneOrCreate = async function(query, newDoc = query) {

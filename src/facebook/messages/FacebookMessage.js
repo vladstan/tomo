@@ -24,7 +24,7 @@ class FacebookMessage {
     this.quickReplies.push({
       content_type: 'text',
       title: text,
-      payload: payload
+      payload: payload,
     });
 
     return this;

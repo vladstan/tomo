@@ -20,5 +20,5 @@ function verify(secret) {
 }
 
 export default {
-  verify
+  verify,
 };

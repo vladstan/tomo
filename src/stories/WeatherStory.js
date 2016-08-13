@@ -6,14 +6,14 @@ class WeatherStory extends Story {
   constructor(user) {
     super(user);
 
-    user.says(`What's the weather?`)
+    user.says("What's the weather?")
       .intent('get_weather');
 
-    user.says(`What's the weather in Paris?`)
+    user.says("What's the weather in Paris?")
       .intent('get_weather')
       .entity('wit/location', 'location', 'Paris');
 
-    user.says(`In Paris`)
+    user.says('In Paris')
       .entity('wit/location', 'location', 'Paris');
   }
 

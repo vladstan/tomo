@@ -1,15 +1,12 @@
 class BotMemory {
 
-  constructor(session, memories) {
-    this.session = session;
-    this.memories = memories;
+  constructor(memory) {
+    this.memory = memory;
   }
 
   remember(key, value, duration) {
     const expiresAt = new Date(Date.now() + 86400 * 1000); // TODO use duration
-    const newMem = {sessionId: this.sessionId, key, value, expiresAt};
-    this.memories = this.memories.filter((elem) => elem.key !== key);
-    this.memories.push(newMem);
+    this.memory.setProperty({key, value, expiresAt});
   }
 
   get(key) {

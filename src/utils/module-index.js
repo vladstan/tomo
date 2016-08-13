@@ -10,7 +10,7 @@ export default function(mod, exclusions = [], defaultProp = true) {
   const parentModuleName = path.basename(mod.filename, '.js');
   exclusions.push(parentModuleName);
 
-  for (let fileName of dirFiles) {
+  for (const fileName of dirFiles) {
     if (fileName.startsWith('.') || path.extname(fileName) !== '.js') {
       continue;
     }

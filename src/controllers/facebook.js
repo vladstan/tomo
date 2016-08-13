@@ -60,7 +60,7 @@ export async function webhook(ctx) {
     const bot = new WitBot(user.id, witApi);
     await bot.wakeUp();
 
-    for (let event of eventsBySenderId[senderId]) {
+    for (const event of eventsBySenderId[senderId]) {
       try {
         if (event.message) {
           await receiverMessage(event, reply, bot); // eslint-disable-line babel/no-await-in-loop

@@ -10,5 +10,5 @@ function get(responseId, responseContext) {
 }
 
 export default {
-  get
+  get,
 };

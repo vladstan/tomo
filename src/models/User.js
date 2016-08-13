@@ -1,7 +1,7 @@
 import mongoose, {Schema} from 'mongoose';
 
 const User = new Schema({
-  facebookId: {type: String, required: true}
+  facebookId: {type: String, unique: true, required: true},
 });
 
 // TODO: use ES7 decorators

@@ -22,13 +22,13 @@ class WitAiApi {
         v: API_VERSION,
         q: message,
         msg_id: msgId,
-        thread_id: threadId
+        thread_id: threadId,
       },
       headers: {
         'User-Agent': USER_AGENT,
-        'Authorization': 'Bearer ' + this.accessToken
+        'Authorization': 'Bearer ' + this.accessToken,
       },
-      json: true
+      json: true,
     };
 
     return got(url, options).then((resp) => resp.body);

@@ -1,8 +1,8 @@
 import mongoose, {Schema} from 'mongoose';
 
 const Session = new Schema({
-  userId: {type: String, required: true},
-  context: {type: Object, default: {}}
+  userId: {type: String, unique: true, required: true},
+  context: {type: Object, default: {}},
 });
 
 Session.statics.findOneOrCreate = async function(query, newDoc = query) {

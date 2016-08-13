@@ -14,14 +14,14 @@ class FacebookApi {
     const options = {
       method: 'POST',
       query: {
-        access_token: this.accessToken
+        access_token: this.accessToken,
       },
       headers: {
         'Content-Type': 'application/json',
-        'User-Agent': USER_AGENT
+        'User-Agent': USER_AGENT,
       },
       body: JSON.stringify(body),
-      json: true
+      json: true,
     };
 
     return got(url, options).then((resp) => resp.body);
