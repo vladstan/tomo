@@ -1,10 +1,10 @@
 import Router from 'koa-router';
 
-import config from './config';
-import xHubSignature from './middleware/x-hub-signature';
+import config from '../config';
+import xHubSignature from '../middleware/x-hub-signature';
 
-import * as facebookCtrl from './controllers/facebook';
-import * as mainCtrl from './controllers/main';
+import * as facebookCtrl from '../controllers/facebook';
+import * as mainCtrl from '../controllers/main';
 
 const router = new Router();
 const verifySignature = xHubSignature.verify(config.facebookAppSecret);

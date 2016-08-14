@@ -1,11 +1,12 @@
+import request from 'supertest-as-promised';
 import test from 'ava';
 
-test('foo', (t) => {
-  t.pass();
-});
+import '../dist/server/globals';
+import server from '../dist/server/server';
 
-test('bar', async (t) => {
-  const bar = Promise.resolve('bar');
-
-  t.is(await bar, 'bar');
+test('GET /', async (t) => {
+  const res = await request(server.callback()).get('/');
+  log(JSON.stringify(res.body));
+  t.is(res.status, 200);
+  t.is(res.body, 'ok');
 });

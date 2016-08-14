@@ -4,9 +4,7 @@
     "babel"
   ],
   "globals": {
-    "log": true,
-    "logWarn": true,
-    "logError": true
+    "log": true
   },
   "extends": "semistandard",
   "rules": {
@@ -25,7 +23,7 @@
     "babel/no-await-in-loop": 1,
     "babel/flow-object-type": 1,
     "space-before-function-paren": ["error", "never"],
-    "no-console": "error",
-    "comma-dangle": ["error", "always-multiline"]
+    "comma-dangle": ["error", "always-multiline"],
+    "no-console": "error"
   }
 }
