@@ -4,10 +4,27 @@
     "stage-0"
   ],
   "plugins": [
-    "espower",
     "transform-runtime",
-    "source-map-support-for-6",
     "default-import-checker"
   ],
-  "sourceMaps": true
+  "env": {
+    "production": {
+      "plugins": [
+        "source-map-support-for-6"
+      ],
+      "sourceMaps": true
+    },
+    "development": {
+      "plugins": [
+        "source-map-support-for-6"
+      ],
+      "sourceMaps": true
+    },
+    "test": {
+      "plugins": [
+        "espower",
+        "istanbul"
+      ]
+    }
+  }
 }
