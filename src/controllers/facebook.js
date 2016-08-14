@@ -68,7 +68,7 @@ export async function webhook(ctx) {
         } else if (event.postback) {
           await receiverPostback(event, reply, bot); // eslint-disable-line babel/no-await-in-loop
         } else {
-          logger.error('unknown event type', event);
+          logger.warn('unknown event type', event);
         }
       } catch (err) {
         logger.error('cannot handle event', event, err);
