@@ -1,20 +1,30 @@
 import mongoose from 'mongoose';
 import bluebird from 'bluebird';
 
-import logger from '../utils/logger';
-import config from '../config';
-
 mongoose.Promise = bluebird;
 
-mongoose.connect(config.mongoUrl, {
-  db: {native_parser: true},
-  server: {poolSize: 5},
-});
+class Database {
 
-mongoose.connection.on('open', () => {
-  logger.info('successfully connected to MongoDB');
-});
+  constructor(config, logger) {
+    this.config = config;
+    this.logger = logger;
+  }
 
-mongoose.connection.on('error', (err) => {
-  throw err;
-});
+  connect() {
+    mongoose.connect(this.config.mongoUrl, {
+      db: {native_parser: true},
+      server: {poolSize: 5},
+    });
+
+    mongoose.connection.on('open', () => {
+      this.logger.info('successfully connected to MongoDB');
+    });
+
+    mongoose.connection.on('error', (err) => {
+      throw err;
+    });
+  }
+
+}
+
+export default Database;

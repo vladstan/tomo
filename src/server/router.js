@@ -1,16 +1,22 @@
-import Router from 'koa-router';
+import {dependencies} from 'utils/di';
 
-import config from '../config';
-import xHubSignature from '../middleware/x-hub-signature';
+@dependencies(
+  'koa-router',
+  'server/controllers/MainCtrl',
+  'server/controllers/FacebookCtrl',
+)
+class Router {
 
-import * as facebookCtrl from '../controllers/facebook';
-import * as mainCtrl from '../controllers/main';
+  constructor(koaRouter, mainCtrl, facebookCtrl) {
+    mainCtrl.routes(koaRouter);
+    facebookCtrl.routes(koaRouter);
+    this.koaRouter = koaRouter;
+  }
 
-const router = new Router();
-const verifySignature = xHubSignature.verify(config.facebookAppSecret);
+  routes() {
+    return this.koaRouter.routes();
+  }
 
-router.get('/', mainCtrl.root);
-router.get('/facebook', facebookCtrl.verifyToken);
-router.post('/facebook', verifySignature, facebookCtrl.webhook);
+}
 
-export default router;
+export default Router;

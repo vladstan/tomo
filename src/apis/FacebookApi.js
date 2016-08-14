@@ -1,30 +1,28 @@
 import got from 'got';
 
-const API_URL = 'https://graph.facebook.com/v2.6';
-const USER_AGENT = 'OkClaire';
-
 class FacebookApi {
 
-  constructor(accessToken) {
-    this.accessToken = accessToken;
+  constructor(config) {
+    this.config = config;
   }
 
-  postMessage(body) {
-    const url = API_URL + '/me/messages';
+  async postMessage(body) {
+    const url = this.config.facebookApiUrl + '/me/messages';
     const options = {
       method: 'POST',
       query: {
-        access_token: this.accessToken,
+        access_token: this.config.facebookAccessToken,
       },
       headers: {
         'Content-Type': 'application/json',
-        'User-Agent': USER_AGENT,
+        'User-Agent': this.config.userAgent,
       },
       body: JSON.stringify(body),
       json: true,
     };
 
-    return got(url, options).then((resp) => resp.body);
+    const resp = await got(url, options);
+    return resp.body;
   }
 
 }

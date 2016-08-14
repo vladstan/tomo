@@ -12,8 +12,6 @@ class Story {
     }
   }
 
-  async run() {}
-
 }
 
 export default Story;

@@ -5,26 +5,17 @@
   ],
   "plugins": [
     "transform-runtime",
-    "default-import-checker"
+    "transform-decorators-legacy",
+    "default-import-checker",
+    "source-map-support-for-6"
   ],
   "env": {
-    "production": {
-      "plugins": [
-        "source-map-support-for-6"
-      ],
-      "sourceMaps": true
-    },
-    "development": {
-      "plugins": [
-        "source-map-support-for-6"
-      ],
-      "sourceMaps": true
-    },
     "test": {
       "plugins": [
         "espower",
         "istanbul"
       ]
     }
-  }
+  },
+  "sourceMaps": true
 }

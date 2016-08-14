@@ -2,11 +2,11 @@ import ForecastIO from 'forecast-io';
 
 class ForecastIoApi {
 
-  constructor(apiKey) {
-    this.client = new ForecastIO(apiKey);
+  constructor(config) {
+    this.client = new ForecastIO(config.forecastIoApiKey);
   }
 
-  async getWeather(lat, long, units = 'si', lang = 'en') {
+  async getWeather({lat, long, units = 'si', lang = 'en'}) {
     return await this.client
       .latitude(lat)
       .longitude(long)

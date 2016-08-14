@@ -1,9 +1,12 @@
 import supertest from 'supertest-as-promised';
 import test from 'ava';
 
-import server from '../dist/server/server';
+import Server from 'server/server';
+import constitute from 'constitute';
 
-const request = supertest.agent(server.callback());
+const server = constitute(Server);
+
+const request = supertest.agent(server.getApp());
 
 test('GET /', async (t) => {
   const res = await request.get('/');

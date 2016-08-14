@@ -1,20 +1,40 @@
-import Koa from 'koa';
+import {dependencies} from 'utils/di';
 
-import logger from '../utils/logger';
-import requestLogger from '../middleware/request-logger';
-import bodyParser from '../middleware/body-parser';
+@dependencies(
+  'koa',
+  'server/Config',
+  'server/Router',
+  'server/Middleware',
+  'server/Logger',
+)
+class Server {
 
-import config from '../config';
-import router from './router';
+  constructor(koaApp, config, router, middleware, logger) {
+    this.config = config;
+    this.router = router;
+    this.middleware = middleware;
+    this.logger = logger;
 
-const app = new Koa();
+    this.app = koaApp;
+    this.attachMiddleware();
+  }
 
-app.use(requestLogger());
-app.use(bodyParser({limit: '1mb'}));
-app.use(router.routes());
+  attachMiddleware() {
+    this.app.use(this.middleware.requestLogger(this.logger));
+    this.app.use(this.middleware.bodyParser());
+    this.app.use(this.router.routes());
+  }
 
-app.listen(config.port, () => {
-  logger.info('listening on port %s', config.port);
-});
+  start() {
+    this.app.listen(this.config.port, () => {
+      this.logger.info('listening on port %s', this.config.port);
+    });
+  }
 
-export default app;
+  getApp() {
+    return this.app.callback();
+  }
+
+}
+
+export default Server;

@@ -1,5 +1,5 @@
-import Story from './Story';
-import {getLocation, getForecast} from '../actions/weather';
+import Story from 'stories/Story';
+import WeatherActions from 'actions/WeatherActions';
 
 class WeatherStory extends Story {
 
@@ -15,6 +15,8 @@ class WeatherStory extends Story {
 
     user.says('In Paris')
       .entity('wit/location', 'location', 'Paris');
+
+    this.weatherActions = new WeatherActions();
   }
 
   async run(past, context, entities, bot) {
@@ -33,7 +35,7 @@ class WeatherStory extends Story {
     }
 
     if (context.location) {
-      const location = await getLocation(entities.location[0]);
+      const location = await this.weatherActions.getLocation(entities.location[0]);
       if (!location) {
         await bot.say('CANNOT_FIND_LOCATION', {location});
         return true;
@@ -41,7 +43,7 @@ class WeatherStory extends Story {
 
       bot.memory.remember('location', location, '30m');
 
-      const forecast = await getForecast(location);
+      const forecast = await this.weatherActions.getForecast(location);
       if (!forecast) {
         await bot.say('CANNOT_FIND_FORECAST', {location});
         return;
@@ -58,7 +60,7 @@ class WeatherStory extends Story {
 
     const location = bot.memory.get('location');
     if (location) {
-      const forecast = await getForecast(location);
+      const forecast = await this.weatherActions.getForecast(location);
       if (forecast) {
         return await this.doForecast(forecast, bot);
       }
