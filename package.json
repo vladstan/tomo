@@ -7,12 +7,12 @@
   "scripts": {
     "start": "node dist/main.js",
     "build": "npm run clean && babel src --out-dir dist",
-    "watch": "(npm run build -- --watch &) && sleep 3 && nodemon -w dist dist/main.js",
+    "watch": "(npm run build -- --watch &) && sleep 5 && nodemon -w dist dist/main.js",
     "deploy": "npm run build && modulus deploy -p okclaire",
     "tunnel": "ngrok http $(node -e \"console.log(require('./dist/config').default.port)\")",
     "clean": "rm -rf .nyc_output coverage dist",
     "lint": "eslint src",
-    "test": "(npm run build -- --watch &) && sleep 3 && ava --watch",
+    "test": "(npm run build -- --watch &) && sleep 5 && ava --watch",
     "coverage": "npm run build && nyc ava",
     "report": "nyc report --reporter=html && open coverage/index.html"
   },
