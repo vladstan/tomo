@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import bluebird from 'bluebird';
 
+import logger from '../utils/logger';
 import config from '../config';
 
 mongoose.Promise = bluebird;
@@ -11,7 +12,7 @@ mongoose.connect(config.mongoUrl, {
 });
 
 mongoose.connection.on('open', () => {
-  log('successfully connected to MongoDB');
+  logger.info('successfully connected to MongoDB');
 });
 
 mongoose.connection.on('error', (err) => {

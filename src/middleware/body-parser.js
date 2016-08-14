@@ -23,7 +23,6 @@ export default function(options = {}) {
         throw err;
       }
     } catch (err) {
-      log(err.limit, err.length, err.expected, err.received, err.encoding);
       throw err;
     }
 

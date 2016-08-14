@@ -1,3 +1,2 @@
-import './server/globals';
 import './server/database';
 import './server/server';

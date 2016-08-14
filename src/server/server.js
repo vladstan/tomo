@@ -1,5 +1,6 @@
 import Koa from 'koa';
 
+import logger from '../utils/logger';
 import requestLogger from '../middleware/request-logger';
 import bodyParser from '../middleware/body-parser';
 
@@ -13,7 +14,7 @@ app.use(bodyParser({limit: '1mb'}));
 app.use(router.routes());
 
 app.listen(config.port, () => {
-  log('listening on port %s', config.port);
+  logger.info('listening on port %s', config.port);
 });
 
 export default app;

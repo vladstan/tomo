@@ -1,3 +1,4 @@
+import logger from '../utils/logger';
 import config from '../config';
 
 import WitAiApi from '../apis/WitAiApi';
@@ -67,10 +68,10 @@ export async function webhook(ctx) {
         } else if (event.postback) {
           await receiverPostback(event, reply, bot); // eslint-disable-line babel/no-await-in-loop
         } else {
-          log.error('unknown event type', event);
+          logger.error('unknown event type', event);
         }
       } catch (err) {
-        log.error('cannot handle event', event, err);
+        logger.error('cannot handle event', event, err);
         await reply.messages(new TextMessage('Beep boop, error')); // eslint-disable-line babel/no-await-in-loop
       }
     }

@@ -3,9 +3,6 @@
   "plugins": [
     "babel"
   ],
-  "globals": {
-    "log": true
-  },
   "extends": "semistandard",
   "rules": {
     "generator-star-spacing": 0,
