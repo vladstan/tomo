@@ -25,7 +25,7 @@ class EventsHandler {
     this.facebookReply.setSenderId(senderId);
     this.senderId = senderId;
 
-    await this.initDatabaseData(senderId);
+    await this.initDatabaseData();
     this.witBot.init(this.data);
 
     for (const event of events) {
