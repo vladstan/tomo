@@ -6,13 +6,11 @@ class BotInterface {
     this.botResponses = [];
   }
 
-  async say(responseIds, responseContext) {
-    for (const responseId of responseIds) {
-      const responseText = ResponseManager.find(responseId, responseContext);
-      this.botResponses.push({
-        text: responseText,
-      });
-    }
+  async say(responseId, responseContext) {
+    const responseText = ResponseManager.find(responseId, responseContext);
+    this.botResponses.push({
+      text: responseText,
+    });
   }
 
   async ask(targetIntent, responseId, responseContext) {
