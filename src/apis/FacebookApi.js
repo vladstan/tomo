@@ -2,6 +2,14 @@ import got from 'got';
 
 class FacebookApi {
 
+  static getInstance(config) {
+    if (!this._instance) {
+      this._instance = new FacebookApi(config);
+    }
+
+    return this._instance;
+  }
+
   constructor(config) {
     this.config = config;
   }

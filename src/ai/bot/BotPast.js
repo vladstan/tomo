@@ -11,12 +11,20 @@ class BotPast {
     return previousMessageFromBot.entities.intent === intent;
   }
 
-  addUserMessage(msg) {
-    this.conversation.messages.push(msg); // TODO
+  addUserMessage(parsedMessage) {
+    this.conversation.messages.push({
+      sender: 'user',
+      text: parsedMessage._text,
+      entities: parsedMessage.entities,
+    });
   }
 
-  addBotMessage(msg) {
-    this.conversation.messages.push(msg); // TODO
+  addBotResponse(response) {
+    this.conversation.messages.push({
+      sender: 'bot',
+      text: response.text,
+      entities: response.entities || {},
+    });
   }
 
 }

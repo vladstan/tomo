@@ -1,11 +1,17 @@
-import Story from 'stories/Story';
-import WeatherActions from 'actions/WeatherActions';
+import WeatherActions from 'ai/actions/WeatherActions';
+import ForecastIoApi from 'apis/ForecastIoApi';
 
-class WeatherStory extends Story {
+class WeatherStory {
 
-  constructor(user) {
-    super(user);
+  constructor(config, user) {
+    const forecastIoApi = ForecastIoApi.getInstance(config);
+    this.weatherActions = new WeatherActions(forecastIoApi);
 
+    this.define(user);
+    this.user = user;
+  }
+
+  define(user) {
     user.says("What's the weather?")
       .intent('get_weather');
 
@@ -15,8 +21,6 @@ class WeatherStory extends Story {
 
     user.says('In Paris')
       .entity('wit/location', 'location', 'Paris');
-
-    this.weatherActions = new WeatherActions();
   }
 
   async run(past, context, entities, bot) {
@@ -54,7 +58,7 @@ class WeatherStory extends Story {
 
     const forecastText = bot.memory.get('forecast_text');
     if (forecastText) {
-      await bot.sayText(forecastText);
+      await bot.sayText(forecastText); // TODO remove sayText, use say
       return true;
     }
 

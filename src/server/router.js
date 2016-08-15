@@ -1,16 +1,16 @@
-import {dependencies} from 'utils/di';
+import KoaRouter from 'koa-router';
 
-@dependencies(
-  'koa-router',
-  'server/controllers/MainCtrl',
-  'server/controllers/FacebookCtrl',
-)
+import MainCtrl from 'server/controllers/MainCtrl';
+import FacebookCtrl from 'server/controllers/FacebookCtrl';
+
 class Router {
 
-  constructor(koaRouter, mainCtrl, facebookCtrl) {
-    mainCtrl.routes(koaRouter);
-    facebookCtrl.routes(koaRouter);
+  constructor(config, middleware, logger) {
+    const koaRouter = new KoaRouter();
     this.koaRouter = koaRouter;
+
+    new MainCtrl().routes(koaRouter);
+    new FacebookCtrl(config, middleware, logger).routes(koaRouter);
   }
 
   routes() {

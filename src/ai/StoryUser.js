@@ -26,6 +26,10 @@ class StoryUser {
     return this;
   }
 
+  getMessages() {
+    return this.messages;
+  }
+
 }
 
 export default StoryUser;

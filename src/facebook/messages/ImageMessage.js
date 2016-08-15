@@ -1,5 +1,7 @@
-import FacebookMessage from './FacebookMessage';
-import {isUrl} from '../../utils/parser';
+import {override} from 'core-decorators';
+
+import FacebookMessage from 'facebook/messages/FacebookMessage';
+import {isUrl} from 'utils/parser';
 
 class ImageMessage extends FacebookMessage {
 
@@ -13,6 +15,7 @@ class ImageMessage extends FacebookMessage {
     this.url = url;
   }
 
+  @override
   get() {
     const reply = {
       attachment: {

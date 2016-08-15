@@ -1,6 +1,12 @@
 // import {Text} from '../builder';
+class PostbackReceiver {
 
-export default async function(req, event, reply) {
+}
+
+export default PostbackReceiver;
+
+// TODO
+// export default async function(req, event, reply) {
   // var senderID = event.sender.id;
   // var recipientID = event.recipient.id;
   // var timeOfPostback = event.timestamp;
@@ -15,4 +21,4 @@ export default async function(req, event, reply) {
   // // When a postback is called, we'll send a message back to the sender to
   // // let them know it was successful
   // sendTextMessage(senderID, "Postback called");
-}
+// }

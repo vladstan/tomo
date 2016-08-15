@@ -1,14 +1,14 @@
-import winstonStream from 'winston-stream';
 import {promisify} from 'bluebird';
-
-import raw from 'raw-body';
 import morgan from 'morgan';
 import crypto from 'crypto';
+import raw from 'raw-body';
+
+import WinstonStream from 'server/WinstonStream';
 
 class Middleware {
 
   bodyParser(options = {}) {
-    return async function(ctx, next) {
+    return async (ctx, next) => {
       const encoding = ctx.req.headers['content-encoding'] || 'identity';
       let contentLength = ctx.req.headers['content-length'];
       if (contentLength && encoding === 'identity') {
@@ -38,9 +38,9 @@ class Middleware {
   }
 
   requestLogger(logger) {
-    return async(ctx, next) => {
-      const logStream = winstonStream(logger, 'debug');
-      const reqLogger = promisify(morgan('dev', {stream: logStream}));
+    return async (ctx, next) => {
+      const winstonStream = new WinstonStream(logger, 'debug');
+      const reqLogger = promisify(morgan('dev', {stream: winstonStream}));
 
       await reqLogger(ctx.req, ctx.res);
       await next();
@@ -48,7 +48,7 @@ class Middleware {
   }
 
   xHubSignature(secret) {
-    return async function(ctx, next) {
+    return async (ctx, next) => {
       const signature = ctx.req.headers['x-hub-signature'];
       if (!signature) {
         ctx.throw(400, 'x-hub-signature is empty');

@@ -1,16 +1,22 @@
-import mongoose, {Schema} from 'mongoose';
+import {model, staticMethod} from 'utils/mongoose';
 
-const Profile = new Schema({
-  userId: {type: String, unique: true, required: true},
-});
+@model
+class Profile {
 
-Profile.statics.findOneOrCreate = async function(query, newDoc = query) {
-  let profile = await this.findOne(query);
-  if (!profile) {
-    profile = new Profile(newDoc);
-    await profile.save();
+  static schema = {
+    userId: {type: String, unique: true, required: true},
   }
-  return profile;
-};
 
-export default mongoose.model('Profile', Profile);
+  @staticMethod
+  async findOneOrCreate(query, newDoc = query) {
+    let profile = await this.findOne(query);
+    if (!profile) {
+      profile = new Profile(newDoc);
+      await profile.save();
+    }
+    return profile;
+  }
+
+}
+
+export default Profile;

@@ -2,11 +2,19 @@ import got from 'got';
 
 class WitAiApi {
 
+  static getInstance(config) {
+    if (!this._instance) {
+      this._instance = new WitAiApi(config);
+    }
+
+    return this._instance;
+  }
+
   constructor(config) {
     this.config = config;
   }
 
-  async getMessage(message, msgId, threadId) {
+  async parseMessage(message, msgId, threadId) {
     if (typeof message !== 'string' || message.length < 1 || message.length > 255) {
       throw new Error('message length must be between 0 and 256');
     }

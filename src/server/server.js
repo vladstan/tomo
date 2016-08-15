@@ -1,21 +1,14 @@
-import {dependencies} from 'utils/di';
+import Koa from 'koa';
 
-@dependencies(
-  'koa',
-  'server/Config',
-  'server/Router',
-  'server/Middleware',
-  'server/Logger',
-)
 class Server {
 
-  constructor(koaApp, config, router, middleware, logger) {
+  constructor(config, router, middleware, logger) {
     this.config = config;
     this.router = router;
     this.middleware = middleware;
     this.logger = logger;
 
-    this.app = koaApp;
+    this.app = new Koa();
     this.attachMiddleware();
   }
 

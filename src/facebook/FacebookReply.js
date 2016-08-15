@@ -1,11 +1,14 @@
-import {FacebookMessage} from './messages';
-import FacebookApi from '../apis/FacebookApi';
+import FacebookMessage from 'facebook/messages/FacebookMessage';
+import FacebookApi from 'apis/FacebookApi';
 
-class Reply {
+class FacebookReply {
 
-  constructor(recipientId, accessToken) {
+  constructor(config) {
+    this.facebookApi = FacebookApi.getInstance(config);
+  }
+
+  setRecipientId(recipientId) {
     this.recipientId = recipientId;
-    this.api = new FacebookApi(accessToken);
   }
 
   async messages(...messages) {
@@ -24,7 +27,7 @@ class Reply {
       };
 
       // Await in series to ensure messages are sent in order
-      const result = await this.api.postMessage(body); // eslint-disable-line babel/no-await-in-loop
+      const result = await this.facebookApi.postMessage(body); // eslint-disable-line babel/no-await-in-loop
       results.push(result);
     }
 
@@ -43,7 +46,7 @@ class Reply {
       };
 
       // Await in series to ensure actions are sent in order
-      const result = await this.api.postMessage(body); // eslint-disable-line babel/no-await-in-loop
+      const result = await this.facebookApi.postMessage(body); // eslint-disable-line babel/no-await-in-loop
       results.push(result);
     }
 
@@ -52,4 +55,4 @@ class Reply {
 
 }
 
-export default Reply;
+export default FacebookReply;

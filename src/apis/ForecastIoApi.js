@@ -2,6 +2,14 @@ import ForecastIO from 'forecast-io';
 
 class ForecastIoApi {
 
+  static getInstance(config) {
+    if (!this._instance) {
+      this._instance = new ForecastIoApi(config);
+    }
+
+    return this._instance;
+  }
+
   constructor(config) {
     this.client = new ForecastIO(config.forecastIoApiKey);
   }

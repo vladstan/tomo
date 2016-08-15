@@ -1,5 +1,13 @@
 class Config {
 
+  static getInstance() {
+    if (!this._instance) {
+      this._instance = new Config(process.env.NODE_ENV);
+    }
+
+    return this._instance;
+  }
+
   constructor(env) {
     this.loadDefault();
     this.loadEnv(env);

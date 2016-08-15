@@ -1,17 +1,23 @@
-import mongoose, {Schema} from 'mongoose';
+import {model, staticMethod} from 'utils/mongoose';
 
-const Session = new Schema({
-  userId: {type: String, unique: true, required: true},
-  context: {type: Object, default: {}},
-});
+@model
+class Session {
 
-Session.statics.findOneOrCreate = async function(query, newDoc = query) {
-  let session = await this.findOne(query);
-  if (!session) {
-    session = new Session(newDoc);
-    await session.save();
+  static schema = {
+    userId: {type: String, unique: true, required: true},
+    context: {type: Object, default: {}},
   }
-  return session;
-};
 
-export default mongoose.model('Session', Session);
+  @staticMethod
+  async findOneOrCreate(query, newDoc = query) {
+    let session = await this.findOne(query);
+    if (!session) {
+      session = new Session(newDoc);
+      await session.save();
+    }
+    return session;
+  }
+
+}
+
+export default Session;
