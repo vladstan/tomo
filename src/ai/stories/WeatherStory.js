@@ -26,7 +26,7 @@ class WeatherStory {
   }
 
   async run(past, context, entities, bot) {
-    this.logger.debug('running WeatherStory with context=' + JSON.stringify(context));
+    this.logger.debug('running WeatherStory with context', JSON.stringify(context));
 
     if (entities.intent[0]) {
       context.intent = entities.intent[0].value;

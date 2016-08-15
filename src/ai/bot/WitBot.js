@@ -22,7 +22,7 @@ class WitBot {
 
   async process(messageText) {
     const parsed = await this.witAiApi.parseMessage(messageText);
-    this.logger.debug(parsed);
+    this.logger.debug('wit.ai response:', JSON.stringify(parsed));
 
     const botPast = new BotPast(this.data.conversation);
     botPast.addUserMessage(parsed);
@@ -30,6 +30,7 @@ class WitBot {
     const results = await this.runAllStories(botPast, parsed);
     const sortedResults = results.sort(this.confidenceComparatorDesc);
     const bestResult = sortedResults.find((result) => result.matched);
+    this.logger.silly('sortedResults:', JSON.stringify(sortedResults));
     // TODO store results in conversation
 
     let responses = null;
@@ -56,7 +57,9 @@ class WitBot {
     const story = new Story(this.config, user, this.logger);
 
     const entities = parsed.entities;
-    const context = this.data.session.context; // TODO work on copy, not model
+    const context = this.data.session.context;
+    // TODO don't persist some context props
+    // TODO work on copy, not model
     // TODO store context in every state and context delta (in conversation, per message)
 
     this.checkEntities(entities, user);

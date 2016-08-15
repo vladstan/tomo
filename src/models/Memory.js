@@ -29,7 +29,7 @@ class Memory {
   setProperty(property) {
     const findcallback = (prop) => prop.key === property.key;
     const existingProperty = this.properties.find(findcallback);
-    console.log(existingProperty, property); // TODO use logger.silly
+    // console.log(existingProperty, property); // TODO use logger.silly
     if (existingProperty) {
       Object.assign(existingProperty, property);
     } else {
