@@ -1,7 +1,7 @@
-export function WEATHER_FORECAST({forecast}) {
+export function WEATHER_FORECAST({location, forecast}) {
   const currently = forecast.currently;
   const summary = currently.summary.toLowerCase();
-  return `The weather is ${summary} and ${currently.temperature}ºC`;
+  return `The weather in ${location.name} is ${summary} and ${currently.temperature}ºC`;
 }
 
 export function CANNOT_FIND_LOCATION({location}) {

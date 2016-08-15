@@ -70,20 +70,14 @@ class WeatherStory {
         return;
       }
 
-      return await this.doForecast(forecast, bot);
-    }
-
-    const forecast = bot.memory.get('forecast');
-    if (forecast) {
-      await bot.say('WEATHER_FORECAST', {forecast});
-      return true;
+      return await this.doForecast(location, forecast, bot);
     }
 
     const location = bot.memory.get('location');
     if (location) {
       const forecast = await this.weatherActions.getForecast(location);
       if (forecast) {
-        return await this.doForecast(forecast, bot);
+        return await this.doForecast(location, forecast, bot);
       }
     }
 
@@ -91,10 +85,10 @@ class WeatherStory {
     return true;
   }
 
-  async doForecast(forecast, bot) {
+  async doForecast(location, forecast, bot) {
     this.logger.silly('doForecast');
     bot.memory.remember('forecast', forecast, '5m');
-    await bot.say('WEATHER_FORECAST', {forecast});
+    await bot.say('WEATHER_FORECAST', {location, forecast});
     return true;
   }
 
