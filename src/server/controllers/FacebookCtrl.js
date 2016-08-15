@@ -38,7 +38,7 @@ class FacebookCtrl {
     const eventsBySenderId = this.entriesToGroupedEvents(body.entry);
     const tasks = Object.entries(eventsBySenderId)
       .map(async ([senderId, events]) => {
-        await new EventsHandler(this.logger).process(senderId, events);
+        await new EventsHandler(this.config, this.logger).process(senderId, events);
       });
 
     await Promise.all(tasks);
