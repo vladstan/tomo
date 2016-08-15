@@ -15,10 +15,6 @@ class BotInterface {
     }
   }
 
-  async sayText(text) {
-    this.botResponses.push({text});
-  }
-
   async ask(targetIntent, responseId, responseContext) {
     const responseText = ResponseManager.find(responseId, responseContext);
     this.botResponses.push({

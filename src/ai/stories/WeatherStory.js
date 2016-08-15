@@ -26,7 +26,7 @@ class WeatherStory {
   }
 
   async run(past, context, entities, bot) {
-    this.logger.debug('running WeatherStory with context=' + context); // TODO stringify
+    this.logger.debug('running WeatherStory with context=' + JSON.stringify(context));
 
     if (entities.intent[0]) {
       context.intent = entities.intent[0].value;
@@ -70,9 +70,9 @@ class WeatherStory {
       return await this.doForecast(forecast, bot);
     }
 
-    const forecastText = bot.memory.get('forecast_text');
-    if (forecastText) {
-      await bot.sayText(forecastText); // TODO remove sayText, use say
+    const forecast = bot.memory.get('forecast');
+    if (forecast) {
+      await bot.say('WEATHER_FORECAST', {forecast});
       return true;
     }
 
@@ -89,16 +89,9 @@ class WeatherStory {
   }
 
   async doForecast(forecast, bot) {
-    this.logger.silly('doForecast', 'forecast.currently=' + forecast.currently); // TODO stringify
-
-    const currently = forecast.currently;
-    const summary = currently.summary.toLowerCase();
-    const forecastText = `The weather is ${summary} and ${currently.temperature}ºC`;
-
+    this.logger.silly('doForecast');
     bot.memory.remember('forecast', forecast, '5m');
-    bot.memory.remember('forecast_text', forecastText, '5m');
-
-    await bot.sayText(forecastText);
+    await bot.say('WEATHER_FORECAST', {forecast});
     return true;
   }
 

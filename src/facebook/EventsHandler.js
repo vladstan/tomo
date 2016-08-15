@@ -22,7 +22,7 @@ class EventsHandler {
   }
 
   async process(senderId, events) {
-    this.facebookReply.setSenderId(senderId);
+    this.facebookReply.setRecipientId(senderId);
     this.senderId = senderId;
 
     await this.initDatabaseData();

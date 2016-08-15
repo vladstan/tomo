@@ -1,3 +1,9 @@
+export function WEATHER_FORECAST({forecast}) {
+  const currently = forecast.currently;
+  const summary = currently.summary.toLowerCase();
+  return `The weather is ${summary} and ${currently.temperature}ºC`;
+}
+
 export function CANNOT_FIND_LOCATION({location}) {
   return `I don't know where ${location.name} is`;
   // [
