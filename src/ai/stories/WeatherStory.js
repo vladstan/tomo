@@ -1,5 +1,7 @@
 import WeatherActions from 'ai/actions/WeatherActions';
+
 import ForecastIoApi from 'apis/ForecastIoApi';
+import GoogleMapsApi from 'apis/GoogleMapsApi';
 
 class WeatherStory {
 
@@ -7,7 +9,8 @@ class WeatherStory {
     this.logger = logger;
 
     const forecastIoApi = ForecastIoApi.getInstance(config);
-    this.weatherActions = new WeatherActions(forecastIoApi);
+    const googleMapsApi = GoogleMapsApi.getInstance(config);
+    this.weatherActions = new WeatherActions(forecastIoApi, googleMapsApi, logger);
 
     this.define(user);
     this.user = user;

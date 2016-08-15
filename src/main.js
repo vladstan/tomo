@@ -19,3 +19,5 @@ const database = new Database(config, logger);
 
 server.start();
 database.connect();
+
+// TODO: fix sourcemaps in babel (?tests)

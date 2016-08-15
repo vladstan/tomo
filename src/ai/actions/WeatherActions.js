@@ -1,15 +1,24 @@
 class WeatherActions {
 
-  constructor(forecastIoApi) {
+  constructor(forecastIoApi, googleMapsApi, logger) {
     this.forecastIoApi = forecastIoApi;
+    this.googleMapsApi = googleMapsApi;
+    this.logger = logger;
   }
 
-  async getLocation(location) {
-    return {
-      lat: 48.2000,
-      long: 16.3667,
-      name: location,
-    };
+  async getLocation(locationName) {
+    const result = await this.googleMapsApi.geocodeLocation(locationName);
+    // this.logger.silly('getLocation geocoding result', JSON.stringify(result));
+
+    if (result) {
+      return {
+        lat: result.geometry.location.lat,
+        long: result.geometry.location.lng,
+        name: result.formatted_address,
+      };
+    }
+
+    return null;
   }
 
   async getForecast(options) {

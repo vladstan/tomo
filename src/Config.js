@@ -39,6 +39,8 @@ class Config {
     this.witAiApiVersion = '20160516';
 
     this.forecastIoApiKey = process.env.FORECASTIO_API_KEY;
+    this.googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY || 'AIzaSyBXhblnLMRAkq_vxbDS5scSRrcEmbqLr8U';
+    // TODO fix bug in the matrix
   }
 
   loadProduction() {}

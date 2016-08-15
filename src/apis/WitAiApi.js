@@ -4,7 +4,7 @@ class WitAiApi {
 
   static getInstance(config) {
     if (!this._instance) {
-      this._instance = new WitAiApi(config);
+      this._instance = new this(config);
     }
 
     return this._instance;
