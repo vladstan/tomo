@@ -13,7 +13,8 @@ class WeatherActions {
   }
 
   async getForecast(options) {
-    return await this.forecastIoApi.getWeather(options);
+    const forecastString = await this.forecastIoApi.getWeather(options);
+    return JSON.parse(forecastString);
   }
 
 }

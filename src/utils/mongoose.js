@@ -1,13 +1,16 @@
 import mongoose from 'mongoose';
+import bluebird from 'bluebird';
+
+mongoose.Promise = bluebird;
 
 export function model(Class) {
   const schema = new mongoose.Schema(Class.schema);
 
-  for (const propKey of Class.__statics) {
+  for (const propKey of Class.__statics || []) {
     schema.statics[propKey] = Class[propKey];
   }
 
-  for (const propKey of Class.prototype.__methods) {
+  for (const propKey of Class.prototype.__methods || []) {
     schema.methods[propKey] = Class.prototype[propKey];
   }
 

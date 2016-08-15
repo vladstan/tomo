@@ -3,7 +3,9 @@ import ForecastIoApi from 'apis/ForecastIoApi';
 
 class WeatherStory {
 
-  constructor(config, user) {
+  constructor(config, user, logger) {
+    this.logger = logger;
+
     const forecastIoApi = ForecastIoApi.getInstance(config);
     this.weatherActions = new WeatherActions(forecastIoApi);
 
@@ -17,17 +19,29 @@ class WeatherStory {
 
     user.says("What's the weather in Paris?")
       .intent('get_weather')
-      .entity('wit/location', 'location', 'Paris');
+      .entity('location', 'location', 'Paris');
 
     user.says('In Paris')
-      .entity('wit/location', 'location', 'Paris');
+      .entity('location', 'location', 'Paris');
   }
 
   async run(past, context, entities, bot) {
+    this.logger.debug('running WeatherStory with context=' + context); // TODO stringify
+
+    if (entities.intent[0]) {
+      context.intent = entities.intent[0].value;
+    }
+
+    // this.logger.silly(context.intent, '===', 'get_weather');
     if (context.intent === 'get_weather') {
       return await this.doGetWeather(context, entities, bot);
     }
 
+    // this.logger.silly(
+    //   "entities.location[0] && past.botAsked('get_weather')",
+    //   entities.location[0], '&&', past.botAsked('get_weather'),
+    //   entities.location[0] && past.botAsked('get_weather'),
+    // );
     if (entities.location[0] && past.botAsked('get_weather')) {
       return await this.doGetWeather(context, entities, bot);
     }
@@ -35,11 +49,11 @@ class WeatherStory {
 
   async doGetWeather(context, entities, bot) {
     if (entities.location[0]) {
-      context.location = entities;
+      context.location = entities.location[0].value;
     }
 
     if (context.location) {
-      const location = await this.weatherActions.getLocation(entities.location[0]);
+      const location = await this.weatherActions.getLocation(context.location);
       if (!location) {
         await bot.say('CANNOT_FIND_LOCATION', {location});
         return true;
@@ -75,8 +89,11 @@ class WeatherStory {
   }
 
   async doForecast(forecast, bot) {
+    this.logger.silly('doForecast', 'forecast.currently=' + forecast.currently); // TODO stringify
+
     const currently = forecast.currently;
-    const forecastText = `The weather is ${currently.icon} and ${currently.temperature}`;
+    const summary = currently.summary.toLowerCase();
+    const forecastText = `The weather is ${summary} and ${currently.temperature}ºC`;
 
     bot.memory.remember('forecast', forecast, '5m');
     bot.memory.remember('forecast_text', forecastText, '5m');

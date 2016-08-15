@@ -8,10 +8,10 @@ class Profile {
   }
 
   @staticMethod
-  async findOneOrCreate(query, newDoc = query) {
+  static async findOneOrCreate(query, newDoc = query) {
     let profile = await this.findOne(query);
     if (!profile) {
-      profile = new Profile(newDoc);
+      profile = new this(newDoc);
       await profile.save();
     }
     return profile;

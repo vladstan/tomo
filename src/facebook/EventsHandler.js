@@ -17,7 +17,7 @@ class EventsHandler {
     this.facebookReply = new FacebookReply(config);
     this.messageReceiver = new MessageReceiver();
     this.postbackReceiver = new PostbackReceiver();
-    this.witBot = new WitBot(config);
+    this.witBot = new WitBot(config, logger);
     this.logger = logger;
   }
 

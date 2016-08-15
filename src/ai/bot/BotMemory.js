@@ -10,7 +10,7 @@ class BotMemory {
   }
 
   get(key) {
-    const mem = this.memories.find((mem) => mem.key === key); // TODO exclude expired memories
+    const mem = this.memory.properties.find((prop) => prop.key === key); // TODO exclude expired memories
     return mem && mem.value || null;
   }
 

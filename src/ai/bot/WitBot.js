@@ -10,9 +10,10 @@ import BotPast from 'ai/bot/BotPast';
 
 class WitBot {
 
-  constructor(config) {
+  constructor(config, logger) {
     this.witAiApi = WitAiApi.getInstance(config);
     this.config = config;
+    this.logger = logger;
   }
 
   init(data) {
@@ -20,8 +21,10 @@ class WitBot {
   }
 
   async process(messageText) {
-    const parsed = this.witAiApi.parseMessage(messageText);
-    const botPast = new BotPast();
+    const parsed = await this.witAiApi.parseMessage(messageText);
+    this.logger.debug(parsed);
+
+    const botPast = new BotPast(this.data.conversation);
     botPast.addUserMessage(parsed);
 
     const results = await this.runAllStories(botPast, parsed);
@@ -36,7 +39,7 @@ class WitBot {
       responses = this.getContactHumanResponses();
     }
 
-    responses.forEach((resp) => this.botPast.addBotResponse(resp));
+    responses.forEach((resp) => botPast.addBotResponse(resp));
     return responses;
   }
 
@@ -50,7 +53,7 @@ class WitBot {
     parsed = JSON.parse(JSON.stringify(parsed));
 
     const user = new StoryUser();
-    const story = new Story(this.config, user);
+    const story = new Story(this.config, user, this.logger);
 
     const entities = parsed.entities;
     const context = this.data.session.context; // TODO work on copy, not model
@@ -89,12 +92,16 @@ class WitBot {
     }
   }
 
-  getContactHumanResponse() {
-    return ResponseManager.find('NO_UNDERSTAND_CONTACT_HUMAN');
+  getContactHumanResponses() {
+    return [
+      {text: ResponseManager.find('NO_UNDERSTAND_CONTACT_HUMAN')},
+    ];
   }
 
   getErrorResponse() {
-    return ResponseManager.find('UNKNOWN_ERROR');
+    return [
+      {text: ResponseManager.find('UNKNOWN_ERROR')},
+    ];
   }
 
 }

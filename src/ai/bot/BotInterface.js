@@ -19,14 +19,12 @@ class BotInterface {
     this.botResponses.push({text});
   }
 
-  async ask(targetIntent, responseIds, responseContext) {
-    for (const responseId of responseIds) {
-      const responseText = ResponseManager.find(responseId, responseContext);
-      this.botResponses.push({
-        text: responseText,
-        intent: targetIntent,
-      });
-    }
+  async ask(targetIntent, responseId, responseContext) {
+    const responseText = ResponseManager.find(responseId, responseContext);
+    this.botResponses.push({
+      text: responseText,
+      intent: targetIntent,
+    });
   }
 
   getResponses() {

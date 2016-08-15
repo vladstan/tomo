@@ -8,7 +8,10 @@ class BotPast {
     // TODO: search only the last 5 messages
     const messages = this.conversation.messages;
     const previousMessageFromBot = messages.find((msg) => msg.sender === 'bot');
-    return previousMessageFromBot.entities.intent === intent;
+    if (previousMessageFromBot) {
+      return previousMessageFromBot.entities.intent === intent;
+    }
+    return false;
   }
 
   addUserMessage(parsedMessage) {

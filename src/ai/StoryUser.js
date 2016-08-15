@@ -17,7 +17,7 @@ class StoryUser {
   }
 
   intent(name) {
-    this.lastMessage().intent = name;
+    this.entity('intent', 'intent', null);
     return this;
   }
 

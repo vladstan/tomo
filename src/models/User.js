@@ -11,7 +11,7 @@ class User {
   static async findOneOrCreate(query, newDoc = query) {
     let user = await this.findOne(query);
     if (!user) {
-      user = new User(newDoc);
+      user = new this(newDoc);
       await user.save();
     }
     return user;

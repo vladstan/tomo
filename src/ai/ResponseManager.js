@@ -8,7 +8,7 @@ class ResponseManager {
   static find(responseId, responseContext) {
     const respond = responses[responseId];
     if (typeof respond !== 'function') {
-      throw new Error("response doesn't exist: " + responseId);
+      throw new Error(`response ${responseId} doesn't exist`);
     }
     return respond(responseContext);
   }

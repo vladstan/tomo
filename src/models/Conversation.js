@@ -14,13 +14,14 @@ class Conversation {
       }],
       default: [],
     },
+    createdAt: {type: Date, default: Date.now},
   }
 
   @staticMethod
-  async findOneOrCreate(query, newDoc = query) {
+  static async findOneOrCreate(query, newDoc = query) {
     let conversation = await this.findOne(query);
     if (!conversation) {
-      conversation = new Conversation(newDoc);
+      conversation = new this(newDoc);
       await conversation.save();
     }
     return conversation;
