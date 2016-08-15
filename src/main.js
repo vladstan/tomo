@@ -5,10 +5,10 @@ import Middleware from 'server/Middleware';
 import Server from 'server/Server';
 import Router from 'server/Router';
 
-import Config from 'config/Config';
+import Config from 'Config';
 import Logger from 'server/Logger';
 
-const config = Config.get();
+const config = Config.getInstance();
 const middleware = new Middleware();
 const logger = new Logger();
 

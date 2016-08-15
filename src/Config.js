@@ -25,7 +25,7 @@ class Config {
   }
 
   loadDefault() {
-    this.port = process.env.PORT;
+    this.port = process.env.PORT || 3000;
     this.mongoUrl = process.env.MONGO_URL;
     this.userAgent = 'OkClaire';
 
@@ -43,13 +43,9 @@ class Config {
 
   loadProduction() {}
 
-  loadDevelopment() {
-    this.port = process.env.PORT || 3000;
-  }
+  loadDevelopment() {}
 
-  loadTest() {
-    this.port = process.env.PORT || 3000;
-  }
+  loadTest() {}
 
   validate() {
     for (const [key, value] of Object.entries(this)) {
