@@ -1,3 +1,5 @@
+import 'app-module-path/register';
+
 import Database from 'server/Database';
 import Middleware from 'server/Middleware';
 import Server from 'server/Server';
@@ -17,3 +19,5 @@ const database = new Database(config, logger);
 
 server.start();
 database.connect();
+
+// TODO: fix sourcemaps in babel (?tests)

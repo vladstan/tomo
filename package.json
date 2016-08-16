@@ -9,10 +9,11 @@
     "start": "node dist/main.js",
     "clean": "rimraf .nyc_output coverage dist",
     "build": "tsc",
-    "watch": "nodemon -w dist dist/main.js",
-    "repl": "nodemon -w dist dist/repl.js",
+    "watch": "(npm run build -- --watch &) && sleep 5 && nodemon -w dist dist/main.js",
+    "repl": "(npm run build -- --watch &) && sleep 5 && nodemon -w dist dist/repl.js",
     "deploy": "npm run build && modulus deploy -p okclaire",
-    "test": "npm run build && ava tests --watch",
+    "lint": "eslint src",
+    "test": "(npm run build -- --watch &) && sleep 5 && ava --watch",
     "coverage": "npm run build && nyc ava",
     "report": "nyc report --reporter=html"
   },
@@ -41,9 +42,29 @@
     "typescript": "2.0.0",
     "typings": "1.3.2"
   },
+  "ava": {
+    "files": [
+      "tests/**/*.js"
+    ],
+    "source": [
+      "dist/**/*.js"
+    ],
+    "concurrency": 5,
+    "require": [
+      "babel-register",
+      "./dist/utils/test-register"
+    ],
+    "babel": "inherit"
+  },
   "nyc": {
+    "require": [
+      "babel-register",
+      "./dist/utils/test-register"
+    ],
     "include": [
       "src"
-    ]
+    ],
+    "sourceMap": false,
+    "instrument": false
   }
 }
