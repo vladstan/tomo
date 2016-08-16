@@ -1,5 +1,7 @@
 class Config {
 
+  _instance: Config;
+
   static getInstance(): Config {
     if (!this._instance) {
       this._instance = new Config(process.env.NODE_ENV);
@@ -43,11 +45,11 @@ class Config {
     // TODO fix bug in the matrix
   }
 
-  loadProduction() {}
+  loadProduction() { }
 
-  loadDevelopment() {}
+  loadDevelopment() { }
 
-  loadTest() {}
+  loadTest() { }
 
   validate() {
     for (const [key, value] of Object.entries(this)) {
