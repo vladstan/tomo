@@ -1,5 +1,3 @@
-import {override} from 'core-decorators';
-
 import FacebookMessage from 'facebook/messages/FacebookMessage';
 import {isUrl} from 'utils/parser';
 
@@ -10,7 +8,6 @@ class GenericMessage extends FacebookMessage {
     this.bubbles = [];
   }
 
-  @override
   get() {
     if (!this.bubbles || !this.bubbles.length) {
       throw new Error('add at least one bubble');

@@ -1,5 +1,3 @@
-import {override} from 'core-decorators';
-
 import FacebookMessage from 'facebook/messages/FacebookMessage';
 
 class TextMessage extends FacebookMessage {
@@ -18,7 +16,6 @@ class TextMessage extends FacebookMessage {
     this.text = text;
   }
 
-  @override
   get() {
     const reply = {
       text: this.text,
