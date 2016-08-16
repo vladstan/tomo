@@ -1,6 +1,6 @@
 class Config {
 
-  static getInstance() {
+  static getInstance(): Config {
     if (!this._instance) {
       this._instance = new Config(process.env.NODE_ENV);
     }
@@ -8,13 +8,13 @@ class Config {
     return this._instance;
   }
 
-  constructor(env) {
+  constructor(env: String) {
     this.loadDefault();
     this.loadEnv(env);
     this.validate();
   }
 
-  loadEnv(env) {
+  loadEnv(env: String) {
     if (env === 'production') {
       this.loadProduction();
     } else if (env === 'test') {

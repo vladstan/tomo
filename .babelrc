@@ -4,16 +4,33 @@
     "stage-0"
   ],
   "plugins": [
-    "transform-runtime",
+    ["typecheck", {
+      "disable": {
+        "production": true
+      }
+    }],
+    "syntax-flow",
+    "transform-flow-strip-types",
     "transform-decorators-legacy",
-    "default-import-checker",
-    "source-map-support-for-6"
+    "transform-runtime"
   ],
   "env": {
+    "production": {
+      "plugins": [
+        "source-map-support-for-6"
+      ]
+    },
+    "development": {
+      "plugins": [
+        "default-import-checker",
+        "source-map-support-for-6"
+      ]
+    },
     "test": {
       "plugins": [
         "espower",
-        "istanbul"
+        "istanbul",
+        "default-import-checker"
       ]
     }
   },
