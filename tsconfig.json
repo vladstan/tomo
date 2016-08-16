@@ -16,6 +16,7 @@
   },
   "filesGlob": [
     "src/**/*.ts",
+    "tests/**/*.ts",
     "typings/index.d.ts"
   ],
   "compileOnSave": true,
@@ -41,6 +42,7 @@
   "files": [
     "src/handlers.ts",
     "src/server.ts",
+    "tests/endpoints.test.ts",
     "typings/index.d.ts"
   ]
 }
