@@ -5,7 +5,10 @@ class RealEstateStory {
 
   constructor(config, user, logger) {
     this.logger = logger;
-    this.realEstateActions = new RealEstateActions(logger);
+
+    const realEstateApi = RealEstateApi.getInstance(config);
+    this.realEstateActions = new RealEstateActions(realEstateApi, logger);
+
     this.define(user);
     this.user = user;
   }
@@ -52,16 +55,16 @@ class RealEstateStory {
       }
 
       if (context.property_type) {
-        const listing = await RealEstateApi.getResults(context.intent, context.property_type);
-        await bot.say('ACKNOWLEDGE_USER_INTENT', {
+        const listings = await this.realEstateActions.getResults(context.intent);
+        bot.say('ACKNOWLEDGE_USER_INTENT', {
           intent: context.intent,
           property_type: context.property_type,
-          listing: listing,
         });
+        bot.sendCards(listings); // TODO map every field explicitly
         return true;
       }
 
-      await bot.say('ACKNOWLEDGE_USER_INTENT', {intent: context.intent});
+      bot.say('ACKNOWLEDGE_USER_INTENT', {intent: context.intent});
       return true;
     }
 
@@ -86,7 +89,7 @@ class RealEstateStory {
     // if (context.location) {
     //   const location = await this.realEstateActions.getLocation(context.location);
     //   if (!location) {
-    //     await bot.say('CANNOT_FIND_LOCATION', {location});
+    //     bot.say('CANNOT_FIND_LOCATION', {location});
     //     return true;
     //   }
     //
@@ -94,7 +97,7 @@ class RealEstateStory {
     //
     //   const forecast = await this.realEstateActions.getForecast(location);
     //   if (!forecast) {
-    //     await bot.say('CANNOT_FIND_FORECAST', {location});
+    //     bot.say('CANNOT_FIND_FORECAST', {location});
     //     return;
     //   }
     //
@@ -109,14 +112,14 @@ class RealEstateStory {
   //     }
   //   }
   //
-  //   await bot.ask('get_weather', 'WHERE_LOCATION');
+  //   bot.ask('get_weather', 'WHERE_LOCATION');
   //   return true;
   // }
   //
   // async doForecast(location, forecast, bot) {
   //   this.logger.silly('doForecast');
   //   bot.memory.remember('forecast', forecast, '5m');
-  //   await bot.say('WEATHER_FORECAST', {location, forecast});
+  //   bot.say('WEATHER_FORECAST', {location, forecast});
   //   return true;
   // }
 

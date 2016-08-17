@@ -6,19 +6,26 @@ class BotInterface {
     this.botResponses = [];
   }
 
-  async say(responseId, responseContext) {
+  say(responseId, responseContext) {
     const responseText = ResponseManager.find(responseId, responseContext);
     this.botResponses.push({
+      type: 'text',
       text: responseText,
     });
   }
 
-  async ask(targetIntent, responseId, responseContext) {
+  ask(targetIntent, responseId, responseContext) {
     const responseText = ResponseManager.find(responseId, responseContext);
     this.botResponses.push({
+      type: 'text',
       text: responseText,
       intent: targetIntent,
     });
+  }
+
+  sendCards(cards) {
+    cards.forEach((card) => card.type = 'card');
+    this.botResponses.push(...cards);
   }
 
   getResponses() {

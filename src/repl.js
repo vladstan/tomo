@@ -85,5 +85,5 @@ async function evalMessage(cmd) {
     return '<init not finished>';
   }
   const responses = await witBot.process(cmd);
-  return responses.map((resp) => resp.text).join('\n');
+  return responses;
 }

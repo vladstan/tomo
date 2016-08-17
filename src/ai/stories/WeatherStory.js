@@ -58,7 +58,7 @@ class WeatherStory {
     if (context.location) {
       const location = await this.weatherActions.getLocation(context.location);
       if (!location) {
-        await bot.say('CANNOT_FIND_LOCATION', {location});
+        bot.say('CANNOT_FIND_LOCATION', {location});
         return true;
       }
 
@@ -66,7 +66,7 @@ class WeatherStory {
 
       const forecast = await this.weatherActions.getForecast(location);
       if (!forecast) {
-        await bot.say('CANNOT_FIND_FORECAST', {location});
+        bot.say('CANNOT_FIND_FORECAST', {location});
         return;
       }
 
@@ -81,14 +81,14 @@ class WeatherStory {
       }
     }
 
-    await bot.ask('get_weather', 'WHERE_LOCATION');
+    bot.ask('get_weather', 'WHERE_LOCATION');
     return true;
   }
 
   async doForecast(location, forecast, bot) {
     this.logger.silly('doForecast');
     bot.memory.remember('forecast', forecast, '5m');
-    await bot.say('WEATHER_FORECAST', {location, forecast});
+    bot.say('WEATHER_FORECAST', {location, forecast});
     return true;
   }
 
