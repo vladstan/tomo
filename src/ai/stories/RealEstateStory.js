@@ -1,4 +1,5 @@
 import RealEstateActions from 'ai/actions/RealEstateActions';
+import RealEstateApi from 'apis/RealEstateApi';
 
 class RealEstateStory {
 
@@ -51,9 +52,11 @@ class RealEstateStory {
       }
 
       if (context.property_type) {
+        const listing = await RealEstateApi.getResults(context.intent, context.property_type);
         await bot.say('ACKNOWLEDGE_USER_INTENT', {
           intent: context.intent,
           property_type: context.property_type,
+          listing: listing,
         });
         return true;
       }
