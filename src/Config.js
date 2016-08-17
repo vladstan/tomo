@@ -2,19 +2,20 @@ class Config {
 
   static getInstance(): Config {
     if (!this._instance) {
-      this._instance = new Config(process.env.NODE_ENV);
+      const env = process.env.NODE_ENV || 'development';
+      this._instance = new Config(env);
     }
 
     return this._instance;
   }
 
-  constructor(env: String) {
+  constructor(env: string) {
     this.loadDefault();
     this.loadEnv(env);
     this.validate();
   }
 
-  loadEnv(env: String) {
+  loadEnv(env: string) {
     if (env === 'production') {
       this.loadProduction();
     } else if (env === 'test') {
@@ -39,8 +40,7 @@ class Config {
     this.witAiApiVersion = '20160516';
 
     this.forecastIoApiKey = process.env.FORECASTIO_API_KEY;
-    this.googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY || 'AIzaSyBXhblnLMRAkq_vxbDS5scSRrcEmbqLr8U';
-    // TODO fix bug in the matrix
+    this.googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY;
   }
 
   loadProduction() {}

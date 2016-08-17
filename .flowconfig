@@ -1,0 +1,9 @@
+[ignore]
+<PROJECT_ROOT>/dist/.*
+<PROJECT_ROOT>/node_modules/.*
+
+[libs]
+decls/
+
+[options]
+munge_underscores=true
