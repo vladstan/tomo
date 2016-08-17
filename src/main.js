@@ -20,4 +20,6 @@ const database = new Database(config, logger);
 server.start();
 database.connect();
 
+console.log('vlad rulz!');
+
 // TODO: fix sourcemaps in babel (?tests)
