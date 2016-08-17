@@ -11,6 +11,7 @@ import Logger from 'server/Logger';
 const config = Config.getInstance();
 const middleware = new Middleware();
 const logger = new Logger();
+global.log = logger;
 
 const router = new Router(config, middleware, logger);
 

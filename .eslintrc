@@ -4,6 +4,9 @@
     "babel",
     "flowtype"
   ],
+  "globals": {
+    "log": true
+  },
   "settings": {
     "flowtype": {
       "onlyFilesWithFlowAnnotation": false

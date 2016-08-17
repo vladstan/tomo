@@ -16,6 +16,8 @@ import Logger from 'server/Logger'; // TODO mock, stderr
 
 const config = Config.getInstance();
 const logger = new Logger();
+global.log = logger;
+
 const witBot = new WitBot(config, logger);
 const database = new Database(config, logger);
 database.connect();
