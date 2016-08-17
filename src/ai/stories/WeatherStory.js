@@ -22,10 +22,10 @@ class WeatherStory {
 
     user.says("What's the weather in Paris?")
       .intent('get_weather')
-      .entity('location', 'location', 'Paris');
+      .entity('wit/location', 'location', 'Paris');
 
     user.says('In Paris')
-      .entity('location', 'location', 'Paris');
+      .entity('wit/location', 'location', 'Paris');
   }
 
   async run(past, context, entities, bot) {

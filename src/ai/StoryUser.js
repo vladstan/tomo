@@ -16,7 +16,7 @@ class StoryUser {
     return this;
   }
 
-  intent(name) {
+  intent(name) { // TODO add example?
     this.entity('intent', 'intent', null);
     return this;
   }
