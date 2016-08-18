@@ -8,10 +8,19 @@ class MessageReceiver {
     await reply.actions('mark_seen', 'typing_on');
 
     const fbReplies = [];
+    let botReplies = null;
 
-    if (message.text) {
-      const botReplies = await bot.process(message.text);
+    if (message.quick_reply && message.quick_reply.payload) {
+      botReplies = await bot.postback(message.quick_reply.payload);
+    }
 
+    if (!botReplies) { // TODO or nothing matched, so a default response is returned
+      if (message.text) {
+        botReplies = await bot.process(message.text);
+      }
+    }
+
+    if (botReplies) {
       botReplies
         .filter((msg) => msg.type === 'text')
         .forEach((msg) => {
