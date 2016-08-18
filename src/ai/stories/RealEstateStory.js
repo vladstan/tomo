@@ -65,6 +65,8 @@ class RealEstateStory {
       }
 
       bot.say('ACKNOWLEDGE_USER_INTENT', {intent: context.intent});
+      // bot.scheduleMessage('5m', 'Try next thing?', true);
+
       return true;
     }
 
