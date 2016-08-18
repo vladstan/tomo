@@ -100,6 +100,7 @@ class WitBot {
     botInterface.memory = botMemory;
 
     const matched = await story.run(botPast, context, entities, botInterface);
+    delete context.intent;
 
     return {
       confidence: 1,
