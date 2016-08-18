@@ -18,10 +18,10 @@ class OnboardingStory {
   async postback(past, context, postbackId, bot) {
     switch (postbackId) {
       case 'GET_STARTED':
-        bot.sayText('Hi NAME, I\'m Claire your personal concierge for Palma de Mallorca.')
-        bot.sayText('You can use me for free during your stay on the island')
-        bot.sayText('Let me show you want I can do for you')
-          .quickReply('Continue', 'ONBOARDING_OK');
+        bot.sayText('Hi NAME, I\'m Claire your personal concierge for your stay in Palma de Mallorca');
+        // bot.sayText('You can use me for free during your stay on the island')
+        // bot.sayText('Let me show you want I can do for you')
+        bot.quickReply('Continue', 'ONBOARDING_POSTCARDS');
         return true;
 
       case 'ONBOARDING_POSTCARDS':
@@ -33,7 +33,7 @@ class OnboardingStory {
       case 'ONBOARDING_REAL_ESTATE':
         bot.sayText('You can rent or buy properties on the Island')
         bot.sayText('Just type I want to rent an apartment to get started')
-          .quickReply('Ok', 'ONBOARDING_REAL_ESTATE');
+          .quickReply('Ok', 'ONBOARDING_RETAURANTS');
         return true;
 
       case 'ONBOARDING_RETAURANTS':
@@ -55,8 +55,8 @@ class OnboardingStory {
           return true;
 
       case 'ONBOARDING_ACTIVITIES':
-          bot.sayText('You can rent a car on the island')
-          bot.sayText('Just type: I want to rent a car to get started')
+          bot.sayText('You can discover the best activities you can do on the island')
+          bot.sayText('Just type: Find me an activity')
             .quickReply('Ok', 'ONBOARDING_FEEDBACK');
           return true;
 
