@@ -55,6 +55,7 @@ class EventsHandler {
   }
 
   async processEvent(event) {
+    this.logger.silly('processing event', JSON.stringify(event));
     try {
       if (event.message) {
         await this.messageReceiver.receive(event, this.facebookReply, this.witBot);
@@ -64,7 +65,7 @@ class EventsHandler {
         this.logger.warn('unknown event type', event);
       }
     } catch (err) {
-      this.logger.error('cannot handle event', event, err);
+      this.logger.error('cannot handle event', err);
       const responseText = this.witBot.getErrorResponse();
       await this.facebookReply.messages(new TextMessage(responseText));
     }
