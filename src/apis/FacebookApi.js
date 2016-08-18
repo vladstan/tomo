@@ -29,6 +29,7 @@ class FacebookApi {
       json: true,
     };
 
+    // log.silly('FacebookApi', 'API request:', 'GET', url, JSON.stringify(options));
     const resp = await got(url, options);
     return resp.body;
   }

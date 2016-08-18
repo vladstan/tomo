@@ -14,20 +14,28 @@ class MessageReceiver {
 
       botReplies
         .filter((msg) => msg.type === 'text')
-        .forEach((msg) => fbReplies.push(new TextMessage(msg.text)));
+        .forEach((msg) => {
+          let qr = new TextMessage(msg.text);
+          for (const quickReply of msg.quickReplies) {
+            qr = qr.addQuickReply(quickReply.text, quickReply.postbackId);
+          }
+          fbReplies.push(qr);
+        });
 
       const genericReply = botReplies
         .filter((msg) => msg.type === 'card')
         .reduce((genericMessage, msg) => {
-          genericMessage.addBubble(msg.name, msg.description);
-          genericMessage.addUrl(msg.url);
-          genericMessage.addImage(msg.img);
-          genericMessage.addButton('I <3 this');
-          genericMessage.addButton('Call an Agent');
-          return genericMessage;
+          return genericMessage
+            .addBubble(msg.name, msg.description.substr(0, 80))
+            .addUrl(msg.url)
+            .addImage(msg.img)
+            .addButton('I <3 this', 'DEV_LOVE_THIS')
+            .addButton('Call an Agent', 'DEV_CALL_AGENT');
         }, new GenericMessage()); // TODO send them as a single botResponse
 
-      fbReplies.push(genericReply);
+      if (genericReply.bubbles.length) {
+        fbReplies.push(genericReply);
+      }
 
       await reply.messages(...fbReplies);
       return;

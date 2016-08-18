@@ -84,6 +84,10 @@ async function evalMessage(cmd) {
   if (!initDone) {
     return '<init not finished>';
   }
+  if (cmd.startsWith('@')) {
+    const responses = await witBot.postback(cmd.substring(1));
+    return responses;
+  }
   const responses = await witBot.process(cmd);
   return responses;
 }

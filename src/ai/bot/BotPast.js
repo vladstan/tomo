@@ -30,6 +30,10 @@ class BotPast {
     });
   }
 
+  addPostback(postbackId) { // TODO
+    
+  }
+
 }
 
 export default BotPast;

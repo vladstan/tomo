@@ -41,12 +41,43 @@ class WitBot {
     }
 
     responses.forEach((resp) => botPast.addBotResponse(resp));
+
+    // log.silly('WitBot', 'finished processing', responses);
+    return responses;
+  }
+
+  async postback(postbackId) {
+    const botPast = new BotPast(this.data.conversation);
+    botPast.addPostback(postbackId);
+
+    const results = await this.postbackAllStories(botPast, postbackId);
+    const sortedResults = results.sort(this.confidenceComparatorDesc);
+    const bestResult = sortedResults.find((result) => result.matched);
+    // this.logger.silly('sortedResults:', JSON.stringify(sortedResults));
+    // TODO store results in conversation
+
+    let responses = null;
+    if (bestResult) {
+      responses = bestResult.responses;
+    } else {
+      responses = this.getContactHumanResponses();
+    }
+
+    responses.forEach((resp) => botPast.addBotResponse(resp));
+
+    // log.silly('WitBot', 'finished processing', responses);
     return responses;
   }
 
   async runAllStories(botPast, parsed) {
     const storyTypes = StoryManager.getAllTypes();
     const tasks = storyTypes.map((Story) => this.runStory(Story, botPast, parsed));
+    return await Promise.all(tasks);
+  }
+
+  async postbackAllStories(botPast, postbackId) {
+    const storyTypes = StoryManager.getAllTypes();
+    const tasks = storyTypes.map((Story) => this.postbackStory(Story, botPast, postbackId));
     return await Promise.all(tasks);
   }
 
@@ -69,6 +100,31 @@ class WitBot {
     botInterface.memory = botMemory;
 
     const matched = await story.run(botPast, context, entities, botInterface);
+
+    return {
+      confidence: 1,
+      matched: matched,
+      responses: botInterface.getResponses(),
+    };
+  }
+
+  async postbackStory(Story, botPast, postbackId) {
+    const user = new StoryUser();
+    const story = new Story(this.config, user, this.logger);
+
+    // const entities = parsed.entities;
+    const context = this.data.session.context;
+    // TODO don't persist some context props
+    // TODO work on copy, not model
+    // TODO store context in every state and context delta (in conversation, per message)
+
+    // this.checkEntities(entities, user);
+
+    const botMemory = new BotMemory(this.data.memory); // TODO work on clone?
+    const botInterface = new BotInterface();
+    botInterface.memory = botMemory;
+
+    const matched = await story.postback(botPast, context, postbackId, botInterface);
 
     return {
       confidence: 1,

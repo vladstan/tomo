@@ -81,6 +81,8 @@ class RealEstateStory {
     // }
   }
 
+  async postback(past, context, postbackId, bot) {}
+
   // async doGetWeather(context, entities, bot) {
     // if (entities.location[0]) {
     //   context.location = entities.location[0].value;

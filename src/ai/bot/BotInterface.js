@@ -8,10 +8,34 @@ class BotInterface {
 
   say(responseId, responseContext) {
     const responseText = ResponseManager.find(responseId, responseContext);
-    this.botResponses.push({
+    const resp = {
       type: 'text',
       text: responseText,
-    });
+    };
+    this.botResponses.push(resp);
+    return this.qrInterface(resp);
+  }
+
+  sayText(responseText) {
+    const resp = {
+      type: 'text',
+      text: responseText,
+    };
+    this.botResponses.push(resp);
+    return this.qrInterface(resp);
+  }
+
+  qrInterface(resp) {
+    const that = this;
+    return {
+      quickReply(text, postbackId) {
+        if (!Array.isArray(resp.quickReplies)) {
+          resp.quickReplies = [];
+        }
+        resp.quickReplies.push({text, postbackId});
+        return that.qrInterface(resp);
+      },
+    };
   }
 
   ask(targetIntent, responseId, responseContext) {

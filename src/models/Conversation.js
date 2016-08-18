@@ -8,7 +8,8 @@ class Conversation {
     messages: {
       type: [{
         sender: {type: String, enum: ['bot', 'user'], required: true},
-        text: {type: String, required: true}, // TODO other message types
+        // type: {type: String, enum: ['text', 'card'], required: true},
+        text: {type: String}, // TODO other message types
         timestamp: {type: Date, default: Date.now},
         entities: {type: Object, default: {}},
       }],

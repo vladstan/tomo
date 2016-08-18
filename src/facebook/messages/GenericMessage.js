@@ -51,7 +51,7 @@ class GenericMessage extends FacebookMessage {
 
     const bubble = {
       title: title,
-      subtitle: subtitle || undefined,
+      subtitle: subtitle,
     };
 
     this.bubbles.push(bubble);
