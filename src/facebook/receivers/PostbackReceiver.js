@@ -17,8 +17,10 @@ class PostbackReceiver {
         .filter((msg) => msg.type === 'text')
         .forEach((msg) => {
           let qr = new TextMessage(msg.text);
-          for (const quickReply of msg.quickReplies) {
-            qr = qr.addQuickReply(quickReply.text, quickReply.postbackId);
+          if (Array.isArray(msg.quickReplies)) {
+            for (const quickReply of msg.quickReplies) {
+              qr = qr.addQuickReply(quickReply.text, quickReply.postbackId);
+            }
           }
           fbReplies.push(qr);
         });
