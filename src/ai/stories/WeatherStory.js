@@ -60,7 +60,7 @@ class WeatherStory {
     if (context.location) {
       const location = await this.weatherActions.getLocation(context.location);
       if (!location) {
-        bot.say('CANNOT_FIND_LOCATION', {location});
+        bot.say('CANNOT_FIND_LOCATION', {location: {name: context.location}});
         return true;
       }
 
@@ -68,7 +68,7 @@ class WeatherStory {
 
       const forecast = await this.weatherActions.getForecast(location);
       if (!forecast) {
-        bot.say('CANNOT_FIND_FORECAST', {location});
+        bot.say('CANNOT_FIND_FORECAST', {location: {name: context.location}});
         return;
       }
 
