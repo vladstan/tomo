@@ -4,7 +4,7 @@ class RealEstateActions {
     this.realEstateApi = realEstateApi;
   }
 
-  async getResults(intent) {
+  async getResults(intent: string) {
     // const result = await this.googleMapsApi.geocodeLocation(locationName);
     // log.silly('getLocation geocoding result', JSON.stringify(result));
 

@@ -5,6 +5,11 @@ node_modules/iflow-bluebird/index.js.flow
 
 [ignore]
 <PROJECT_ROOT>/dist/.*
+
+# Dependencies
+<PROJECT_ROOT>/node_modules/source-map-support/.*
+
+# Dev Dependencies
 <PROJECT_ROOT>/node_modules/babel-.*
 <PROJECT_ROOT>/node_modules/eslint-.*
 <PROJECT_ROOT>/node_modules/espower/.*
@@ -14,8 +19,10 @@ node_modules/iflow-bluebird/index.js.flow
 <PROJECT_ROOT>/node_modules/nyc/.*
 <PROJECT_ROOT>/node_modules/rimraf/.*
 <PROJECT_ROOT>/node_modules/supertest/.*
+
+# Overridden
 <PROJECT_ROOT>/node_modules/bluebird/.*
-<PROJECT_ROOT>/node_modules/source-map-support/.*
+<PROJECT_ROOT>/node_modules/forecast-io/.*
 
 [options]
 module.system.node.resolve_dirname=src
