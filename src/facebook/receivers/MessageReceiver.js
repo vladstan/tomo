@@ -1,5 +1,6 @@
 import TextMessage from 'facebook/messages/TextMessage';
 import GenericMessage from 'facebook/messages/GenericMessage';
+import ImageMessage from 'facebook/messages/ImageMessage';
 
 class MessageReceiver {
 
@@ -31,6 +32,12 @@ class MessageReceiver {
             }
           }
           fbReplies.push(qr);
+        });
+
+      botReplies
+        .filter((msg) => msg.type === 'image')
+        .forEach((msg) => {
+          fbReplies.push(new ImageMessage(msg.url));
         });
 
       const genericReply = botReplies

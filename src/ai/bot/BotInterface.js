@@ -52,6 +52,11 @@ class BotInterface {
     this.botResponses.push(...cards);
   }
 
+  sendImage(imageProps) {
+    imageProps.type = 'image';
+    this.botResponses.push(imageProps);
+  }
+
   getResponses() {
     return this.botResponses;
   }

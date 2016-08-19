@@ -25,6 +25,12 @@ class PostbackReceiver {
           fbReplies.push(qr);
         });
 
+      botReplies
+        .filter((msg) => msg.type === 'image')
+        .forEach((msg) => {
+          fbReplies.push(new ImageMessage(msg.url));
+        });
+
       const genericReply = botReplies
         .filter((msg) => msg.type === 'card')
         .reduce((genericMessage, msg) => {
