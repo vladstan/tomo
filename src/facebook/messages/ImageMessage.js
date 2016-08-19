@@ -1,5 +1,5 @@
 import FacebookMessage from 'facebook/messages/FacebookMessage';
-import {isUrl} from 'utils/parser';
+import isUrl from 'is-url';
 
 class ImageMessage extends FacebookMessage {
 
