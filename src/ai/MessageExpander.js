@@ -1,6 +1,6 @@
 class MessageExpander {
 
-  expand(text) {
+  expand(text: string) {
 
   }
 
