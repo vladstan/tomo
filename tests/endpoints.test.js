@@ -2,10 +2,14 @@ import supertest from 'supertest-as-promised';
 import test from 'ava';
 
 import Server from 'server/server';
-import constitute from 'constitute';
+import Middleware from 'server/Middleware';
+import Router from 'server/Router';
+import Config from 'server/Config';
 
-const server = constitute(Server);
-
+const config = Config.getInstance();
+const middleware = new Middleware();
+const router = new Router(config, middleware);
+const server = new Server(config, router, middleware);
 const request = supertest.agent(server.getApp());
 
 test('GET /', async (t) => {

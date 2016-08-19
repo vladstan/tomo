@@ -2,12 +2,12 @@ import {Writable} from 'stream';
 
 class WinstonStream extends Writable {
 
-  constructor(logger, level) {
+  constructor(level) {
     super({
       decodeStrings: false,
     });
 
-    this._logger = logger;
+    this._logger = log; // global
     this._level = level;
   }
 
