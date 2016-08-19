@@ -8,6 +8,13 @@ import Router from 'server/Router';
 import Config from 'server/Config';
 import Logger from 'server/Logger';
 
+// add this to the VERY top of the first file loaded in your app
+// TODO var opbeat = require('opbeat').start({
+//   appId: 'ca3ca6e078',
+//   organizationId: '8ecec125d1f7417886e1c977899a3171',
+//   secretToken: '7d9246b410db6e9fa12ca19774a104cb0a112974'
+// })
+
 if (process.env.NODE_ENV !== 'production') {
   require('longjohn');
 }

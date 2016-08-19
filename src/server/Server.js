@@ -15,6 +15,7 @@ class Server {
     this.app.use(this.middleware.requestLogger());
     this.app.use(this.middleware.bodyParser());
     this.app.use(this.router.routes());
+    // TODO app.use(opbeat.middleware.express())                
   }
 
   start() {
