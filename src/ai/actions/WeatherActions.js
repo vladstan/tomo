@@ -1,14 +1,13 @@
 class WeatherActions {
 
-  constructor(forecastIoApi, googleMapsApi, logger) {
+  constructor(forecastIoApi, googleMapsApi) {
     this.forecastIoApi = forecastIoApi;
     this.googleMapsApi = googleMapsApi;
-    this.logger = logger;
   }
 
   async getLocation(locationName) {
     const result = await this.googleMapsApi.geocodeLocation(locationName);
-    // this.logger.silly('getLocation geocoding result', JSON.stringify(result));
+    // log.silly('getLocation geocoding result', JSON.stringify(result));
 
     if (result) {
       return {

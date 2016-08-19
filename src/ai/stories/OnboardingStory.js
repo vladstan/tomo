@@ -3,11 +3,9 @@ import RealEstateApi from 'apis/RealEstateApi';
 
 class OnboardingStory {
 
-  constructor(config, user, logger) {
-    this.logger = logger;
-
+  constructor(config, user) {
     const realEstateApi = RealEstateApi.getInstance(config);
-    this.realEstateActions = new RealEstateActions(realEstateApi, logger);
+    this.realEstateActions = new RealEstateActions(realEstateApi);
 
     // this.define(user);
     this.user = user;

@@ -27,7 +27,6 @@ class GoogleMapsApi {
 
     const geocode = promisify(::this.api.geocode);
     const response = await geocode(params);
-    // TODO make logger global (or singleton)
     // console.log('response', response);
 
     if (response.results && response.results[0]) {

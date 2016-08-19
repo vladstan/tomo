@@ -13,12 +13,11 @@ import WitBot from 'ai/bot/WitBot';
 
 class EventsHandler {
 
-  constructor(config, logger) {
+  constructor(config) {
     this.facebookReply = new FacebookReply(config);
     this.messageReceiver = new MessageReceiver();
     this.postbackReceiver = new PostbackReceiver();
-    this.witBot = new WitBot(config, logger);
-    this.logger = logger;
+    this.witBot = new WitBot(config);
   }
 
   async process(senderId, events) {
@@ -55,17 +54,17 @@ class EventsHandler {
   }
 
   async processEvent(event) {
-    this.logger.silly('processing event', JSON.stringify(event));
+    log.silly('processing event', JSON.stringify(event));
     try {
       if (event.message) {
         await this.messageReceiver.receive(event, this.facebookReply, this.witBot);
       } else if (event.postback) {
         await this.postbackReceiver.receive(event, this.facebookReply, this.witBot);
       } else {
-        this.logger.warn('unknown event type', event);
+        log.warn('unknown event type', event);
       }
     } catch (err) {
-      this.logger.error('cannot handle event', err);
+      log.error('cannot handle event', err);
       const responseText = this.witBot.getErrorResponse();
       await this.facebookReply.messages(new TextMessage(responseText));
     }

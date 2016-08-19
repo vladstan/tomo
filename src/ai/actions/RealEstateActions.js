@@ -1,12 +1,12 @@
 class RealEstateActions {
 
-  constructor(realEstateApi, logger) {
+  constructor(realEstateApi) {
     this.realEstateApi = realEstateApi;
   }
 
   async getResults(intent) {
     // const result = await this.googleMapsApi.geocodeLocation(locationName);
-    // this.logger.silly('getLocation geocoding result', JSON.stringify(result));
+    // log.silly('getLocation geocoding result', JSON.stringify(result));
 
     // if (result) {
     //   return {

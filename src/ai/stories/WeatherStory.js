@@ -5,12 +5,10 @@ import GoogleMapsApi from 'apis/GoogleMapsApi';
 
 class WeatherStory {
 
-  constructor(config, user, logger) {
-    this.logger = logger;
-
+  constructor(config, user) {
     const forecastIoApi = ForecastIoApi.getInstance(config);
     const googleMapsApi = GoogleMapsApi.getInstance(config);
-    this.weatherActions = new WeatherActions(forecastIoApi, googleMapsApi, logger);
+    this.weatherActions = new WeatherActions(forecastIoApi, googleMapsApi);
 
     this.define(user);
     this.user = user;
@@ -29,18 +27,18 @@ class WeatherStory {
   }
 
   async run(past, context, entities, bot) {
-    this.logger.debug('running WeatherStory with context', JSON.stringify(context));
+    log.debug('running WeatherStory with context', JSON.stringify(context));
 
     if (entities.intent[0]) {
       context.intent = entities.intent[0].value;
     }
 
-    // this.logger.silly(context.intent, '===', 'get_weather');
+    // log.silly(context.intent, '===', 'get_weather');
     if (context.intent === 'get_weather') {
       return await this.doGetWeather(context, entities, bot);
     }
 
-    // this.logger.silly(
+    // log.silly(
     //   "entities.location[0] && past.botAsked('get_weather')",
     //   entities.location[0], '&&', past.botAsked('get_weather'),
     //   entities.location[0] && past.botAsked('get_weather'),
@@ -88,7 +86,7 @@ class WeatherStory {
   }
 
   async doForecast(location, forecast, bot) {
-    this.logger.silly('doForecast');
+    log.silly('doForecast');
     bot.memory.remember('forecast', forecast, '5m');
     bot.say('WEATHER_FORECAST', {location, forecast});
     return true;

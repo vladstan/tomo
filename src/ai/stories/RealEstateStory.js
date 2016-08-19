@@ -3,11 +3,9 @@ import RealEstateApi from 'apis/RealEstateApi';
 
 class RealEstateStory {
 
-  constructor(config, user, logger) {
-    this.logger = logger;
-
+  constructor(config, user) {
     const realEstateApi = RealEstateApi.getInstance(config);
-    this.realEstateActions = new RealEstateActions(realEstateApi, logger);
+    this.realEstateActions = new RealEstateActions(realEstateApi);
 
     this.define(user);
     this.user = user;
@@ -43,7 +41,7 @@ class RealEstateStory {
   }
 
   async run(past, context, entities, bot) {
-    this.logger.debug('running RealEstateStory with context', JSON.stringify(context));
+    log.debug('running RealEstateStory with context', JSON.stringify(context));
 
     if (entities.intent[0]) {
       context.intent = entities.intent[0].value;
@@ -71,9 +69,9 @@ class RealEstateStory {
     }
 
     //
-    // // this.logger.silly(context.intent, '===', 'get_weather');
+    // // log.silly(context.intent, '===', 'get_weather');
     //
-    // // this.logger.silly(
+    // // log.silly(
     // //   "entities.location[0] && past.botAsked('get_weather')",
     // //   entities.location[0], '&&', past.botAsked('get_weather'),
     // //   entities.location[0] && past.botAsked('get_weather'),
@@ -121,7 +119,7 @@ class RealEstateStory {
   // }
   //
   // async doForecast(location, forecast, bot) {
-  //   this.logger.silly('doForecast');
+  //   log.silly('doForecast');
   //   bot.memory.remember('forecast', forecast, '5m');
   //   bot.say('WEATHER_FORECAST', {location, forecast});
   //   return true;

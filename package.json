@@ -73,14 +73,14 @@
     "concurrency": 5,
     "require": [
       "babel-register",
-      "./dist/utils/test-register"
+      "./dist/test"
     ],
     "babel": "inherit"
   },
   "nyc": {
     "require": [
       "babel-register",
-      "./dist/utils/test-register"
+      "./dist/test"
     ],
     "include": [
       "src",

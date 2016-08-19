@@ -14,9 +14,10 @@ import Memory from 'models/Memory';
 import Database from 'server/Database';
 import Logger from 'server/Logger'; // TODO mock, stderr
 
-const config = Config.getInstance();
 const logger = new Logger();
-global.log = logger;
+logger.attachGlobal();
+
+const config = Config.getInstance();
 
 const witBot = new WitBot(config, logger);
 const database = new Database(config, logger);

@@ -10,10 +10,9 @@ import BotPast from 'ai/bot/BotPast';
 
 class WitBot {
 
-  constructor(config, logger) {
+  constructor(config) {
     this.witAiApi = WitAiApi.getInstance(config);
     this.config = config;
-    this.logger = logger;
   }
 
   init(data) {
@@ -22,7 +21,7 @@ class WitBot {
 
   async process(messageText) {
     const parsed = await this.witAiApi.parseMessage(messageText);
-    this.logger.debug('wit.ai response:', JSON.stringify(parsed));
+    log.debug('wit.ai response:', JSON.stringify(parsed));
 
     const botPast = new BotPast(this.data.conversation);
     botPast.addUserMessage(parsed);
@@ -30,7 +29,7 @@ class WitBot {
     const results = await this.runAllStories(botPast, parsed);
     const sortedResults = results.sort(this.confidenceComparatorDesc);
     const bestResult = sortedResults.find((result) => result.matched);
-    this.logger.silly('sortedResults:', JSON.stringify(sortedResults));
+    log.silly('sortedResults:', JSON.stringify(sortedResults));
     // TODO store results in conversation
 
     let responses = null;
@@ -53,7 +52,7 @@ class WitBot {
     const results = await this.postbackAllStories(botPast, postbackId);
     const sortedResults = results.sort(this.confidenceComparatorDesc);
     const bestResult = sortedResults.find((result) => result.matched);
-    // this.logger.silly('sortedResults:', JSON.stringify(sortedResults));
+    // log.silly('sortedResults:', JSON.stringify(sortedResults));
     // TODO store results in conversation
 
     let responses = null;
@@ -85,7 +84,7 @@ class WitBot {
     parsed = JSON.parse(JSON.stringify(parsed));
 
     const user = new StoryUser();
-    const story = new Story(this.config, user, this.logger);
+    const story = new Story(this.config, user);
 
     const entities = parsed.entities;
     const context = this.data.session.context;
@@ -111,7 +110,7 @@ class WitBot {
 
   async postbackStory(Story, botPast, postbackId) {
     const user = new StoryUser();
-    const story = new Story(this.config, user, this.logger);
+    const story = new Story(this.config, user);
 
     // const entities = parsed.entities;
     const context = this.data.session.context;

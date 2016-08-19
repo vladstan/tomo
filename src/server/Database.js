@@ -5,9 +5,8 @@ mongoose.Promise = bluebird;
 
 class Database {
 
-  constructor(config, logger) {
+  constructor(config) {
     this.config = config;
-    this.logger = logger;
   }
 
   connect() {
@@ -17,7 +16,7 @@ class Database {
     });
 
     mongoose.connection.on('open', () => {
-      this.logger.info('successfully connected to MongoDB');
+      log.info('successfully connected to MongoDB');
     });
 
     mongoose.connection.on('error', (err) => {

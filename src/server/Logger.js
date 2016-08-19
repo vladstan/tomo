@@ -19,6 +19,10 @@ class Logger extends winston.Logger {
     });
   }
 
+  attachGlobal() {
+    global.log = this;
+  }
+
 }
 
 export default Logger;

@@ -8,19 +8,18 @@ import Router from 'server/Router';
 import Config from 'server/Config';
 import Logger from 'server/Logger';
 
+const logger = new Logger();
+logger.attachGlobal();
+
 const config = Config.getInstance();
 const middleware = new Middleware();
-const logger = new Logger();
-global.log = logger;
 
-const router = new Router(config, middleware, logger);
+const router = new Router(config, middleware);
 
-const server = new Server(config, router, middleware, logger);
-const database = new Database(config, logger);
+const server = new Server(config, router, middleware);
+const database = new Database(config);
 
 server.start();
 database.connect();
-
-console.log('vlad rulz!');
 
 // TODO: fix sourcemaps in babel (?tests)
