@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "start": "node dist/main.js",
-    "build": "npm run clean && babel src --source-maps --out-dir dist",
+    "build": "npm run clean && babel src/**/*.js --source-maps --out-dir dist",
     "watch": "(npm run build -- --watch &) && sleep 10 && nodemon -w dist dist/main.js",
     "repl": "(npm run build -- --watch &) && sleep 10 && nodemon -w dist dist/repl.js",
     "deploy": "npm run build && modulus deploy -p okclaire",

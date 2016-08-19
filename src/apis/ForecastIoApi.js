@@ -11,7 +11,8 @@ class ForecastIoApi {
   }
 
   constructor(config) {
-    this.client = new ForecastIO(config.forecastIoApiKey);
+    const key: string = config.forecastIoApiKey;
+    this.client = new ForecastIO(key);
   }
 
   async getWeather({lat, long, units = 'si', lang = 'en'}) {

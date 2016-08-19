@@ -1,10 +1,13 @@
 [libs]
-decls/
+./flow-typed
+./interfaces
 
 [ignore]
 <PROJECT_ROOT>/dist/.*
 <PROJECT_ROOT>/node_modules/.*
 
 [options]
+module.system.node.resolve_dirname=src
 module.use_strict=true
 munge_underscores=true
+all=true

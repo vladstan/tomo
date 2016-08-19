@@ -25,13 +25,13 @@ database.connect();
 
 let senderId: number = 123;
 let initDone: boolean = false;
-let data: ?object = null;
+let data: ?Object = null;
 
 const replServer = repl.start({
   prompt: '> ',
-  eval: (cmd: string, context: any, filename: string, cb: (err: Error, result: object) => void) => {
+  eval: (cmd: string, context: any, filename: string, cb: NodeCallback) => {
     evalMessage(cmd)
-      .then((result: object): void => cb(null, result))
+      .then((result: Object): void => cb(null, result))
       .catch((err: Error): void => cb(err));
   },
 });
@@ -49,7 +49,7 @@ init()
   })
   .catch(errorThrower);
 
-function errorThrower(err: Error): void {
+function errorThrower(err: Error) {
   logger.error(err);
 }
 
@@ -77,7 +77,7 @@ async function saveDatabaseData(): Promise<void> {
   await Promise.all(tasks);
 }
 
-async function evalMessage(cmd: string): Promise<void> {
+async function evalMessage(cmd: string) {
   cmd = cmd.trim();
   if (!cmd) {
     return;
