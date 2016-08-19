@@ -8,6 +8,8 @@ import BotMemory from 'ai/bot/BotMemory';
 import BotInterface from 'ai/bot/BotInterface';
 import BotPast from 'ai/bot/BotPast';
 
+import Config from 'server/Config';
+
 class WitBot {
 
   witAiApi: WitAiApi;
@@ -128,13 +130,20 @@ class WitBot {
     const botInterface = new BotInterface();
     botInterface.memory = botMemory;
 
-    const matched = await story.postback(botPast, context, postbackId, botInterface);
-
-    return {
-      confidence: 1,
-      matched: matched,
-      responses: botInterface.getResponses(),
-    };
+    if (story.postback) {
+      const matched = await story.postback(botPast, context, postbackId, botInterface);
+      return {
+        confidence: 1,
+        matched: matched,
+        responses: botInterface.getResponses(),
+      };
+    } else {
+      return {
+        confidence: 0,
+        matched: false,
+        responses: botInterface.getResponses(),
+      };
+    }
   }
 
   checkEntities(entities, user) {

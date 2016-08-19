@@ -12,7 +12,7 @@ import BotInterface from 'ai/bot/BotInterface';
 class WeatherStory {
 
   weatherActions: WeatherActions;
-  user: Config;
+  user: StoryUser;
 
   constructor(config: Config, user: StoryUser) {
     const forecastIoApi = ForecastIoApi.getInstance(config);

@@ -10,7 +10,7 @@ import BotInterface from 'ai/bot/BotInterface';
 class RealEstateStory {
 
   realEstateActions: RealEstateActions;
-  user: Config;
+  user: StoryUser;
 
   constructor(config: Config, user: StoryUser) {
     const realEstateApi = RealEstateApi.getInstance(config);
@@ -96,50 +96,6 @@ class RealEstateStory {
     //   return await this.doGetWeather(context, entities, bot);
     // }
   }
-
-  async run(past: BotPast, context: Object, entities: Object, bot: BotInterface) {
-
-  // async doGetWeather(context, entities, bot) {
-    // if (entities.location[0]) {
-    //   context.location = entities.location[0].value;
-    // }
-    //
-    // if (context.location) {
-    //   const location = await this.realEstateActions.getLocation(context.location);
-    //   if (!location) {
-    //     bot.say('CANNOT_FIND_LOCATION', {location});
-    //     return true;
-    //   }
-    //
-    //   bot.memory.remember('location', location, '30m');
-    //
-    //   const forecast = await this.realEstateActions.getForecast(location);
-    //   if (!forecast) {
-    //     bot.say('CANNOT_FIND_FORECAST', {location});
-    //     return;
-    //   }
-    //
-    //   return await this.doForecast(location, forecast, bot);
-    // }
-  //
-  //   const location = bot.memory.get('location');
-  //   if (location) {
-  //     const forecast = await this.realEstateActions.getForecast(location);
-  //     if (forecast) {
-  //       return await this.doForecast(location, forecast, bot);
-  //     }
-  //   }
-  //
-  //   bot.ask('get_weather', 'WHERE_LOCATION');
-  //   return true;
-  // }
-  //
-  // async doForecast(location, forecast, bot) {
-  //   log.silly('doForecast');
-  //   bot.memory.remember('forecast', forecast, '5m');
-  //   bot.say('WEATHER_FORECAST', {location, forecast});
-  //   return true;
-  // }
 
 }
 

@@ -10,7 +10,7 @@ import BotInterface from 'ai/bot/BotInterface';
 class OnboardingStory {
 
   realEstateActions: RealEstateActions;
-  user: Config;
+  user: StoryUser;
 
   constructor(config: Config, user: StoryUser) {
     const realEstateApi = RealEstateApi.getInstance(config);
@@ -42,7 +42,7 @@ class OnboardingStory {
         bot.sayText('Choose a picture and send it me, make sure it has a good resolution.');
         // const imageProps = {};
         // imageProps.url = 'https://scontent.fotp3-1.fna.fbcdn.net/v/t1.0-9/13413092_1731242630468630_312625618415653582_n.jpg?oh=a651576484a0dd598eabf5b3d824a9ba&oe=581696C4g';
-        // bot.sendImage({url:'https://scontent.fotp3-1.fna.fbcdn.net/v/t1.0-9/13413092_1731242630468630_312625618415653582_n.jpg?oh=a651576484a0dd598eabf5b3d824a9ba&oe=581696C4g'});
+        bot.sendImage({url: 'https://scontent.fotp3-1.fna.fbcdn.net/v/t1.0-9/13413092_1731242630468630_312625618415653582_n.jpg?oh=a651576484a0dd598eabf5b3d824a9ba&oe=581696C4g'});
         bot.sayText('Than choose the type of the postcard.')
           .quickReply('Typed $4.99', 'ONBOARDING_POSTCARDS_NOTREADY')
           .quickReply('Handrwritten $19.99', 'ONBOARDING_POSTCARDS_NOTREADY')

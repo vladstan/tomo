@@ -3,7 +3,7 @@ import isUrl from 'is-url';
 
 class ImageMessage extends FacebookMessage {
 
-  constructor(url) {
+  constructor(url: string) {
     super();
 
     if (!url || !isUrl(url)) {
