@@ -2,7 +2,7 @@ import 'app-module-path/register';
 
 import repl from 'repl';
 
-import Config from 'Config';
+import Config from 'server/Config';
 import WitBot from 'ai/bot/WitBot';
 
 import User from 'models/User';

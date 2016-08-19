@@ -5,7 +5,7 @@ import Middleware from 'server/Middleware';
 import Server from 'server/Server';
 import Router from 'server/Router';
 
-import Config from 'Config';
+import Config from 'server/Config';
 import Logger from 'server/Logger';
 
 const config = Config.getInstance();
