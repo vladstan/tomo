@@ -59,9 +59,9 @@ class RealEstateStory {
           property_type: context.property_type,
         });
         bot.sendCards(listings); // TODO map every field explicitly
-        const imageProps = {};
-        imageProps.url = 'http://production.kyero.s3.amazonaws.com/3648/3648907/vwxrvxfy2d_long_term_rent_palma%20%2819%29.jpg';
-        bot.sendImage(imageProps);
+        // const imageProps = {};
+        // imageProps.url = 'http://production.kyero.s3.amazonaws.com/3648/3648907/vwxrvxfy2d_long_term_rent_palma%20%2819%29.jpg';
+        // bot.sendImage(imageProps);
         return true;
       }
 
