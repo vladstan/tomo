@@ -19,7 +19,7 @@ class WitAiApi {
     this.config = config;
   }
 
-  async parseMessage(message: string, msgId: string, threadId: string) {
+  async parseMessage(message: string, msgId: ?string, threadId: ?string) {
     if (message.length < 1 || message.length > 255) {
       throw new Error('message length must be between 0 and 256');
     }

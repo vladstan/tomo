@@ -62,6 +62,13 @@ class BotInterface {
     this.botResponses.push(imageProps);
   }
 
+  wait(duration: string) {
+    this.botResponses.push({
+      type: 'wait',
+      duration: 2000,
+    });
+  }
+
   getResponses() {
     return this.botResponses;
   }

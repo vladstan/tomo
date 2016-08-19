@@ -31,6 +31,7 @@ class FacebookApi {
       json: true,
     };
 
+    // TODO https://github.com/sindresorhus/got
     log.silly('FacebookApi', 'API request:', 'GET', url, JSON.stringify(options));
     try {
       const resp = await got(url, options);
