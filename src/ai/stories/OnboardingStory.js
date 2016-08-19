@@ -25,23 +25,23 @@ class OnboardingStory {
       case 'ONBOARDING_POSTCARDS':
         bot.sayText('You can send printed postacards to loved one, by old email');
         bot.sayText('Just type I want to send a postacard to get started')
-          .quickReply('Show me how', 'ONBOARDING_DEMO_POSTCARD');
+          .quickReply('Show me how', 'ONBOARDING_DEMO_POSTCARD')
           .quickReply('Show me something else', 'ONBOARDING_REAL_ESTATE');
         return true;
 
       case 'ONBOARDING_DEMO_POSTCARD':
         bot.sayText('Choose a picture and send it me, make sure it has a good resolution, like this one.');
-        bot.sendImage({url: 'https://scontent.fotp3-1.fna.fbcdn.net/v/t1.0-9/13413092_1731242630468630_312625618415653582_n.jpg?oh=a651576484a0dd598eabf5b3d824a9ba&oe=581696C4'})
-        bot.sayText('Than choose the type of the postcard.');
-          .quickReply('Typed $2.99', 'ONBOARDING_POSTCARDS_NOTREADY');
-          .quickReply('Handrwritten $9.99', 'ONBOARDING_POSTCARDS_NOTREADY');
-          .quickReply('Show me something else', 'ONBOARDING_REAL_ESTATE')
+        bot.sendImage({url: 'https://scontent.fotp3-1.fna.fbcdn.net/v/t1.0-9/13413092_1731242630468630_312625618415653582_n.jpg?oh=a651576484a0dd598eabf5b3d824a9ba&oe=581696C4'});
+        bot.sayText('Than choose the type of the postcard.')
+          .quickReply('Typed $2.99', 'ONBOARDING_POSTCARDS_NOTREADY')
+          .quickReply('Handrwritten $9.99', 'ONBOARDING_POSTCARDS_NOTREADY')
+          .quickReply('Show me something else', 'ONBOARDING_REAL_ESTATE');
         return true;
 
       case 'ONBOARDING_POSTCARDS_NOTREADY':
         bot.sayText('Ok, thanks for letting us know.');
         bot.sayText('As I told you we are still in private beta, and this flow is not ready yet.')
-          .quickReply('Contact a human to send it', 'ONBOARDING_HUMAN');
+          .quickReply('Contact a human to send it', 'ONBOARDING_HUMAN')
           .quickReply('Show me something else', 'ONBOARDING_REAL_ESTATE');
         return true;
 
@@ -88,18 +88,18 @@ class OnboardingStory {
 
       case 'ONBOARDING_HUMAN':
         bot.sayText('Ok, someone in our team will get in touch with you ASAP');
-        bot.sayText('You can allways select the menu and restart the demo, or see a list of actions I can do for you')
+        bot.sayText('You can allways select the menu and restart the demo, or see a list of actions I can do for you');
         return true;
 
       case 'ONBOARDING_LIST':
-        bot.sayText('Hi there, this is the list of things I can do for you during the stay');
-          .quickReply('Send a Postcard', 'ONBOARDING_POSTCARDS');
-          .quickReply('Buy or rent a property', 'ONBOARDING_REAL_ESTATE');
-          .quickReply('Find a restaurant', 'ONBOARDING_RETAURANTS');
-          .quickReply('Activities', 'ONBOARDING_ACTIVITIES');
-          .quickReply('Rent a car ', 'ONBOARDING_CAR_RENTAL');
+        bot.sayText('Hi there, this is the list of things I can do for you during the stay')
+          .quickReply('Send a Postcard', 'ONBOARDING_POSTCARDS')
+          .quickReply('Buy or rent a property', 'ONBOARDING_REAL_ESTATE')
+          .quickReply('Find a restaurant', 'ONBOARDING_RETAURANTS')
+          .quickReply('Activities', 'ONBOARDING_ACTIVITIES')
+          .quickReply('Rent a car ', 'ONBOARDING_CAR_RENTAL')
           .quickReply('Nightlife ', 'ONBOARDING_NIGHTLIFE');
-        bot.sayText('Or you can just simply type Send a postcard or find me a resurant to get started.')
+        bot.sayText('Or you can just simply type Send a postcard or find me a resurant to get started.');
         return true;
     }
   }
