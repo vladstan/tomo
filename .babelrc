@@ -4,36 +4,26 @@
     "stage-0"
   ],
   "plugins": [
-    ["typecheck", {
-      "disable": {
-        "production": true
-      }
-    }],
+    ["typecheck", {"disable": {"production": true}}],
     "syntax-flow",
     "transform-flow-strip-types",
     "transform-decorators-legacy",
-    "transform-runtime"
+    "transform-runtime",
+    "source-map-support-for-6"
   ],
   "env": {
-    "production": {
-      "plugins": [
-        "source-map-support-for-6"
-      ]
-    },
+    "production": {},
     "development": {
       "plugins": [
-        "default-import-checker",
-        "source-map-support-for-6"
+        "default-import-checker"
       ]
     },
     "test": {
       "plugins": [
         "espower",
         "istanbul",
-        "default-import-checker",
-        "source-map-support-for-6"
+        "default-import-checker"
       ]
     }
-  },
-  "sourceMaps": true
+  }
 }

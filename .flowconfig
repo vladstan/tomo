@@ -1,9 +1,10 @@
+[libs]
+decls/
+
 [ignore]
 <PROJECT_ROOT>/dist/.*
 <PROJECT_ROOT>/node_modules/.*
 
-[libs]
-decls/
-
 [options]
+module.use_strict=true
 munge_underscores=true

@@ -22,22 +22,22 @@ const witBot = new WitBot(config, logger);
 const database = new Database(config, logger);
 database.connect();
 
-let senderId = 123;
-let initDone = false;
-let data = null;
+let senderId: number = 123;
+let initDone: boolean = false;
+let data: ?object = null;
 
 const replServer = repl.start({
   prompt: '> ',
-  eval: (cmd, context, filename, cb) => {
+  eval: (cmd: string, context: any, filename: string, cb: (err: Error, result: object) => void) => {
     evalMessage(cmd)
-      .then((result) => cb(null, result))
-      .catch((err) => cb(err));
+      .then((result: object): void => cb(null, result))
+      .catch((err: Error): void => cb(err));
   },
 });
 
 replServer.on('exit', () => {
   saveDatabaseData()
-    .then(() => process.exit(0))
+    .then((): void => process.exit(0))
     .catch(errorThrower);
 });
 
@@ -48,16 +48,16 @@ init()
   })
   .catch(errorThrower);
 
-function errorThrower(err) {
+function errorThrower(err: Error): void {
   logger.error(err);
 }
 
-async function init() {
+async function init(): Promise<void> {
   await initDatabaseData();
   witBot.init(data);
 }
 
-async function initDatabaseData() {
+async function initDatabaseData(): Promise<void> {
   const user = await User.findOneOrCreate({facebookId: senderId});
   const session = await Session.findOneOrCreate({userId: user.id});
 
@@ -70,13 +70,13 @@ async function initDatabaseData() {
   data = {user, session, profile, conversation, memory};
 }
 
-async function saveDatabaseData() {
+async function saveDatabaseData(): Promise<void> {
   const docs = Object.values(data);
   const tasks = docs.map((doc) => doc.save());
   await Promise.all(tasks);
 }
 
-async function evalMessage(cmd) {
+async function evalMessage(cmd: string): Promise<void> {
   cmd = cmd.trim();
   if (!cmd) {
     return;
