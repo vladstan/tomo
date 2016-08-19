@@ -2,11 +2,14 @@ import ResponseManager from 'ai/ResponseManager';
 
 class BotInterface {
 
+  botResponses: Array<Object>;
+  memory: Object;
+
   constructor() {
     this.botResponses = [];
   }
 
-  say(responseId, responseContext) {
+  say(responseId: string, responseContext: Object) {
     const responseText = ResponseManager.find(responseId, responseContext);
     const resp = {
       type: 'text',
@@ -16,7 +19,7 @@ class BotInterface {
     return this.qrInterface(resp);
   }
 
-  sayText(responseText) {
+  sayText(responseText: string) {
     const resp = {
       type: 'text',
       text: responseText,
@@ -25,10 +28,10 @@ class BotInterface {
     return this.qrInterface(resp);
   }
 
-  qrInterface(resp) {
+  qrInterface(resp: Object) {
     const that = this;
     return {
-      quickReply(text, postbackId) {
+      quickReply(text: string, postbackId: string) {
         if (!Array.isArray(resp.quickReplies)) {
           resp.quickReplies = [];
         }
@@ -38,7 +41,7 @@ class BotInterface {
     };
   }
 
-  ask(targetIntent, responseId, responseContext) {
+  ask(targetIntent: string, responseId: string, responseContext: Object = {}) {
     const responseText = ResponseManager.find(responseId, responseContext);
     this.botResponses.push({
       type: 'text',
@@ -47,14 +50,14 @@ class BotInterface {
     });
   }
 
-  sendCards(cards) {
+  sendCards(cards: Array<Object>) {
     cards.forEach((card) => {
       card.type = 'card';
     });
     this.botResponses.push(...cards);
   }
 
-  sendImage(imageProps) {
+  sendImage(imageProps: Object) {
     imageProps.type = 'image';
     this.botResponses.push(imageProps);
   }

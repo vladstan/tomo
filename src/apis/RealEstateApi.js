@@ -1,7 +1,8 @@
 const DATA = {};
 
-// TODO We are going to list few apartments here
 class RealEstateApi {
+
+  static _instance: RealEstateApi;
 
   static getInstance(config): RealEstateApi {
     if (!this._instance) {
@@ -11,7 +12,7 @@ class RealEstateApi {
     return this._instance;
   }
 
-  getResults(intent) {
+  getResults(intent: string) {
     return DATA[intent];
   }
 

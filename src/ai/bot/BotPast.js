@@ -1,10 +1,12 @@
 class BotPast {
 
-  constructor(conversation) {
+  conversation: Object;
+
+  constructor(conversation: Object) {
     this.conversation = conversation;
   }
 
-  botAsked(intent) {
+  botAsked(intent: string): boolean {
     // TODO: search only the last 5 messages
     const messages = this.conversation.messages;
     const previousMessageFromBot = messages.find((msg) => msg.sender === 'bot');
@@ -14,7 +16,7 @@ class BotPast {
     return false;
   }
 
-  addUserMessage(parsedMessage) {
+  addUserMessage(parsedMessage: Object) {
     this.conversation.messages.push({
       sender: 'user',
       text: parsedMessage._text,
@@ -22,7 +24,7 @@ class BotPast {
     });
   }
 
-  addBotResponse(response) {
+  addBotResponse(response: Object) {
     this.conversation.messages.push({
       sender: 'bot',
       text: response.text,
@@ -30,7 +32,7 @@ class BotPast {
     });
   }
 
-  addPostback(postbackId) { // TODO
+  addPostback(postbackId: string) { // TODO
 
   }
 

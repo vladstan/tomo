@@ -10,16 +10,20 @@ import BotPast from 'ai/bot/BotPast';
 
 class WitBot {
 
-  constructor(config) {
+  witAiApi: WitAiApi;
+  config: Config;
+  data: Object;
+
+  constructor(config: Config) {
     this.witAiApi = WitAiApi.getInstance(config);
     this.config = config;
   }
 
-  init(data) {
+  init(data: Object) {
     this.data = data;
   }
 
-  async process(messageText) {
+  async process(messageText: string) {
     const parsed = await this.witAiApi.parseMessage(messageText);
     log.debug('wit.ai response:', JSON.stringify(parsed));
 
@@ -45,7 +49,7 @@ class WitBot {
     return responses;
   }
 
-  async postback(postbackId) {
+  async postback(postbackId: string) {
     const botPast = new BotPast(this.data.conversation);
     botPast.addPostback(postbackId);
 
@@ -68,19 +72,19 @@ class WitBot {
     return responses;
   }
 
-  async runAllStories(botPast, parsed) {
+  async runAllStories(botPast: Object, parsed: Object) {
     const storyTypes = StoryManager.getAllTypes();
     const tasks = storyTypes.map((Story) => this.runStory(Story, botPast, parsed));
     return await Promise.all(tasks);
   }
 
-  async postbackAllStories(botPast, postbackId) {
+  async postbackAllStories(botPast: Object, postbackId: string) {
     const storyTypes = StoryManager.getAllTypes();
     const tasks = storyTypes.map((Story) => this.postbackStory(Story, botPast, postbackId));
     return await Promise.all(tasks);
   }
 
-  async runStory(Story, botPast, parsed) {
+  async runStory(Story, botPast: Object, parsed: Object) {
     parsed = JSON.parse(JSON.stringify(parsed));
 
     const user = new StoryUser();
@@ -108,7 +112,7 @@ class WitBot {
     };
   }
 
-  async postbackStory(Story, botPast, postbackId) {
+  async postbackStory(Story, botPast: Object, postbackId: string) {
     const user = new StoryUser();
     const story = new Story(this.config, user);
 
