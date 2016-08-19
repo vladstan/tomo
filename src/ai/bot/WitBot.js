@@ -158,9 +158,7 @@ class WitBot {
   }
 
   getErrorResponse() {
-    return [
-      {text: ResponseManager.find('UNKNOWN_ERROR')},
-    ];
+    return ResponseManager.find('UNKNOWN_ERROR');
   }
 
 }

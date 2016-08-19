@@ -1,8 +1,10 @@
 import got from 'got';
 
+import Config from 'server/Config';
+
 class FacebookApi {
 
-  static getInstance(config) {
+  static getInstance(config: Config): FacebookApi {
     if (!this._instance) {
       this._instance = new this(config);
     }
@@ -10,11 +12,11 @@ class FacebookApi {
     return this._instance;
   }
 
-  constructor(config) {
+  constructor(config: Config): FacebookApi {
     this.config = config;
   }
 
-  async postMessage(body) {
+  async postMessage(body: Object): Object {
     const url = this.config.facebookApiUrl + '/me/messages';
     const options = {
       method: 'POST',
@@ -29,9 +31,14 @@ class FacebookApi {
       json: true,
     };
 
-    // log.silly('FacebookApi', 'API request:', 'GET', url, JSON.stringify(options));
-    const resp = await got(url, options);
-    return resp.body;
+    log.silly('FacebookApi', 'API request:', 'GET', url, JSON.stringify(options));
+    try {
+      const resp = await got(url, options);
+      return resp.body;
+    } catch (err) {
+      log.error('FacebookApi', 'request error', err.response.body);
+      throw err;
+    }
   }
 
 }

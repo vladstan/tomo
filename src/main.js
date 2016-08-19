@@ -8,6 +8,10 @@ import Router from 'server/Router';
 import Config from 'server/Config';
 import Logger from 'server/Logger';
 
+if (process.env.NODE_ENV !== 'production') {
+  require('longjohn');
+}
+
 const logger = new Logger();
 logger.attachGlobal();
 
@@ -23,3 +27,4 @@ server.start();
 database.connect();
 
 // TODO: fix sourcemaps in babel (?tests)
+// TODO: use Map and Set

@@ -1,5 +1,6 @@
 import TextMessage from 'facebook/messages/TextMessage';
 import GenericMessage from 'facebook/messages/GenericMessage';
+import ImageMessage from 'facebook/messages/ImageMessage';
 
 class PostbackReceiver {
 

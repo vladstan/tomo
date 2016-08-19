@@ -1,28 +1,10 @@
 [libs]
 flow-typed
 interfaces
-node_modules/iflow-bluebird/index.js.flow
 
 [ignore]
 <PROJECT_ROOT>/dist/.*
-
-# Dependencies
-<PROJECT_ROOT>/node_modules/source-map-support/.*
-
-# Dev Dependencies
-<PROJECT_ROOT>/node_modules/babel-.*
-<PROJECT_ROOT>/node_modules/eslint-.*
-<PROJECT_ROOT>/node_modules/espower/.*
-<PROJECT_ROOT>/node_modules/longjohn/.*
-<PROJECT_ROOT>/node_modules/mockgoose/.*
-<PROJECT_ROOT>/node_modules/nodemon/.*
-<PROJECT_ROOT>/node_modules/nyc/.*
-<PROJECT_ROOT>/node_modules/rimraf/.*
-<PROJECT_ROOT>/node_modules/supertest/.*
-
-# Overridden
-<PROJECT_ROOT>/node_modules/bluebird/.*
-<PROJECT_ROOT>/node_modules/forecast-io/.*
+<PROJECT_ROOT>/node_modules/.*
 
 [options]
 module.system.node.resolve_dirname=src

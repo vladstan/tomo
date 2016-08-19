@@ -48,7 +48,9 @@ class BotInterface {
   }
 
   sendCards(cards) {
-    cards.forEach((card) => card.type = 'card');
+    cards.forEach((card) => {
+      card.type = 'card';
+    });
     this.botResponses.push(...cards);
   }
 

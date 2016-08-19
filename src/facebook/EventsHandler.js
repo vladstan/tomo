@@ -64,7 +64,7 @@ class EventsHandler {
         log.warn('unknown event type', event);
       }
     } catch (err) {
-      log.error('cannot handle event', err);
+      log.error('cannot handle event', JSON.stringify(err)); // TODO log response body, too
       const responseText = this.witBot.getErrorResponse();
       await this.facebookReply.messages(new TextMessage(responseText));
     }
