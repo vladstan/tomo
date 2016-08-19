@@ -23,64 +23,70 @@ class OnboardingStory {
         return true;
 
       case 'ONBOARDING_POSTCARDS':
-        bot.sayText('You can send printed postacards to loved one');
+        bot.sayText('You can send printed postacards to loved ones.');
         bot.sayText('Just type I want to send a postacard to get started')
           .quickReply('Show me how', 'ONBOARDING_DEMO_POSTCARD')
-          .quickReply('Show me something else', 'ONBOARDING_REAL_ESTATE');
+          .quickReply('What else', 'ONBOARDING_REAL_ESTATE');
         return true;
 
       case 'ONBOARDING_DEMO_POSTCARD':
         bot.sayText('Choose a picture and send it me, make sure it has a good resolution.');
         // const imageProps = {};
         // imageProps.url = 'https://scontent.fotp3-1.fna.fbcdn.net/v/t1.0-9/13413092_1731242630468630_312625618415653582_n.jpg?oh=a651576484a0dd598eabf5b3d824a9ba&oe=581696C4g';
-        // bot.sendImage(imageProps);
+        // bot.sendImage({url:'https://scontent.fotp3-1.fna.fbcdn.net/v/t1.0-9/13413092_1731242630468630_312625618415653582_n.jpg?oh=a651576484a0dd598eabf5b3d824a9ba&oe=581696C4g'});
         bot.sayText('Than choose the type of the postcard.')
-          .quickReply('Typed $2.99', 'ONBOARDING_POSTCARDS_NOTREADY')
-          .quickReply('Handrwritten $9.99', 'ONBOARDING_POSTCARDS_NOTREADY')
-          .quickReply('Show me something else', 'ONBOARDING_REAL_ESTATE');
+          .quickReply('Typed $4.99', 'ONBOARDING_POSTCARDS_NOTREADY')
+          .quickReply('Handrwritten $19.99', 'ONBOARDING_POSTCARDS_NOTREADY')
+          .quickReply('What else', 'ONBOARDING_REAL_ESTATE');
         return true;
 
       case 'ONBOARDING_POSTCARDS_NOTREADY':
         bot.sayText('Ok, thanks for letting us know.');
         bot.sayText('As I told you we are still in private beta, and this flow is not ready yet.')
-          .quickReply('Contact a human to send it', 'ONBOARDING_HUMAN')
-          .quickReply('Show me something else', 'ONBOARDING_REAL_ESTATE');
+          .quickReply('Contact a human', 'ONBOARDING_HUMAN')
+          .quickReply('Ok, what else', 'ONBOARDING_REAL_ESTATE');
         return true;
 
       case 'ONBOARDING_REAL_ESTATE':
+        bot.sayText('You can rent or buy properties on the Island')
+          .quickReply('Show me', 'ONBOARDING_REAL_ESTATE_DEMO')
+          .quickReply('What else', 'ONBOARDING_RETAURANTS');
+        return true;
+
+      case 'ONBOARDING_REAL_ESTATE_DEMO':
         bot.sayText('You can rent or buy properties on the Island');
-        bot.sayText('Just type I want to rent an apartment to get started')
-          .quickReply('Ok', 'ONBOARDING_RETAURANTS');
+        bot.sayText('Type \'I want to rent an apartment\' to get started')
+          .quickReply('Not now, what else?', 'ONBOARDING_RETAURANTS');
         return true;
 
       case 'ONBOARDING_RETAURANTS':
         bot.sayText('You can find the best restaurants and cofeeshops on the island');
-        bot.sayText('Just type: Find me the best traditional spanish restaurant')
-          .quickReply('Ok', 'ONBOARDING_NIGHTLIFE');
+        bot.sayText('Just type: \'Find me the best traditional spanish restaurant\' to get started')
+          .quickReply('Not now, what else', 'ONBOARDING_NIGHTLIFE');
         return true;
 
       case 'ONBOARDING_NIGHTLIFE':
         bot.sayText('You can find the best parties or night clubs on the island');
-        bot.sayText('Just type: Find me the best parties')
-          .quickReply('Ok', 'ONBOARDING_CAR_RENTAL');
+        bot.sayText('Just type: \'Find me the best parties\' to het started')
+          .quickReply('Not now, what else', 'ONBOARDING_CAR_RENTAL');
         return true;
 
       case 'ONBOARDING_CAR_RENTAL':
         bot.sayText('You can rent a car on the island');
-        bot.sayText('Just type: I want to rent a car to get started')
-          .quickReply('Ok', 'ONBOARDING_ACTIVITIES');
+        bot.sayText('Just type: \'I want to rent a car\' to get started')
+          .quickReply('Not now, what else', 'ONBOARDING_ACTIVITIES');
         return true;
 
       case 'ONBOARDING_ACTIVITIES':
         bot.sayText('You can discover the best activities you can do on the island');
-        bot.sayText('Just type: Find me an activity')
-          .quickReply('Ok', 'ONBOARDING_FEEDBACK');
+        bot.sayText('Just type: \'Find me an activity\' to get started')
+          .quickReply('Ok, what else', 'ONBOARDING_FEEDBACK');
         return true;
 
       case 'ONBOARDING_FEEDBACK':
         bot.sayText('Because we are still in beta not all the services will work');
-        bot.sayText('Just type: feedback - I want to order pizza trough this app')
-          .quickReply('Ok', 'ONBOARDING_START');
+        bot.sayText('Just type: \'Feedback - and your feedback\'')
+          .quickReply('Ok, thank you', 'ONBOARDING_START');
         return true;
 
       case 'ONBOARDING_START':
@@ -90,13 +96,14 @@ class OnboardingStory {
 
       case 'ONBOARDING_HUMAN':
         bot.sayText('Ok, someone in our team will get in touch with you ASAP');
-        bot.sayText('You can allways select the menu and restart the demo, or see a list of actions I can do for you');
+        bot.sayText('You can allways select the menu and restart the demo, or see a list of actions I can do for you')
+          .quickReply('Show me the list now', 'ONBOARDING_LIST');
         return true;
 
       case 'ONBOARDING_LIST':
         bot.sayText('Hi there, this is the list of things I can do for you during the stay')
           .quickReply('Send a Postcard', 'ONBOARDING_POSTCARDS')
-          .quickReply('Buy or rent a property', 'ONBOARDING_REAL_ESTATE')
+          .quickReply('Rent a house', 'ONBOARDING_REAL_ESTATE')
           .quickReply('Find a restaurant', 'ONBOARDING_RETAURANTS')
           .quickReply('Activities', 'ONBOARDING_ACTIVITIES')
           .quickReply('Rent a car ', 'ONBOARDING_CAR_RENTAL')
