@@ -37,6 +37,7 @@
     "flowtype/space-before-type-colon": [1, "never"],
     "flowtype/type-id-match": [1, "^([A-Z][a-z0-9]+)+Type$"],
     "flowtype/use-flow-type": 1,
-    "flowtype/valid-syntax": 1
+    "flowtype/valid-syntax": 1,
+    "camelcase": 0
   }
 }
