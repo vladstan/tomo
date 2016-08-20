@@ -1,6 +1,11 @@
 import got from 'got';
 
+import Config from 'server/Config';
+
 class WitAiApi {
+
+  static _instance: WitAiApi;
+  config: Config;
 
   static getInstance(config) {
     if (!this._instance) {
@@ -10,12 +15,12 @@ class WitAiApi {
     return this._instance;
   }
 
-  constructor(config) {
+  constructor(config: Config) {
     this.config = config;
   }
 
-  async parseMessage(message, msgId, threadId) {
-    if (typeof message !== 'string' || message.length < 1 || message.length > 255) {
+  async parseMessage(message: string, msgId: string, threadId: string) {
+    if (message.length < 1 || message.length > 255) {
       throw new Error('message length must be between 0 and 256');
     }
 

@@ -3,9 +3,18 @@ import WeatherActions from 'ai/actions/WeatherActions';
 import ForecastIoApi from 'apis/ForecastIoApi';
 import GoogleMapsApi from 'apis/GoogleMapsApi';
 
+import Config from 'server/Config';
+import StoryUser from 'ai/StoryUser';
+
+import BotPast from 'ai/bot/BotPast';
+import BotInterface from 'ai/bot/BotInterface';
+
 class WeatherStory {
 
-  constructor(config, user) {
+  weatherActions: WeatherActions;
+  user: Config;
+
+  constructor(config: Config, user: StoryUser) {
     const forecastIoApi = ForecastIoApi.getInstance(config);
     const googleMapsApi = GoogleMapsApi.getInstance(config);
     this.weatherActions = new WeatherActions(forecastIoApi, googleMapsApi);
@@ -14,7 +23,7 @@ class WeatherStory {
     this.user = user;
   }
 
-  define(user) {
+  define(user: StoryUser) {
     user.says("What's the weather?")
       .intent('get_weather');
 
@@ -26,7 +35,7 @@ class WeatherStory {
       .entity('wit/location', 'location', 'Paris');
   }
 
-  async run(past, context, entities, bot) {
+  async run(past: BotPast, context: Object, entities: Object, bot: BotInterface) {
     log.debug('running WeatherStory with context', JSON.stringify(context));
 
     if (entities.intent[0]) {
@@ -50,7 +59,7 @@ class WeatherStory {
 
   async postback() {}
 
-  async doGetWeather(context, entities, bot) {
+  async doGetWeather(context: Object, entities: Object, bot: BotInterface) {
     if (entities.location[0]) {
       context.location = entities.location[0].value;
     }
@@ -85,7 +94,7 @@ class WeatherStory {
     return true;
   }
 
-  async doForecast(location, forecast, bot) {
+  async doForecast(location: Object, forecast: Object, bot: BotInterface) {
     log.silly('doForecast');
     bot.memory.remember('forecast', forecast, '5m');
     bot.say('WEATHER_FORECAST', {location, forecast});

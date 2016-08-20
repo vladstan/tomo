@@ -1,5 +1,23 @@
 class Config {
 
+  static _instance: Config;
+
+  port: ?string;
+  mongoUrl: ?string;
+  userAgent: string;
+
+  facebookAccessToken: ?string;
+  facebookVerifyToken: ?string;
+  facebookAppSecret: ?string;
+  facebookApiUrl: string;
+
+  witAiAccessToken: ?string;
+  witAiApiUrl: string;
+  witAiApiVersion: string;
+
+  forecastIoApiKey: ?string;
+  googleMapsApiKey: ?string;
+
   static getInstance(): Config {
     if (!this._instance) {
       const env = process.env.NODE_ENV || 'development';
@@ -26,7 +44,7 @@ class Config {
   }
 
   loadDefault() {
-    this.port = process.env.PORT || 3000;
+    this.port = process.env.PORT || '3000';
     this.mongoUrl = process.env.MONGO_URL;
     this.userAgent = 'OkClaire';
 

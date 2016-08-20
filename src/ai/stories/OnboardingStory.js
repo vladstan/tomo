@@ -1,9 +1,18 @@
 import RealEstateActions from 'ai/actions/RealEstateActions';
 import RealEstateApi from 'apis/RealEstateApi';
 
+import Config from 'server/Config';
+import StoryUser from 'ai/StoryUser';
+
+import BotPast from 'ai/bot/BotPast';
+import BotInterface from 'ai/bot/BotInterface';
+
 class OnboardingStory {
 
-  constructor(config, user) {
+  realEstateActions: RealEstateActions;
+  user: Config;
+
+  constructor(config: Config, user: StoryUser) {
     const realEstateApi = RealEstateApi.getInstance(config);
     this.realEstateActions = new RealEstateActions(realEstateApi);
 
@@ -11,9 +20,9 @@ class OnboardingStory {
     this.user = user;
   }
 
-  async run(past, context, entities, bot) {}
+  async run(past: BotPast, context: Object, entities: Object, bot: BotInterface) {}
 
-  async postback(past, context, postbackId, bot) {
+  async postback(past: BotPast, context: Object, postbackId: string, bot: BotInterface) {
     switch (postbackId) {
       case 'GET_STARTED':
         bot.sayText('Hi NAME, I\'m Claire your personal concierge for your stay in Palma de Mallorca');
@@ -50,16 +59,16 @@ class OnboardingStory {
       case 'ONBOARDING_REAL_ESTATE':
         bot.sayText('You can rent or buy properties on the Island')
           .quickReply('Show me', 'ONBOARDING_REAL_ESTATE_DEMO')
-          .quickReply('What else', 'ONBOARDING_RETAURANTS');
+          .quickReply('What else', 'ONBOARDING_RESTAURANTS');
         return true;
 
       case 'ONBOARDING_REAL_ESTATE_DEMO':
         bot.sayText('You can rent or buy properties on the Island');
         bot.sayText('Type \'I want to rent an apartment\' to get started')
-          .quickReply('Not now, what else?', 'ONBOARDING_RETAURANTS');
+          .quickReply('Not now, what else?', 'ONBOARDING_RESTAURANTS');
         return true;
 
-      case 'ONBOARDING_RETAURANTS':
+      case 'ONBOARDING_RESTAURANTS':
         bot.sayText('You can find the best restaurants and cofeeshops on the island');
         bot.sayText('Just type: \'Find me the best traditional spanish restaurant\' to get started')
           .quickReply('Not now, what else', 'ONBOARDING_NIGHTLIFE');

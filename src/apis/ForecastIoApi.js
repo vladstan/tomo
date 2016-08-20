@@ -1,6 +1,13 @@
 import ForecastIO from 'forecast-io';
 
+import Config from 'server/Config';
+
 class ForecastIoApi {
+
+  static _instance: ForecastIoApi;
+
+  client: ForecastIO;
+  config: Config;
 
   static getInstance(config) {
     if (!this._instance) {
@@ -10,7 +17,7 @@ class ForecastIoApi {
     return this._instance;
   }
 
-  constructor(config) {
+  constructor(config: Config) {
     const key: string = config.forecastIoApiKey;
     this.client = new ForecastIO(key);
   }

@@ -1,9 +1,18 @@
 import RealEstateActions from 'ai/actions/RealEstateActions';
 import RealEstateApi from 'apis/RealEstateApi';
 
+import Config from 'server/Config';
+import StoryUser from 'ai/StoryUser';
+
+import BotPast from 'ai/bot/BotPast';
+import BotInterface from 'ai/bot/BotInterface';
+
 class RealEstateStory {
 
-  constructor(config, user) {
+  realEstateActions: RealEstateActions;
+  user: Config;
+
+  constructor(config: Config, user: StoryUser) {
     const realEstateApi = RealEstateApi.getInstance(config);
     this.realEstateActions = new RealEstateActions(realEstateApi);
 
@@ -12,7 +21,7 @@ class RealEstateStory {
   }
 
   // TODO run auto correct on text before sending to wit.ai
-  define(user) {
+  define(user: StoryUser) {
     user.says('I want to rent')
       .intent('rent', 'rent');
     user.says('I want to rent an apartment')
@@ -40,7 +49,7 @@ class RealEstateStory {
       .entity('re_room_type', 're_room_type', '4');
   }
 
-  async run(past, context, entities, bot) {
+  async run(past: BotPast, context: Object, entities: Object, bot: BotInterface) {
     log.debug('running RealEstateStory with context', JSON.stringify(context));
 
     if (entities.intent[0]) {
@@ -88,7 +97,7 @@ class RealEstateStory {
     // }
   }
 
-  async postback(past, context, postbackId, bot) {}
+  async run(past: BotPast, context: Object, entities: Object, bot: BotInterface) {
 
   // async doGetWeather(context, entities, bot) {
     // if (entities.location[0]) {

@@ -1,6 +1,7 @@
 [libs]
 flow-typed
 interfaces
+declarations
 
 [ignore]
 <PROJECT_ROOT>/dist/.*
