@@ -107,7 +107,7 @@ class OnboardingStory {
           .quickReply('Rent a house', 'ONBOARDING_REAL_ESTATE')
           .quickReply('Rent a car ', 'ONBOARDING_CAR_RENTAL');
         bot.sayText('You can find places or activities on the island')
-          .quickReply('Find a restaurant', 'ONBOARDING_RETAURANTS')
+          .quickReply('Restaurants', 'ONBOARDING_RETAURANTS')
           .quickReply('Activities', 'ONBOARDING_ACTIVITIES')
           .quickReply('Nightlife ', 'ONBOARDING_NIGHTLIFE');
         bot.sayText('Or you can just simply type Send a postcard or find me a resurant to get started.');
