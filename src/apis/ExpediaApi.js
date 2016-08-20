@@ -18,7 +18,7 @@ class ExpediaApi {
 
   constructor(config: Config) {
     const key: string = config.expediaApiKey;
-    this.client = new ExpediaApi(key); // TODO not sure about this one
+    this.client = new ExpediaApi(key);
   }
 
   async getActivities({location, category}) {
