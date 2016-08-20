@@ -1,6 +1,8 @@
 
 import Config from 'server/Config';
 
+// TODO we need to check if there is a module for node.
+
 class ExpediaApi {
 
   static _instance: ExpediaApi;
