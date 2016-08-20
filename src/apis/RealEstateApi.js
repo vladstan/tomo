@@ -27,7 +27,7 @@ DATA.rent = [{
   'id': 'apartment2',
   'name': 'Illetes (Ses), Apartment from € 900 per month',
   'description': 'Stunning first line apartment in Illetas-This stunning apartment of approximately 68 sqm is located front line in a wonderful community ',
-  'img': 'http://production.kyero.s3.amazonaws.com/3657/3657346/36260436_original.jpg?0ede399da957f284c45b736d14c9e60394d7cb00',
+  'img': 'https://kyero.cloudimg.io/s/crop/400x300/http://production.kyero.s3.amazonaws.com/3669/3669521/36507528_original.jpg',
   'url': 'https://www.kyero.com/en/property/3657346-apartment-long-let-illetes-ses',
 }, {
   'id': 'apartment3',

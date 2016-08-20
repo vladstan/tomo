@@ -101,12 +101,14 @@ class OnboardingStory {
         return true;
 
       case 'ONBOARDING_LIST':
-        bot.sayText('Hi there, this is the list of things I can do for you during the stay')
-          .quickReply('Send a Postcard', 'ONBOARDING_POSTCARDS')
+        bot.sayText('You can send Postcards to your family')
+          .quickReply('Send a Postcard', 'ONBOARDING_POSTCARDS');
+        bot.sayText('You can rent or buy')
           .quickReply('Rent a house', 'ONBOARDING_REAL_ESTATE')
+          .quickReply('Rent a car ', 'ONBOARDING_CAR_RENTAL');
+        bot.sayText('You can find places or activities on the island')
           .quickReply('Find a restaurant', 'ONBOARDING_RETAURANTS')
           .quickReply('Activities', 'ONBOARDING_ACTIVITIES')
-          .quickReply('Rent a car ', 'ONBOARDING_CAR_RENTAL')
           .quickReply('Nightlife ', 'ONBOARDING_NIGHTLIFE');
         bot.sayText('Or you can just simply type Send a postcard or find me a resurant to get started.');
         return true;
