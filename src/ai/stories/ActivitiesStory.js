@@ -53,6 +53,7 @@ class ActivityStory {
       const listings = await this.ActivitiesActions.getShuttle(context.intent);
       bot.sayText(`Here is a list of shuttles to airport from ${location}`);
       bot.sendCards(listings);
+      // We can add here the buttons and the actions.
       // const imageProps = {};
       // imageProps.url = 'http://production.kyero.s3.amazonaws.com/3648/3648907/vwxrvxfy2d_long_term_rent_palma%20%2819%29.jpg';
       // bot.sendImage(imageProps);
