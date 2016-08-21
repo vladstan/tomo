@@ -1,10 +1,10 @@
-class ActivitiesActions {
+class PostcardsActions {
 
-  constructor(expediaAPI) {
-    this.expediaAPI = expediaAPI;
+  constructor(PostcardsActions) {
+    this.postcardsApi = postcardsApi;
   }
 
-  async getActivities(intent: string) {
+  async getPostcards(intent: string) {
     // const result = await this.googleMapsApi.geocodeLocation(locationName);
     // log.silly('getLocation geocoding result', JSON.stringify(result));
 
@@ -16,9 +16,9 @@ class ActivitiesActions {
     //   };
     // }
 
-    return this.ExpediaApi.getActivities(intent);
+    return this.postcardsApi.getResults(intent);
   }
 
 }
 
-export default ActivitiesActions;
+export default PostcardsActions;

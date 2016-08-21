@@ -29,7 +29,7 @@ let data: ?Object = null;
 
 const replServer = repl.start({
   prompt: '> ',
-  eval: (cmd: string, context: any, filename: string, cb: NodeCallback) => {
+  eval: (cmd: string, context: any, filename: string, cb) => {
     evalMessage(cmd)
       .then((result: Object): void => cb(null, result))
       .catch((err: Error): void => cb(err));

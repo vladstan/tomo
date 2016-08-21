@@ -8,6 +8,8 @@ import BotMemory from 'ai/bot/BotMemory';
 import BotInterface from 'ai/bot/BotInterface';
 import BotPast from 'ai/bot/BotPast';
 
+import Config from 'server/Config';
+
 class WitBot {
 
   witAiApi: WitAiApi;

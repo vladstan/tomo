@@ -25,17 +25,13 @@ class ActivityStory {
     user.says('Things to do on the island')
       .intent('get_activities');
 
-    user.says('Can I do biketours?')
+    user.says('Can you find me activities on the island?')
       .intent('get_activities')
         .entity('activity_type', 'activity_type', 'biking');
-
-    user.says('Can I do tours')
-      .intent('get_activities')
-        .entity('activity_type', 'activity_type', 'tours');
   }
 
   async run(past: BotPast, context: Object, entities: Object, bot: BotInterface) {
-    log.debug('running RealEstateStory with context', JSON.stringify(context));
+    log.debug('running ActivitiesStory with context', JSON.stringify(context));
 
     if (entities.intent[0]) {
       context.intent = entities.intent[0].value;
@@ -43,15 +39,25 @@ class ActivityStory {
 
     if (context.intent === 'get_activities') {
       let location = 'Palma de Mallorca';
-      const listings = await this.activitiesActions.fetchActivities(location); // TODO add other types of activites in search
-      bot.sayText(`Here is a list of activites you can do in ${location}`); // TODO we need to limit this to 10 only
-      bot.sendCards(listings); // TODO map every field explicitly
+      const listings = await this.ActivitiesActions.getActivities(context.intent);
+      bot.sayText(`Here is a list of activites you can do in ${location}`);
+      bot.sendCards(listings);
       // const imageProps = {};
       // imageProps.url = 'http://production.kyero.s3.amazonaws.com/3648/3648907/vwxrvxfy2d_long_term_rent_palma%20%2819%29.jpg';
       // bot.sendImage(imageProps);
       return true;
     }
 
+    if (context.intent === 'get_shuttle') {
+      let location = 'Palma de Mallorca';
+      const listings = await this.ActivitiesActions.getShuttle(context.intent);
+      bot.sayText(`Here is a list of shuttles to airport from ${location}`);
+      bot.sendCards(listings);
+      // const imageProps = {};
+      // imageProps.url = 'http://production.kyero.s3.amazonaws.com/3648/3648907/vwxrvxfy2d_long_term_rent_palma%20%2819%29.jpg';
+      // bot.sendImage(imageProps);
+      return true;
+    }
     //
     // // log.silly(context.intent, '===', 'get_weather');
     //
