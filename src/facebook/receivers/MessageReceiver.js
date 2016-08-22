@@ -11,7 +11,7 @@ class MessageReceiver {
     const fbReplies = [];
     let botReplies = null;
 
-    if (message.quick_reply && message.quick_reply.payload) {
+    if (message.quick_reply && message.quick_reply.payload && message.quick_reply.payload !== 'DUMMY') {
       botReplies = await bot.postback(message.quick_reply.payload);
     }
 
@@ -53,6 +53,12 @@ class MessageReceiver {
 
       if (genericReply.bubbles.length) {
         fbReplies.push(genericReply);
+      }
+
+      if (fbReplies.length === 0) {
+        const fallbackTextMsg = new TextMessage("Ops, I'm lost...");
+        await reply.messages(fallbackTextMsg);
+        return;
       }
 
       await reply.messages(...fbReplies);

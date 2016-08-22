@@ -1,5 +1,7 @@
 import TextMessage from 'facebook/messages/TextMessage';
 
+import Config from 'server/Config';
+
 import User from 'models/User';
 import Profile from 'models/Profile';
 import Session from 'models/Session';
@@ -13,14 +15,21 @@ import WitBot from 'ai/bot/WitBot';
 
 class EventsHandler {
 
-  constructor(config) {
+  witBot: WitBot;
+  facebookReply: FacebookReply;
+  senderId: string;
+
+  messageReceiver: MessageReceiver;
+  postbackReceiver: PostbackReceiver;
+
+  constructor(config: Config) {
     this.facebookReply = new FacebookReply(config);
     this.messageReceiver = new MessageReceiver();
     this.postbackReceiver = new PostbackReceiver();
     this.witBot = new WitBot(config);
   }
 
-  async process(senderId, events) {
+  async process(senderId: string, events) {
     this.facebookReply.setRecipientId(senderId);
     this.senderId = senderId;
 
@@ -65,6 +74,7 @@ class EventsHandler {
       }
     } catch (err) {
       log.error('cannot handle event', JSON.stringify(err)); // TODO log response body, too
+      log.error(err);
       const responseText = this.witBot.getErrorResponse();
       await this.facebookReply.messages(new TextMessage(responseText));
     }

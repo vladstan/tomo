@@ -34,36 +34,36 @@ class OnboardingStory {
       case 'ONBOARDING_POSTCARDS':
         bot.sayText('You can send printed postacards to loved ones.');
         bot.sayText('Just type \'Send a postacard\' to get started')
-          .quickReply('Send a postcard')
+          .quickReply('Send a postcard', 'DUMMY')
           .quickReply('What else', 'ONBOARDING_ACTIVITIES');
         return true;
 
       case 'ONBOARDING_ACTIVITIES':
         bot.sayText('You can discover the best activities you can do on the island');
         bot.sayText('Just type: \'Find me an activity\' to get started')
-          .quickReply('Find me an activity')
+          .quickReply('Find me an activity', 'DUMMY')
           .quickReply('Ok, what else', 'ONBOARDING_FEEDBACK');
         return true;
 
       case 'ONBOARDING_REAL_ESTATE':
         bot.sayText('You can rent or buy properties on the Island')
-          .quickReply('Rent an apartment')
-          .quickReply('Buy a house')
+          .quickReply('Rent an apartment', 'DUMMY')
+          .quickReply('Buy a house', 'DUMMY')
           .quickReply('Next one', 'ONBOARDING_RESTAURANTS');
         return true;
 
       case 'ONBOARDING_RESTAURANTS':
         bot.sayText('You can find the best restaurants, cofeeshops or clubs on the island');
         bot.sayText('Just type: \'Find me the best club or restaurant or coffee\' to get started')
-          .quickReply('Find me a club')
-          .quickReply('Find a restaurant')
+          .quickReply('Find me a club', 'DUMMY')
+          .quickReply('Find a restaurant', 'DUMMY')
           .quickReply('Not now, what else', 'ONBOARDING_SHUTLLE');
         return true;
 
       case 'ONBOARDING_SHUTLLE':
         bot.sayText('I can find you a shuttle for the airport');
         bot.sayText('Just type: \'I want a shuttle\' to get started')
-          .quickReply('Airport shuttle')
+          .quickReply('Airport shuttle', 'DUMMY')
           .quickReply('What else', 'ONBOARDING_FEEDBACK');
         return true;
 

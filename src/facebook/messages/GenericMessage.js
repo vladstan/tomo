@@ -84,7 +84,7 @@ class GenericMessage extends FacebookMessage {
     return this;
   }
 
-  addButton(title, value) {
+  addButton(title: string, value: string) {
     const bubble = this.getLastBubble();
     bubble.buttons = bubble.buttons || [];
 
