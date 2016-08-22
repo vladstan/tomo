@@ -104,6 +104,7 @@ class WitBot {
     const botInterface = new BotInterface();
     botInterface.memory = botMemory;
 
+    context.facebookSenderId = this.data.user.facebookId;
     const matched = await story.run(botPast, context, entities, botInterface);
     delete context.intent;
 
@@ -131,6 +132,7 @@ class WitBot {
     botInterface.memory = botMemory;
 
     if (story.postback) {
+      context.facebookSenderId = this.data.user.facebookId;
       const matched = await story.postback(botPast, context, postbackId, botInterface);
       return {
         confidence: 1,

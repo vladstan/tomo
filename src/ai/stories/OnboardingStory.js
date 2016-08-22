@@ -1,5 +1,5 @@
-import RealEstateActions from 'ai/actions/RealEstateActions';
-import RealEstateApi from 'apis/RealEstateApi';
+import OnboardingActions from 'ai/actions/OnboardingActions';
+import FacebookApi from 'apis/FacebookApi';
 
 import Config from 'server/Config';
 import StoryUser from 'ai/StoryUser';
@@ -9,12 +9,12 @@ import BotInterface from 'ai/bot/BotInterface';
 
 class OnboardingStory {
 
-  realEstateActions: RealEstateActions;
+  onboardingActions: OnboardingActions;
   user: StoryUser;
 
   constructor(config: Config, user: StoryUser) {
-    const realEstateApi = RealEstateApi.getInstance(config);
-    this.realEstateActions = new RealEstateActions(realEstateApi);
+    const facebookApi = FacebookApi.getInstance(config);
+    this.onboardingActions = new OnboardingActions(facebookApi);
 
     // this.define(user);
     this.user = user;
@@ -23,9 +23,10 @@ class OnboardingStory {
   async run(past: BotPast, context: Object, entities: Object, bot: BotInterface) {}
 
   async postback(past: BotPast, context: Object, postbackId: string, bot: BotInterface) {
+    const userFbProfile = await this.onboardingActions.getUser(context.facebookSenderId, ['first_name']);
     switch (postbackId) {
       case 'GET_STARTED':
-        bot.sayText('Hi NAME, I\'m Claire your personal concierge for your stay in Palma de Mallorca');
+        bot.sayText(`Hi ${userFbProfile.first_name}, I'm Claire your personal concierge for your stay in Palma de Mallorca`);
         bot.sayText('You can use me for free during your stay on the island');
         bot.sayText('Let me show you want I can do for you')
           .quickReply('Ok, let\'s start', 'ONBOARDING_POSTCARDS');

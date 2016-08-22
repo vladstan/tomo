@@ -4,6 +4,9 @@ import Config from 'server/Config';
 
 class FacebookApi {
 
+  static _instance: FacebookApi;
+  config: Config;
+
   static getInstance(config: Config): FacebookApi {
     if (!this._instance) {
       this._instance = new this(config);
@@ -12,7 +15,7 @@ class FacebookApi {
     return this._instance;
   }
 
-  constructor(config: Config): FacebookApi {
+  constructor(config: Config) {
     this.config = config;
   }
 
@@ -28,6 +31,32 @@ class FacebookApi {
         'User-Agent': this.config.userAgent,
       },
       body: JSON.stringify(body),
+      json: true,
+    };
+
+    // TODO https://github.com/sindresorhus/got
+    log.silly('FacebookApi', 'API request:', 'POST', url, JSON.stringify(options));
+    try {
+      const resp = await got(url, options);
+      return resp.body;
+    } catch (err) {
+      log.error('FacebookApi', 'request error', err.response.body);
+      throw err;
+    }
+  }
+
+  async getUser(id: string, fields: string[]): Object {
+    const url = this.config.facebookApiUrl + '/' + id;
+    const options = {
+      method: 'GET',
+      query: {
+        access_token: this.config.facebookAccessToken,
+        fields: fields.join(','),
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'User-Agent': this.config.userAgent,
+      },
       json: true,
     };
 

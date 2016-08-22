@@ -23,7 +23,7 @@ const witBot = new WitBot(config, logger);
 const database = new Database(config, logger);
 database.connect();
 
-let senderId: number = 123;
+let senderId: string = '100000476749759';
 let initDone: boolean = false;
 let data: ?Object = null;
 
