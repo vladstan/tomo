@@ -2,7 +2,7 @@ const DATA = {};
 
 class PostcardsApi {
 
-  static _instance: PstcardsApi;
+  static _instance: PostcardsApi;
 
   static getInstance(config): PostcardsApi {
     if (!this._instance) {
@@ -12,13 +12,13 @@ class PostcardsApi {
     return this._instance;
   }
 
-  getResults(intent: string) {
-    return DATA[intent];
+  getResults() {
+    return DATA.postcards;
   }
 
 }
 
-DATA.postacards = [{
+DATA.postcards = [{
   'id': 'postcard1',
   'name': 'Palma de Mallorca - CATHEDRAL',
   'description': ' $2.99 -  Real Postcard - Free shipping, worldwide ',

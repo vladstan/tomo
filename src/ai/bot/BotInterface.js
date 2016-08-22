@@ -31,7 +31,7 @@ class BotInterface {
   qrInterface(resp: Object) {
     const that = this;
     return {
-      quickReply(text: string, postbackId: string) {
+      quickReply(text: string, postbackId: ?string) {
         if (!Array.isArray(resp.quickReplies)) {
           resp.quickReplies = [];
         }

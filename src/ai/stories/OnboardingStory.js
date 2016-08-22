@@ -85,7 +85,7 @@ class OnboardingStory {
         return true;
 
       case 'ONBOARDING_LIST':
-        bot.sayText('Type one of these things I can do for you to start')
+        bot.sayText('Type one of these things I can do for you to start');
         bot.sayText('I want to send a postcard');
         bot.sayText('What\'s the weather in {location}');
         bot.sayText('I want to rent or buy an apartment');

@@ -1,10 +1,14 @@
+import PostcardsApi from 'apis/PostcardsApi';
+
 class PostcardsActions {
 
-  constructor(PostcardsActions) {
+  postcardsApi: PostcardsApi;
+
+  constructor(postcardsApi: PostcardsApi) {
     this.postcardsApi = postcardsApi;
   }
 
-  async getPostcards(intent: string) {
+  async getPostcards() {
     // const result = await this.googleMapsApi.geocodeLocation(locationName);
     // log.silly('getLocation geocoding result', JSON.stringify(result));
 
@@ -16,7 +20,7 @@ class PostcardsActions {
     //   };
     // }
 
-    return this.postcardsApi.getResults(intent);
+    return this.postcardsApi.getResults();
   }
 
 }

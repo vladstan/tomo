@@ -1,22 +1,19 @@
+import ExpediaApi from 'apis/ExpediaApi';
+
 class ActivitiesActions {
 
-  constructor(expediaAPI) {
-    this.expediaAPI = expediaAPI;
+  expediaApi: ExpediaApi;
+
+  constructor(expediaApi: ExpediaApi) {
+    this.expediaApi = expediaApi;
   }
 
-  async getActivities(intent: string) {
-    // const result = await this.googleMapsApi.geocodeLocation(locationName);
-    // log.silly('getLocation geocoding result', JSON.stringify(result));
+  async getActivities() {
+    return this.expediaApi.getActivities();
+  }
 
-    // if (result) {
-    //   return {
-    //     lat: result.geometry.location.lat,
-    //     long: result.geometry.location.lng,
-    //     name: result.formatted_address,
-    //   };
-    // }
-
-    return this.ExpediaApi.getActivities(intent);
+  async getShuttle() {
+    return this.expediaApi.getShuttle();
   }
 
 }

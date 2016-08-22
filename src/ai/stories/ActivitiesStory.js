@@ -1,6 +1,6 @@
 import ActivitiesActions from 'ai/actions/ActivitiesActions';
 
-import expediaAPI from 'apis/ExpediaAPI';
+import ExpediaApi from 'apis/ExpediaApi';
 
 import Config from 'server/Config';
 import StoryUser from 'ai/StoryUser';
@@ -11,10 +11,10 @@ import BotInterface from 'ai/bot/BotInterface';
 class ActivityStory {
 
   activitiesActions: ActivitiesActions;
-  user: Config;
+  user: StoryUser;
 
   constructor(config: Config, user: StoryUser) {
-    const expediaAPI = expediaAPI.getInstance(config);
+    const expediaAPI = ExpediaApi.getInstance(config);
     this.activitiesActions = new ActivitiesActions(expediaAPI);
 
     this.define(user);
@@ -26,8 +26,11 @@ class ActivityStory {
       .intent('get_activities');
 
     user.says('Can you find me activities on the island?')
-      .intent('get_activities')
-        .entity('activity_type', 'activity_type', 'biking');
+      .intent('get_activities');
+
+    user.says('I want a shuttle to the airport')
+      .intent('get_shuttle', 'shuttle');
+      // .entity('activity_type', 'activity_type', 'biking');
   }
 
   async run(past: BotPast, context: Object, entities: Object, bot: BotInterface) {
@@ -39,7 +42,7 @@ class ActivityStory {
 
     if (context.intent === 'get_activities') {
       let location = 'Palma de Mallorca';
-      const listings = await this.ActivitiesActions.getActivities(context.intent);
+      const listings = await this.activitiesActions.getActivities();
       bot.sayText(`Here is a list of activites you can do in ${location}`);
       bot.sendCards(listings);
       // const imageProps = {};
@@ -50,7 +53,7 @@ class ActivityStory {
 
     if (context.intent === 'get_shuttle') {
       let location = 'Palma de Mallorca';
-      const listings = await this.ActivitiesActions.getShuttle(context.intent);
+      const listings = await this.activitiesActions.getShuttle();
       bot.sayText(`Here is a list of shuttles to airport from ${location}`);
       bot.sendCards(listings);
       // We can add here the buttons and the actions.

@@ -17,11 +17,11 @@ class ExpediaApi {
     return this._instance;
   }
 
-  async getActivities({intent}) {
+  async getActivities() {
     return DATA.activities;
   }
 
-  async getShuttle({intent}) {
+  async getShuttle() {
     return DATA.shuttle;
   }
 

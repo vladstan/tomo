@@ -166,7 +166,12 @@ class WitBot {
 
   getContactHumanResponses() {
     return [
-      {text: ResponseManager.find('NO_UNDERSTAND_CONTACT_HUMAN')},
+      {
+        text: ResponseManager.find('NO_UNDERSTAND_CONTACT_HUMAN'),
+        quickReplies: [
+          {text: 'Contact a human', postbackId: 'ONBOARDING_HUMAN'},
+        ],
+      },
     ];
   }
 

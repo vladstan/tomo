@@ -33,6 +33,8 @@ class WeatherStory {
 
     user.says('In Paris')
       .entity('wit/location', 'location', 'Paris');
+
+    // TODO specify date (e.g. now (default), tomorrow, this week)
   }
 
   async run(past: BotPast, context: Object, entities: Object, bot: BotInterface) {
