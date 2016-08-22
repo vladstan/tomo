@@ -47,8 +47,8 @@ class MessageReceiver {
             .addBubble(msg.name, msg.description.substr(0, 80))
             .addUrl(msg.url)
             .addImage(msg.img)
-            .addButton('I <3 this', 'DEV_LOVE_THIS')
-            .addButton('Call an Agent', 'DEV_CALL_AGENT');
+            .addButton(msg.button, msg.url)
+            .addButton('Talk to a human', 'ONBOARDING_HUMAN');
         }, new GenericMessage()); // TODO send them as a single botResponse
 
       if (genericReply.bubbles.length) {

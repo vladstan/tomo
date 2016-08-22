@@ -18,6 +18,9 @@ class Config {
   forecastIoApiKey: ?string;
   googleMapsApiKey: ?string;
 
+  expediaApiKey: ?string;
+  expediaApiUrl: ?string;
+
   static getInstance(): Config {
     if (!this._instance) {
       const env = process.env.NODE_ENV || 'development';
@@ -59,6 +62,9 @@ class Config {
 
     this.forecastIoApiKey = process.env.FORECASTIO_API_KEY;
     this.googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY;
+
+    this.expediaApiKey = 'Mx9MyJwcDUwUyMSlXrQoQNVCH4aaYjG1';
+    this.expediaApiUrl = 'http://terminal2.expedia.com/x/activities/search';
   }
 
   loadProduction() {}
