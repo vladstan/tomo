@@ -20,7 +20,6 @@ class RestaurantsActions {
     return this.restaurantsApi.getClubs();
   }
 
-
 }
 
 export default RestaurantsActions;

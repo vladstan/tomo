@@ -118,7 +118,7 @@ DATA.coffeeshop = [{
   'img': 'https://media-cdn.tripadvisor.com/media/photo-s/03/2e/c5/9b/cappuccino-paseo-maritimo.jpg',
   'url': 'https://www.tripadvisor.com/Restaurant_Review-g187463-d2328811-Reviews-Cappuccino_Paseo_Maritimo-Palma_de_Mallorca_Majorca_Balearic_Islands.html',
   'button': 'See Details',
-  'phone': '+34971282162'
+  'phone': '+34971282162',
 }];
 
 export default RestaurantsApi;
