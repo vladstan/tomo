@@ -95,6 +95,11 @@ class OnboardingStory {
         bot.sayText('Find me activity or things to do on the island');
         bot.sayText('Enjoy <3 Palma');
         return true;
+
+      // case 'REENGAGE_DAY_1':
+      //   bot.sayText('Day 1!!')
+      //     .quickReply('Ok', 'OK');
+      //   return true;
     }
   }
 

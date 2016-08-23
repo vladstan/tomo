@@ -86,6 +86,10 @@ async function evalMessage(cmd: string) {
     return '<init not finished>';
   }
   if (cmd.startsWith('@')) {
+    // if (cmd.startsWith('@SEND')) {
+    //   const [cmdName, userId, postbackId] = cmd.split();
+    //
+    // }
     const responses = await witBot.postback(cmd.substring(1));
     return responses;
   }
