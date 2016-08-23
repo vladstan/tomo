@@ -80,28 +80,28 @@ DATA.activities = [{
 
 DATA.shuttle = [{
   'id': 'shuttle1',
-  'name': '$7: Shared Shuttle: Mallorca Airport (PMI)',
+  'name': '$7/person - Shared Shuttle: Mallorca Airport (PMI)',
   'description': 'To schedule pick-up and return times, please follow the instructions on your voucher after checkout.',
   'img': 'https://a.travel-assets.com/mediavault.le/media/0db3877fc4c02834e27e09f4c9578875cf830769.jpeg',
   'url': 'https://www.expedia.com/things-to-do/shared-shuttle-mallorca-airport-pmi.a215950.activity-details',
   'button': 'Book Now',
 }, {
   'id': 'shuttle2',
-  'name': '$17: Speedy Shuttle: Mallorca Airport (PMI)',
+  'name': '$17/person - Speedy Shuttle: Mallorca Airport (PMI)',
   'description': 'To schedule pick-up and return times, please follow the instructions on your voucher after checkout.',
   'img': 'https://a.travel-assets.com/mediavault.le/media/aa612480ce5cb839f41daab762bd670886a4b8f8.jpeg',
   'url': 'https://www.expedia.com/things-to-do/speedy-shuttle-mallorca-airport-pmi.a223006.activity-details',
   'button': 'Book Now',
 }, {
   'id': 'shuttle3',
-  'name': '$37 Private Minivan: Mallorca Airport (PMI)',
+  'name': '$37/person - Private Minivan: Mallorca Airport (PMI)',
   'description': 'To schedule pick-up and return times, please follow the instructions on your voucher after checkout.',
-  'img': 'https://a.travel-assets.com/mediavault.le/media/2c9e7c1ce73748f43123a3d41733785911dd08ab.jpeg',
+  'img': 'https://a.travel-assets.com/mediavault.le/media/a97f5bfd0196d115f3ce0b7d0d1e3be43f7e4e9a.jpeg',
   'url': 'https://www.expedia.com/things-to-do/private-minivan-mallorca-airport-pmi.a215790.activity-details',
   'button': 'Book Now',
 }, {
   'id': 'shuttle4',
-  'name': '$67 Private Minibus: Mallorca Airport (PMI)',
+  'name': '$67/person - Private Minibus: Mallorca Airport (PMI)',
   'description': 'Price per person. Max People 8, Bags 16,  Free cancellation,  No booking or credit card fees',
   'img': 'https://a.travel-assets.com/mediavault.le/media/408fc525e4638a7610c82af024d2eeb47d5da8d5.jpeg',
   'url': 'https://www.expedia.com/things-to-do/private-minibus-mallorca-airport-pmi.a215870.activity-details?',

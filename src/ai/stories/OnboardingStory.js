@@ -43,7 +43,7 @@ class OnboardingStory {
         bot.sayText('You can discover the best activities you can do on the island');
         bot.sayText('Just type: \'Find me an activity\' to get started')
           .quickReply('Find me an activity', 'DUMMY')
-          .quickReply('Ok, what else', 'ONBOARDING_FEEDBACK');
+          .quickReply('Ok, what else', 'ONBOARDING_REAL_ESTATE');
         return true;
 
       case 'ONBOARDING_REAL_ESTATE':
