@@ -56,7 +56,7 @@ class MessageReceiver {
       }
 
       if (fbReplies.length === 0) {
-        const fallbackTextMsg = new TextMessage("Ops, I'm lost...");
+        const fallbackTextMsg = new TextMessage("For special requests please type 'Talk to a human'");
         await reply.messages(fallbackTextMsg);
         return;
       }

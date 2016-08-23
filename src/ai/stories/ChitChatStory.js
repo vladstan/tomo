@@ -14,12 +14,15 @@ class ChitChatStory {
   }
 
   define(user: StoryUser) {
-    user.says('(Hello|Hi|Hey)')
-      .intent('conversation')
-      .entity('message_type', 'greeting', 'greeting');
+    user.says('Hello - Hi - Hey')
+      .intent('greeting', 'greeting');
+    user.says('I am drunnk')
+      .intent('drunk', 'drunk');
   }
 
   async run(past: BotPast, context: Object, entities: Object, bot: BotInterface) {
+    log.debug('running Chit Chat Story with context', JSON.stringify(context));
+
     if (entities.intent[0]) {
       context.intent = entities.intent[0].value;
     }
