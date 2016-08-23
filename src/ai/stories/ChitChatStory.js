@@ -24,33 +24,33 @@ class ChitChatStory {
       context.intent = entities.intent[0].value;
     }
 
-    if (entities.message_type[0]) {
-      context.message_type = entities.message_type[0].value;
-    }
-
-    if (context.intent === 'conversation' && context.message_type === 'greeting') {
+    if (context.intent === 'greeting') {
       bot.sayText('Hello there. How can I help?'); // TODO make this random.
     }
 
-    if (context.intent === 'conversation' && context.message_type === 'siri') {
+    if (context.intent === 'siri') {
       bot.sayText('Haha, this is very funny. Hmm, I mean not so funny :|'); // TODO make this random.
     }
 
-    if (context.intent === 'conversation' && context.message_type === 'real') {
+    if (context.intent === 'real') {
       bot.sayText('Sorry but not sure if you\'re ready to hear my answer. Let\'s not talk about this now.'); // TODO make this random.
     }
 
-    if (context.intent === 'conversation' && context.message_type === 'drunk') {
+    if (context.intent === 'drunk') {
       bot.sayText('OMG. Hope your friends are with you. Make sure you\'re not driving.'); // TODO make this random.
     }
 
-    if (context.intent === 'conversation' && context.message_type === 'joke') {
+    if (context.intent === 'tell_joke') {
       bot.sayText('There is a band called 1023GB. They haven\'t had any gigs yet.'); // TODO make this random.
       bot.sayText('Funny?'); // TODO make this random.
     }
 
-    if (context.intent === 'conversation' && context.message_type === 'yes') {
+    if (context.intent === 'approval') {
       bot.sayText('Thank you'); // TODO make this random.
+    }
+
+    if (context.intent === 'goodbye') {
+      bot.sayText('Good bye for now!'); // TODO make this random.
     }
   }
 

@@ -24,17 +24,8 @@ class MissingFeaturesStory {
       context.intent = entities.intent[0].value;
     }
 
-    if (entities.booking_type[0]) {
-      context.booking_type = entities.booking_type[0].value;
-    }
-
-    if (context.intent === 'book' && context.booking_type === 'flight') {
-      bot.sayText("I don't know how to book flihgts right now, but you can talk with a coleague.")
-        .quickReply('Talk to a human', 'ONBOARDING_HUMAN');
-    }
-
-    if (context.intent === 'book' && context.booking_type === 'hotel') {
-      bot.sayText('Still hotel booking is on the list but not working yet.')
+    if (context.intent === 'book') {
+      bot.sayText("I don't know how to book flihgts or hotels right now, but you can talk with a coleague.")
         .quickReply('Talk to a human', 'ONBOARDING_HUMAN');
     }
   }
