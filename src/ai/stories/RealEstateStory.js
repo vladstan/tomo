@@ -97,6 +97,26 @@ class RealEstateStory {
     // }
   }
 
+  // @engageAfter('5m')
+  // engageAfter5m(user, past, context, bot) {
+  //   bot.say('Where did you go?');
+  //
+  //   return {
+  //     confidence: 0.5,
+  //     responses: [],
+  //   };
+  // }
+  //
+  // @engageAfter('1h')
+  // engageAfter1h(user, past, context, bot) {
+  //   bot.say('Still there?');
+  //
+  //   return {
+  //     confidence: 0.5,
+  //     responses: [],
+  //   };
+  // }
+
 }
 
 export default RealEstateStory;
