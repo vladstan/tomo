@@ -66,7 +66,7 @@ class FacebookApi {
       const resp = await got(url, options);
       return resp.body;
     } catch (err) {
-      log.error('FacebookApi', 'request error', err.response.body);
+      log.error('FacebookApi', 'request error', err.response.body, JSON.stringify(err.response));
       throw err;
     }
   }
