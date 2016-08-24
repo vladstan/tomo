@@ -36,6 +36,7 @@ class WitBot {
     const sortedResults = results.sort(this.confidenceComparatorDesc);
     const bestResult = sortedResults.find((result) => result.matched);
     log.silly('sortedResults:', JSON.stringify(sortedResults));
+    // log.silly('bestResult:', JSON.stringify(bestResult));
     // TODO store results in conversation
 
     let responses = null;
@@ -105,7 +106,7 @@ class WitBot {
     botInterface.memory = botMemory;
 
     context.facebookSenderId = this.data.user.facebookId;
-    const matched = await story.run(botPast, context, entities, botInterface);
+    const matched = !!(await story.run(botPast, context, entities, botInterface));
     delete context.intent;
 
     return {
