@@ -20,16 +20,14 @@ class MissingFeaturesStory {
   }
 
   async run(past: BotPast, context: Object, entities: Object, bot: BotInterface) {
+    log.debug('running Missing Features Story with context', JSON.stringify(context));
+
     if (entities.intent[0]) {
       context.intent = entities.intent[0].value;
     }
 
-    if (entities.booking_type[0]) {
-      context.booking_type = entities.booking_type[0].value;
-    }
-
-    if (context.intent === 'book' && context.booking_type === 'flight') {
-      bot.sayText("I can't do this right now")
+    if (context.intent === 'book') {
+      bot.sayText("I don't know how to book flights, hotels or restaurants right now, but you can talk with a coleague.")
         .quickReply('Talk to a human', 'ONBOARDING_HUMAN');
     }
   }

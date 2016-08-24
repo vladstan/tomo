@@ -23,6 +23,7 @@ class OnboardingStory {
   async run(past: BotPast, context: Object, entities: Object, bot: BotInterface) {}
 
   async postback(past: BotPast, context: Object, postbackId: string, bot: BotInterface) {
+    log.debug('Postback Onboarding with context', JSON.stringify(context));
     const userFbProfile = await this.onboardingActions.getUser(context.facebookSenderId, ['first_name']);
     switch (postbackId) {
       case 'GET_STARTED':
