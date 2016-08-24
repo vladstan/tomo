@@ -73,10 +73,16 @@ class EventsHandler {
         log.warn('unknown event type', event);
       }
     } catch (err) {
-      log.error('cannot handle event', JSON.stringify(err)); // TODO log response body, too
+      log.error('cannot handle event'); // TODO log response body, too
       log.error(err);
-      const responseText = this.witBot.getErrorResponse(); // TODO try to send, but always return 200 to FB
-      await this.facebookReply.messages(new TextMessage(responseText));
+
+      try {
+        const responseText = this.witBot.getErrorResponse();
+        await this.facebookReply.messages(new TextMessage(responseText));
+      } catch (err) {
+        log.error('cannot send error message back to user'); // TODO log response body, too
+        log.error(err);
+      }
     }
   }
 
