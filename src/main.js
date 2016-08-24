@@ -1,4 +1,5 @@
 import 'app-module-path/register';
+import 'utils/longjohn';
 
 import Database from 'server/Database';
 import Middleware from 'server/Middleware';
@@ -15,18 +16,12 @@ import Logger from 'server/Logger';
 //   secretToken: '7d9246b410db6e9fa12ca19774a104cb0a112974'
 // })
 
-if (process.env.NODE_ENV !== 'production') {
-  require('longjohn');
-}
-
 const logger = new Logger();
 logger.attachGlobal();
 
 const config = Config.getInstance();
 const middleware = new Middleware();
-
 const router = new Router(config, middleware);
-
 const server = new Server(config, router, middleware);
 const database = new Database(config);
 
