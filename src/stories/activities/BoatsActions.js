@@ -1,4 +1,4 @@
-import BoatsApi from 'apis/BoatsApi';
+import BoatsApi from 'stories/activities/BoatsApi';
 
 class BoatsActions {
 

@@ -1,4 +1,4 @@
-import ExpediaApi from 'apis/ExpediaApi';
+import ExpediaApi from 'stories/activities/ExpediaApi';
 
 class ActivitiesActions {
 

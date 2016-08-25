@@ -1,7 +1,12 @@
-import moduleIndex from 'utils/module-index';
+import globby from 'globby';
+import path from 'path';
 
-const responseModules = moduleIndex(__dirname, 'responses');
-const responses = Object.assign({}, ...Object.values(responseModules));
+const moduleFiles = globby.sync('stories/*/responses.js', {
+  cwd: path.dirname(require.main.filename),
+});
+
+const responsesModules = moduleFiles.map((filePath) => require(filePath));
+const responses = Object.assign({}, ...responsesModules);
 
 class ResponseManager {
 

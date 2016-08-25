@@ -1,6 +1,6 @@
-import RestaurantsActions from 'ai/actions/RestaurantsActions';
+import ActivitiesActions from 'stories/activities/ActivitiesActions';
 
-import RestaurantsApi from 'apis/RestaurantsApi';
+import ExpediaApi from 'stories/activities/ExpediaApi';
 
 import Config from 'server/Config';
 import StoryUser from 'ai/StoryUser';
@@ -8,42 +8,42 @@ import StoryUser from 'ai/StoryUser';
 import BotPast from 'ai/bot/BotPast';
 import BotInterface from 'ai/bot/BotInterface';
 
-class RestaurantsStory {
+class ActivityStory {
 
-  restaurantsActions: RestaurantsActions;
+  activitiesActions: ActivitiesActions;
   user: StoryUser;
 
   constructor(config: Config, user: StoryUser) {
-    const restaurantsApi = RestaurantsApi.getInstance(config);
-    this.restaurantsActions = new RestaurantsActions(restaurantsApi);
+    const expediaAPI = ExpediaApi.getInstance(config);
+    this.activitiesActions = new ActivitiesActions(expediaAPI);
 
     this.define(user);
     this.user = user;
   }
 
   define(user: StoryUser) {
-    user.says('Find a restaurant')
-      .intent('get_restaurant');
+    user.says('Things to do on the island')
+      .intent('get_activities');
 
-    user.says('Find a coffeeshop nearby')
-      .intent('get_coffeeshop');
+    user.says('Can you find me activities on the island?')
+      .intent('get_activities');
 
-    user.says('Find a club')
-      .intent('get_club', 'club');
+    user.says('I want a shuttle to the airport')
+      .intent('get_shuttle', 'shuttle');
       // .entity('activity_type', 'activity_type', 'biking');
   }
 
   async run(past: BotPast, context: Object, entities: Object, bot: BotInterface) {
-    log.debug('running RestaurantsStory with context', JSON.stringify(context));
+    log.debug('running ActivitiesStory with context', JSON.stringify(context));
 
     if (entities.intent[0]) {
       context.intent = entities.intent[0].value;
     }
 
-    if (context.intent === 'get_restaurant') {
+    if (context.intent === 'get_activities') {
       let location = 'Palma de Mallorca';
-      const listings = await this.restaurantsActions.getRestaurants();
-      bot.sayText(`Here is a list with probably the best restaurants on ${location}`);
+      const listings = await this.activitiesActions.getActivities();
+      bot.sayText(`Here is a list of activites you can do in ${location}`);
       bot.sendCards(listings);
       // const imageProps = {};
       // imageProps.url = 'http://production.kyero.s3.amazonaws.com/3648/3648907/vwxrvxfy2d_long_term_rent_palma%20%2819%29.jpg';
@@ -51,22 +51,10 @@ class RestaurantsStory {
       return true;
     }
 
-    if (context.intent === 'get_coffeeshop') {
+    if (context.intent === 'get_shuttle') {
       let location = 'Palma de Mallorca';
-      const listings = await this.restaurantsActions.getCoffee();
-      bot.sayText(`Here is a list of places where you can find the best coffee on ${location}`);
-      bot.sendCards(listings);
-      // We can add here the buttons and the actions.
-      // const imageProps = {};
-      // imageProps.url = 'http://production.kyero.s3.amazonaws.com/3648/3648907/vwxrvxfy2d_long_term_rent_palma%20%2819%29.jpg';
-      // bot.sendImage(imageProps);
-      return true;
-    }
-
-    if (context.intent === 'get_clubs') {
-      let location = 'Palma de Mallorca';
-      const listings = await this.restaurantsActions.getClubs();
-      bot.sayText(`Here is a list with probably best clubs in ${location}`);
+      const listings = await this.activitiesActions.getShuttle();
+      bot.sayText(`Here is a list of shuttles to airport from ${location}`);
       bot.sendCards(listings);
       // We can add here the buttons and the actions.
       // const imageProps = {};
@@ -89,4 +77,4 @@ class RestaurantsStory {
 
 }
 
-export default RestaurantsStory;
+export default ActivityStory;

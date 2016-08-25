@@ -1,4 +1,4 @@
-import PostcardsApi from 'apis/PostcardsApi';
+import PostcardsApi from 'stories/activities/PostcardsApi';
 
 class PostcardsActions {
 

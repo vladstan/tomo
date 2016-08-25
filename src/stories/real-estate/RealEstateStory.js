@@ -1,5 +1,5 @@
-import RealEstateActions from 'ai/actions/RealEstateActions';
-import RealEstateApi from 'apis/RealEstateApi';
+import RealEstateActions from 'stories/real-estate/RealEstateActions';
+import RealEstateApi from 'stories/real-estate/RealEstateApi';
 
 import Config from 'server/Config';
 import StoryUser from 'ai/StoryUser';

@@ -1,5 +1,5 @@
-import OnboardingActions from 'ai/actions/OnboardingActions';
-import FacebookApi from 'apis/FacebookApi';
+import OnboardingActions from 'stories/general/OnboardingActions';
+import FacebookApi from 'stories/core/FacebookApi';
 
 import Config from 'server/Config';
 import StoryUser from 'ai/StoryUser';

@@ -1,4 +1,4 @@
-import RestaurantsApi from 'apis/RestaurantsApi';
+import RestaurantsApi from 'stories/activities/RestaurantsApi';
 
 class RestaurantsActions {
 

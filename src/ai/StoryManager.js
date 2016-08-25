@@ -1,7 +1,9 @@
-import moduleIndex from 'utils/module-index';
+import globby from 'globby';
+import path from 'path';
 
-const storyModules = moduleIndex(__dirname, 'stories');
-const stories = Object.values(storyModules).map((mod) => mod.default);
+const stories = globby
+  .sync('stories/*/*Story.js', {cwd: path.dirname(require.main.filename)})
+  .map((filePath) => require(filePath).default);
 
 class StoryManager {
 

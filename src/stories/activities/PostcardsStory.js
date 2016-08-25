@@ -1,5 +1,5 @@
-import PostcardsActions from 'ai/actions/PostcardsActions';
-import PostcardsApi from 'apis/PostcardsApi';
+import PostcardsActions from 'stories/activities/PostcardsActions';
+import PostcardsApi from 'stories/activities/PostcardsApi';
 
 import Config from 'server/Config';
 import StoryUser from 'ai/StoryUser';
