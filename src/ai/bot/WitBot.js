@@ -35,8 +35,9 @@ class WitBot {
     const results = await this.runAllStories(botPast, parsed);
     const sortedResults = results.sort(this.confidenceComparatorDesc);
     const bestResult = sortedResults.find((result) => result.matched);
-    log.silly('sortedResults:', JSON.stringify(sortedResults));
-    // log.silly('bestResult:', JSON.stringify(bestResult));
+    log.silly('results:', results);
+    log.silly('sortedResults:', sortedResults);
+    log.silly('bestResult:', bestResult);
     // TODO store results in conversation
 
     let responses = null;
