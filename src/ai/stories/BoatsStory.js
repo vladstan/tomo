@@ -52,14 +52,14 @@ class BoatsStory {
         return true;
       }
 
-      bot.say('ACKNOWLEDGE_USER_INTENT', {intent: context.intent});
-      // bot.scheduleMessage('5m', 'Try next thing?', true);
-      // bot.scheduleMessage('2d', (bot) => {
-      //   bot.sayText('Try next thing?');
-      //   bot.sendImage({url: 'http://production.kyero.s3.amazonaws.com/3648/3648907/vwxrvxfy2d_long_term_rent_palma%20%2819%29.jpg'});
-      // }, false, '1h');
-
-      return true;
+      // bot.say('ACKNOWLEDGE_USER_INTENT', {intent: context.intent});
+      // // bot.scheduleMessage('5m', 'Try next thing?', true);
+      // // bot.scheduleMessage('2d', (bot) => {
+      // //   bot.sayText('Try next thing?');
+      // //   bot.sendImage({url: 'http://production.kyero.s3.amazonaws.com/3648/3648907/vwxrvxfy2d_long_term_rent_palma%20%2819%29.jpg'});
+      // // }, false, '1h');
+      //
+      // return true;
     }
   }
 

@@ -61,7 +61,7 @@ class RealEstateStory {
         context.property_type = entities.property_type[0].value;
       }
 
-      if (context.property_type) {
+      if (['villa', 'apartment', 'town house'].includes(context.property_type)) {
         const listings = await this.realEstateActions.getResults(context.intent);
         bot.say('ACKNOWLEDGE_USER_INTENT', {
           intent: context.intent,

@@ -94,7 +94,7 @@ class WitBot {
     const story = new Story(this.config, user);
 
     const entities = parsed.entities;
-    const context = this.data.session.context;
+    const context = {}; // this.data.session.context; // numb context TODO
     // TODO don't persist some context props
     // TODO work on copy, not model
     // TODO store context in every state and context delta (in conversation, per message)
@@ -121,7 +121,7 @@ class WitBot {
     const story = new Story(this.config, user);
 
     // const entities = parsed.entities;
-    const context = this.data.session.context;
+    const context = {}; // this.data.session.context; // numb context TODO
     // TODO don't persist some context props
     // TODO work on copy, not model
     // TODO store context in every state and context delta (in conversation, per message)
