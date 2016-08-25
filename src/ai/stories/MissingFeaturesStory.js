@@ -29,6 +29,7 @@ class MissingFeaturesStory {
     if (context.intent === 'book') {
       bot.sayText("I don't know how to book flights, hotels or restaurants right now, but you can talk with a coleague.")
         .quickReply('Talk to a human', 'ONBOARDING_HUMAN');
+      return true;
     }
   }
 

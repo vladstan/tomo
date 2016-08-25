@@ -1,7 +1,8 @@
 import path from 'path';
 import fs from 'fs';
 
-export default function(...pathSegments) {
+// TODO remove this
+export default function(...pathSegments: string[]) {
   const modules = {};
 
   const dirName = path.resolve(...pathSegments);
