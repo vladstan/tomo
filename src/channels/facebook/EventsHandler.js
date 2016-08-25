@@ -1,4 +1,4 @@
-import TextMessage from 'facebook/messages/TextMessage';
+import TextMessage from 'channels/facebook/messages/TextMessage';
 
 import Config from 'server/Config';
 
@@ -8,24 +8,20 @@ import Session from 'models/Session';
 import Conversation from 'models/Conversation';
 import Memory from 'models/Memory';
 
-import FacebookReply from 'facebook/FacebookReply';
-import MessageReceiver from 'facebook/receivers/MessageReceiver';
-import PostbackReceiver from 'facebook/receivers/PostbackReceiver';
+import FacebookReply from 'channels/facebook/FacebookReply';
+import EventReceiver from 'channels/facebook/EventReceiver';
 import WitBot from 'ai/bot/WitBot';
 
 class EventsHandler {
 
   witBot: WitBot;
   facebookReply: FacebookReply;
+  eventReceiver: EventReceiver;
   senderId: string;
-
-  messageReceiver: MessageReceiver;
-  postbackReceiver: PostbackReceiver;
 
   constructor(config: Config) {
     this.facebookReply = new FacebookReply(config);
-    this.messageReceiver = new MessageReceiver();
-    this.postbackReceiver = new PostbackReceiver();
+    this.eventReceiver = new EventReceiver();
     this.witBot = new WitBot(config);
   }
 
@@ -65,13 +61,7 @@ class EventsHandler {
   async processEvent(event) {
     log.silly('processing event', JSON.stringify(event));
     try {
-      if (event.message) {
-        await this.messageReceiver.receive(event, this.facebookReply, this.witBot);
-      } else if (event.postback) {
-        await this.postbackReceiver.receive(event, this.facebookReply, this.witBot);
-      } else {
-        log.warn('unknown event type', event);
-      }
+      await this.eventReceiver.receive(event, this.facebookReply, this.witBot);
     } catch (err) {
       log.error('cannot handle event'); // TODO log response body, too
       log.error(err);

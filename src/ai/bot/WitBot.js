@@ -43,7 +43,7 @@ class WitBot {
     if (bestResult) {
       responses = bestResult.responses;
     } else {
-      responses = this.getContactHumanResponses();
+      responses = []; // this.getContactHumanResponses();
     }
 
     responses.forEach((resp) => botPast.addBotResponse(resp));
@@ -66,7 +66,7 @@ class WitBot {
     if (bestResult) {
       responses = bestResult.responses;
     } else {
-      responses = this.getContactHumanResponses();
+      responses = []; // this.getContactHumanResponses();
     }
 
     responses.forEach((resp) => botPast.addBotResponse(resp));

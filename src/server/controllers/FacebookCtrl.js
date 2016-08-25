@@ -1,4 +1,4 @@
-import EventsHandler from 'facebook/EventsHandler';
+import EventsHandler from 'channels/facebook/EventsHandler';
 
 class FacebookCtrl {
 
@@ -35,9 +35,12 @@ class FacebookCtrl {
     }
 
     const eventsBySenderId = this.entriesToGroupedEvents(body.entry);
-    const tasks = Object.entries(eventsBySenderId)
+    const eventsHandler = new EventsHandler(this.config);
+
+    const tasks = Object
+      .entries(eventsBySenderId)
       .map(async ([senderId, events]) => {
-        await new EventsHandler(this.config).process(senderId, events);
+        await eventsHandler.process(senderId, events);
       });
 
     await Promise.all(tasks);
