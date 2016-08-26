@@ -33,8 +33,8 @@ class ChitChatStory {
     }
 
     if (context.intent === 'help') {
-      bot.sayText('Here is a link where you can find how can I help');
-      bot.sayText('http://beta.okclaire.com/help.html'); 
+      bot.sayText('I can do so many cool things, check them out:');
+      bot.sayText('http://beta.okclaire.com/help.html');
       return true;
     }
 

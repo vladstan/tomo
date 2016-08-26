@@ -4,11 +4,15 @@ import ImageMessage from 'channels/facebook/messages/ImageMessage';
 
 class EventReceiver {
 
-  async receive({message, postback}, reply, bot) {
+  async receive({message = {}, postback = {}}, reply, bot) {
     await reply.actions('mark_seen', 'typing_on');
 
     const fbReplies = [];
     const botResponses = [];
+
+    if (message.text === 'Empezar') {
+      await reply.messages(new TextMessage('Lo siento, no hablo español, sólo el Inglés'));
+    }
 
     if (message.quick_reply && message.quick_reply.payload) {
       const responses = await bot.postback(message.quick_reply.payload);
@@ -36,7 +40,7 @@ class EventReceiver {
           let qr = new TextMessage(resp.text);
           if (Array.isArray(resp.quickReplies)) {
             for (const quickReply of resp.quickReplies) {
-              qr = qr.addQuickReply(quickReply.text, quickReply.postbackId);
+              qr = qr.addQuickReply(quickReply.text, quickReply.postbackId); // TODO rename postback -> payload?
             }
           }
           fbReplies.push(qr);
