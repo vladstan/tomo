@@ -16,7 +16,7 @@ class Database {
     });
 
     mongoose.connection.on('open', () => {
-      log.info('successfully connected to MongoDB');
+       log.info('successfully connected to MongoDB');
     });
 
     mongoose.connection.on('error', (err) => {
