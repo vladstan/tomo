@@ -32,6 +32,12 @@ class ChitChatStory {
       return true;
     }
 
+    if (context.intent === 'help') {
+      bot.sayText('Here is a link where you can find how can I help');
+      bot.sayText('http://beta.okclaire.com/help.html'); 
+      return true;
+    }
+
     if (context.intent === 'siri') {
       bot.sayText('Haha, this is very funny. Hmm, I mean not so funny :|'); // TODO make this random.
       return true;
