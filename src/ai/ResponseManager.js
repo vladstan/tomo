@@ -2,7 +2,9 @@ import globby from 'globby';
 import path from 'path';
 
 const moduleFiles = globby.sync('stories/*/responses.js', {
-  cwd: path.dirname(require.main.filename),
+  cwd: process.env.NODE_ENV === 'test'
+    ? path.resolve(process.cwd(), '..', 'dist')
+    : path.dirname(require.main.filename),
 });
 
 const responsesModules = moduleFiles.map((filePath) => require(filePath));
