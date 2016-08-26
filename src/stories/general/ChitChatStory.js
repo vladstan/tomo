@@ -33,7 +33,11 @@ class ChitChatStory {
     }
 
     if (context.intent === 'help') {
+<<<<<<< HEAD
       bot.sayText('Here is a link where you can find how can I help');
+=======
+      bot.sayText('I can do so many cool things, check them out:');
+>>>>>>> 2e72a01caac7d3a383a738b89c7f9c5ed43267c1
       bot.sayText('http://beta.okclaire.com/help.html');
       return true;
     }
