@@ -23,13 +23,15 @@ class RestaurantsStory {
 
   define(user: StoryUser) {
     user.says('Find a restaurant')
-      .intent('get_restaurant');
+      .intent('recommend')
+      .entity('property_type', 'restaurant', 'restaurant');
 
     user.says('Find a coffeeshop nearby')
       .intent('get_coffeeshop');
 
     user.says('Find a club')
-      .intent('get_club', 'club');
+      .intent('recommend')
+      .entity('property_type', 'club', 'club');
       // .entity('activity_type', 'activity_type', 'biking');
   }
 
@@ -40,7 +42,7 @@ class RestaurantsStory {
       context.intent = entities.intent[0].value;
     }
 
-    if (context.intent === 'get_restaurant') {
+    if (context.intent === 'recommend' && context.entity === 'restaurant') {
       let location = 'Palma de Mallorca';
       const listings = await this.restaurantsActions.getRestaurants();
       bot.sayText(`Here is a list with probably the best restaurants on ${location}`);
@@ -51,7 +53,7 @@ class RestaurantsStory {
       return true;
     }
 
-    if (context.intent === 'get_coffeeshop') {
+    if (context.intent === 'recommend' && context.entity === 'coffee') {
       let location = 'Palma de Mallorca';
       const listings = await this.restaurantsActions.getCoffee();
       bot.sayText(`Here is a list of places where you can find the best coffee on ${location}`);
@@ -63,7 +65,7 @@ class RestaurantsStory {
       return true;
     }
 
-    if (context.intent === 'get_clubs') {
+    if (context.intent === 'recommend' && context.entity === 'club') {
       let location = 'Palma de Mallorca';
       const listings = await this.restaurantsActions.getClubs();
       bot.sayText(`Here is a list with probably best clubs in ${location}`);

@@ -34,7 +34,7 @@ class ChitChatStory {
 
     if (context.intent === 'help') {
       bot.sayText('Here is a link where you can find how can I help');
-      bot.sayText('http://beta.okclaire.com/help.html'); 
+      bot.sayText('http://beta.okclaire.com/help.html');
       return true;
     }
 
@@ -61,6 +61,11 @@ class ChitChatStory {
 
     if (context.intent === 'approval') {
       bot.sayText('Thank you'); // TODO make this random.
+      return true;
+    }
+
+    if (context.intent === 'thanks') {
+      bot.sayText('My pleasure'); // TODO make this random.
       return true;
     }
 
