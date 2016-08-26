@@ -1,8 +1,17 @@
 import Koa from 'koa';
 
+import Middleware from 'server/Middleware';
+import Router from 'server/Router';
+import Config from 'server/Config';
+
 class Server {
 
-  constructor(config, router, middleware) {
+  app: Koa;
+  middleware: Middleware;
+  router: Router;
+  config: Config;
+
+  constructor(config: Config, router: Router, middleware: Middleware) {
     this.config = config;
     this.router = router;
     this.middleware = middleware;

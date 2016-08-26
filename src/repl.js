@@ -12,15 +12,11 @@ import Conversation from 'models/Conversation';
 import Memory from 'models/Memory';
 
 import Database from 'server/Database';
-import Logger from 'server/Logger'; // TODO mock, stderr
-
-const logger = new Logger();
-logger.attachGlobal();
 
 const config = Config.getInstance();
 
-const witBot = new WitBot(config, logger);
-const database = new Database(config, logger);
+const witBot = new WitBot(config);
+const database = new Database(config);
 database.connect();
 
 let senderId: string = '100000476749759';
@@ -45,12 +41,12 @@ replServer.on('exit', () => {
 init()
   .then(() => {
     initDone = true;
-    logger.info('init finished');
+    log.info('init finished');
   })
   .catch(errorThrower);
 
 function errorThrower(err: Error) {
-  logger.error(err);
+  log.error(err);
 }
 
 async function init(): Promise<void> {

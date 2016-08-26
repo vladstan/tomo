@@ -12,6 +12,7 @@ const stories = globby
 class StoryManager {
 
   static getAllTypes() {
+    log.silly(`found ${stories.length} stories`);
     return stories;
   }
 

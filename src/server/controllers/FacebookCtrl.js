@@ -13,23 +13,31 @@ class FacebookCtrl {
   }
 
   async verifyToken(ctx) {
+    log.silly('verifying token');
+
     if (ctx.query['hub.mode'] !== 'subscribe') {
-      ctx.throw(400, 'unknown hub.mode: ' + ctx.query['hub.mode']);
+      const errMsg = 'unknown hub.mode: ' + ctx.query['hub.mode'];
+      log.silly(errMsg);
+      ctx.throw(400, errMsg);
     }
 
     const tokenExpected = this.config.facebookVerifyToken;
     const tokenReceived = ctx.query['hub.verify_token'];
 
     if (tokenReceived !== tokenExpected) {
-      ctx.throw(400, 'validation failed, expected ' + tokenExpected + ' but got ' + tokenReceived);
+      const errMsg = 'validation failed, expected ' + tokenExpected + ' but got ' + tokenReceived;
+      log.silly(errMsg); // TODO automatically log all ctx responses as silly
+      ctx.throw(400, errMsg);
     }
 
+    log.silly('sending body: ' + ctx.query['hub.challenge']);
     ctx.body = ctx.query['hub.challenge'];
   }
 
   async webhook(ctx) {
-    const body = ctx.request.body;
+    log.silly('facebook webhook');
 
+    const body = ctx.request.body;
     if (body.object !== 'page') {
       ctx.throw(400, 'unknown object type: ' + body.object);
     }

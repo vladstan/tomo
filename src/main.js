@@ -16,7 +16,7 @@ import Logger from 'server/Logger';
 //   secretToken: '7d9246b410db6e9fa12ca19774a104cb0a112974'
 // })
 
-const logger = new Logger();
+const logger = new Logger({handleExceptions: true});
 logger.attachGlobal();
 
 const config = Config.getInstance();

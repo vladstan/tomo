@@ -10,15 +10,11 @@ import Conversation from 'models/Conversation';
 import Memory from 'models/Memory';
 
 import Database from 'server/Database';
-import Logger from 'server/Logger'; // TODO mock, stderr mute
-
-const logger = new Logger();
-logger.attachGlobal();
 
 const config = Config.getInstance();
 
-const witBot = new WitBot(config, logger);
-const database = new Database(config, logger);
+const witBot = new WitBot(config);
+const database = new Database(config);
 database.connect();
 
 let senderId: string = '100000476749759';

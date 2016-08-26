@@ -2,24 +2,24 @@ class Config {
 
   static _instance: Config;
 
-  port: ?string;
-  mongoUrl: ?string;
+  port: string;
+  mongoUrl: string;
   userAgent: string;
 
-  facebookAccessToken: ?string;
-  facebookVerifyToken: ?string;
-  facebookAppSecret: ?string;
+  facebookAccessToken: string;
+  facebookVerifyToken: string;
+  facebookAppSecret: string;
   facebookApiUrl: string;
 
-  witAiAccessToken: ?string;
+  witAiAccessToken: string;
   witAiApiUrl: string;
   witAiApiVersion: string;
 
-  forecastIoApiKey: ?string;
-  googleMapsApiKey: ?string;
+  forecastIoApiKey: string;
+  googleMapsApiKey: string;
 
-  expediaApiKey: ?string;
-  expediaApiUrl: ?string;
+  expediaApiKey: string;
+  expediaApiUrl: string;
 
   static getInstance(): Config {
     if (!this._instance) {

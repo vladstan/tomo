@@ -2,17 +2,17 @@ import winston from 'winston';
 
 class Logger extends winston.Logger {
 
-  constructor() {
+  constructor(options: Object = {}) {
     super({
       transports: [
         new winston.transports.Console({
-          level: 'silly',
+          level: 'silly', // options.level || 'silly',
           prettyPrint: true,
           colorize: true,
-          silent: false,
+          silent: false, // !!options.silent,
           timestamp: true,
-          handleExceptions: process.env.NODE_ENV === 'production',
-          humanReadableUnhandledException: process.env.NODE_ENV === 'production',
+          handleExceptions: false, // !!options.handleExceptions,
+          humanReadableUnhandledException: false, // !!options.handleExceptions,
           stderrLevels: ['error'],
         }),
       ],
