@@ -24,20 +24,21 @@ class RestaurantsStory {
   define(user: StoryUser) {
     user.says('Find me a restaurant')
       .intent('recommend', 'recommend')
-      .entity('property_type', 'restaurant', 'restaurant');
+      .entity('property_type', 'property_type', 'restaurant');
 
     user.says('Find a coffeeshop nearby')
       .intent('recommend', 'recommend')
-      .entity('property_type', 'coffee', 'coffee');
+      .entity('property_type', 'property_type', 'coffee');
 
     user.says('Find a club')
       .intent('recommend', 'recommend')
-      .entity('property_type', 'club', 'club');
+      .entity('property_type', 'property_type', 'club');
       // .entity('activity_type', 'activity_type', 'biking');
   }
 
   async run(past: BotPast, context: Object, entities: Object, bot: BotInterface) {
-    log.debug('running RestaurantsStory with new context', JSON.stringify(context), entities.intent[0].value, entities.property_type[0].value);
+    log.debug('running RestaurantsStory with new context', JSON.stringify(context));
+    console.log('entities', entities);
 
     if (entities.intent[0]) {
       context.intent = entities.intent[0].value;
