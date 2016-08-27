@@ -8,16 +8,13 @@
   "scripts": {
     "postinstall": "snyk protect",
     "start": "node dist/main.js",
-    "build": "npm run clean && babel src --source-maps --out-dir dist",
-    "build:watch": "npm run clean && babel src --source-maps --out-dir dist --watch",
-    "watch:main": "nodemon -w dist dist/main.js",
-    "watch:repl": "nodemon -w dist dist/repl.js",
-    "deploy": "npm run lint && npm run build && modulus deploy -p okclaire",
+    "build": "babel src --source-maps --out-dir dist",
+    "deploy": "npm run clean && npm run build && modulus deploy -p okclaire",
+    "watch": "(npm run build -- --watch &) && nodemon -w dist dist/main.js",
+    "repl": "(npm run build -- --watch &) && nodemon -w dist dist/repl.js",
+    "test": "(npm run build -- --watch &) && ava --verbose",
     "clean": "rimraf .nyc_output coverage dist",
-    "lint": "eslint src",
-    "test": "snyk test && npm run build && ava --verbose",
-    "test:watch": "ava --watch --verbose --timeout=10s",
-    "test:coverage": "npm run build && nyc ava && nyc report --reporter=html"
+    "lint": "eslint src"
   },
   "dependencies": {
     "app-module-path": "1.1.0",
