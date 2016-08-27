@@ -1,5 +1,4 @@
 import 'app-module-path/register';
-import 'utils/longjohn';
 
 import Database from 'server/Database';
 import Middleware from 'server/Middleware';
