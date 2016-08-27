@@ -15,7 +15,7 @@ import Database from 'server/Database';
 
 import Logger from 'server/Logger'; // TODO TEST mock, stderr
 
-const logger = new Logger({silent: false});
+const logger = new Logger({silent: true});
 logger.attachGlobal();
 
 const config = Config.getInstance();

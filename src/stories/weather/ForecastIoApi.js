@@ -1,4 +1,4 @@
-import ForecastIO from 'forecast-io';
+import ForecastIo from 'forecast-io';
 
 import Config from 'server/Config';
 
@@ -6,7 +6,7 @@ class ForecastIoApi {
 
   static _instance: ForecastIoApi;
 
-  client: ForecastIO;
+  client: ForecastIo;
   config: Config;
 
   static getInstance(config) {
@@ -19,7 +19,7 @@ class ForecastIoApi {
 
   constructor(config: Config) {
     const key: string = config.forecastIoApiKey;
-    this.client = new ForecastIO(key);
+    this.client = new ForecastIo(key);
   }
 
   async getWeather({lat, long, units = 'si', lang = 'en'}) {

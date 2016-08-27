@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
-import bluebird from 'bluebird';
 
-mongoose.Promise = bluebird;
+mongoose.Promise = Promise;
 
 export function model(Class) {
   const schema = new mongoose.Schema(Class.schema);

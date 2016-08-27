@@ -8,22 +8,8 @@
     "syntax-flow",
     "transform-flow-strip-types",
     "transform-decorators-legacy",
+    "transform-promise-to-bluebird",
     "transform-runtime",
     "source-map-support-for-6"
-  ],
-  "env": {
-    "production": {},
-    "development": {
-      "plugins": [
-        "default-import-checker"
-      ]
-    },
-    "test": {
-      "plugins": [
-        "espower",
-        "istanbul",
-        "default-import-checker"
-      ]
-    }
-  }
+  ]
 }

@@ -24,6 +24,16 @@ const router = new Router(config, middleware);
 const server = new Server(config, router, middleware);
 const database = new Database(config);
 
+if (process.env.NODE_ENV === 'production') {
+  process.on('unhandledRejection', (err: Error) => {
+    log.error('unhandled rejection', err);
+  });
+} else {
+  process.on('unhandledRejection', (err: Error) => {
+    throw err;
+  });
+}
+
 server.start();
 database.connect();
 

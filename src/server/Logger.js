@@ -6,13 +6,13 @@ class Logger extends winston.Logger {
     super({
       transports: [
         new winston.transports.Console({
-          level: 'silly', // options.level || 'silly',
+          level: options.level || 'silly',
           prettyPrint: true,
           colorize: true,
-          silent: false, // !!options.silent,
+          silent: options.silent,
           timestamp: true,
-          handleExceptions: false, // !!options.handleExceptions,
-          humanReadableUnhandledException: false, // !!options.handleExceptions,
+          handleExceptions: options.handleExceptions,
+          humanReadableUnhandledException: false,
           stderrLevels: ['error'],
         }),
       ],

@@ -1,4 +1,5 @@
 {
+  "root": true,
   "parser": "babel-eslint",
   "plugins": [
     "babel",
@@ -36,14 +37,15 @@
     "semi-spacing": [2, {"before": false, "after": true}],
     "space-before-function-paren": [2, "never"],
     "comma-dangle": [1, "always-multiline"],
+    "no-trailing-spaces": 1,
     "no-console": 1,
 
     "flowtype/define-flow-type": 1,
-    "flowtype/require-parameter-type": 1,
-    "flowtype/require-return-type": 1,
+    "flowtype/require-parameter-type": 0,
+    "flowtype/require-return-type": 0,
     "flowtype/space-after-type-colon": 1,
     "flowtype/space-before-type-colon": [1, "never"],
-    "flowtype/type-id-match": [1, "^([A-Z][a-z0-9]+)+Type$"],
+    "flowtype/type-id-match": [1, "^((\\$?[A-Za-z])[a-z0-9]+)+(Type)?$"],
     "flowtype/use-flow-type": 1,
     "flowtype/valid-syntax": 1
   }
