@@ -38,7 +38,6 @@ class RestaurantsStory {
 
   async run(past: BotPast, context: Object, entities: Object, bot: BotInterface) {
     log.debug('running RestaurantsStory with new context', JSON.stringify(context));
-    console.log('entities', entities);
 
     if (entities.intent[0]) {
       context.intent = entities.intent[0].value;
@@ -50,7 +49,7 @@ class RestaurantsStory {
 
     log.debug('intent and property', context.intent, context.property_type);
 
-    if (context.intent === 'recommend') {
+    if (context.intent === 'recommend' && context.property_type === 'restaurant') {
       let location = 'Palma de Mallorca';
       const listings = await this.restaurantsActions.getRestaurants();
       bot.sayText(`Here is a list with probably the best restaurants on ${location}`);
