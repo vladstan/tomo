@@ -72,8 +72,9 @@ class EventReceiver {
       }
     }
 
-    const fallbackTextMsg = new TextMessage("For special requests please type 'Talk to a human'");
-    await reply.messages(fallbackTextMsg);
+    const fallbackTextMsg1 = new TextMessage("I don't know how to do that yet");
+    const fallbackTextMsg2 = new TextMessage("Type 'help' to see what cool things I can do");
+    await reply.messages(fallbackTextMsg1, fallbackTextMsg2);
   }
 
 }
