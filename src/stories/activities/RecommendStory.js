@@ -109,6 +109,16 @@ class RecommendStory {
       return true;
     }
 
+    if (context.intent === 'recommend' && context.property_type === 'wine_bar') {
+      bot.sayText('Wine bar recommendation is still a special request. Please talk with a coleague about it.')
+        .quickReply('Talk to a colleague', 'ONBOARDING_HUMAN');
+    }
+
+    if (context.intent === 'recommend' && context.property_type === 'beach') {
+      bot.sayText('I\'m still learning about the best beaches. Please talk with a coleague about this.')
+        .quickReply('Talk to a colleague', 'ONBOARDING_HUMAN');
+    }
+
     //
     // // log.silly(context.intent, '===', 'get_weather');
     //

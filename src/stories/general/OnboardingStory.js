@@ -70,15 +70,8 @@ class OnboardingStory {
         return true;
 
       case 'ONBOARDING_FEEDBACK':
-        bot.sayText('We are still in beta so excuse our bugs.');
-        bot.sayText('If you have any feedback just let us know.')
-          .quickReply('Contact a human', 'ONBOARDING_HUMAN')
-          .quickReply('Ok, thank you', 'ONBOARDING_FINISH');
-        return true;
-
-      case 'ONBOARDING_FINSIH':
-        bot.sayText('Now you can get started simply by typing what do you want from me');
-        bot.sayText('Go to menu to restart this conversation or to find the list of things I can do for you');
+        bot.sayText('Type \'help\' to see what cool things I can do');
+        bot.sayText('If you have any feedback for us just let me know.');
         return true;
 
       case 'ONBOARDING_HUMAN':
