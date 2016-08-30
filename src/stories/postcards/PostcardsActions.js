@@ -1,14 +1,14 @@
-import BoatsApi from 'stories/activities/BoatsApi';
+import PostcardsApi from 'stories/postcards/PostcardsApi';
 
-class BoatsActions {
+class PostcardsActions {
 
-  boatsApi: BoatsApi;
+  postcardsApi: PostcardsApi;
 
-  constructor(boatsApi: BoatsApi) {
-    this.boatsApi = boatsApi;
+  constructor(postcardsApi: PostcardsApi) {
+    this.postcardsApi = postcardsApi;
   }
 
-  async getBoats() {
+  async getPostcards() {
     // const result = await this.googleMapsApi.geocodeLocation(locationName);
     // log.silly('getLocation geocoding result', JSON.stringify(result));
 
@@ -20,9 +20,9 @@ class BoatsActions {
     //   };
     // }
 
-    return this.boatsApi.getBoats();
+    return this.postcardsApi.getResults();
   }
 
 }
 
-export default BoatsActions;
+export default PostcardsActions;
