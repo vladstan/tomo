@@ -7,9 +7,10 @@
   "scripts": {
     "start": "node dist/main.js",
     "build": "babel src --source-maps --out-dir dist",
-    "watch": "(npm run build -- --watch &) && nodemon --delay 0.5 -w dist dist/main.js",
-    "repl": "(npm run build -- --watch &) && nodemon --delay 0.5 -w dist dist/repl.js",
-    "test": "(npm run build -- --watch &) && sleep 10 && ava --watch --verbose",
+    "buildw": "babel src --source-maps --watch --out-dir dist",
+    "watch": "npm run buildw & nodemon --delay 0.5 -w dist dist/main.js",
+    "repl": "npm run buildw & nodemon --delay 0.5 -w dist dist/repl.js",
+    "test": "npm run buildw & sleep 10 && ava --watch --verbose",
     "deploy": "npm run clean && npm run build && modulus deploy -p okclaire",
     "clean": "rimraf dist",
     "lint": "eslint src"
@@ -70,7 +71,7 @@
       "dist/**/*.js"
     ],
     "concurrency": 5,
-    "timeout": "30s",
+    "timeout": "10s",
     "require": [
       "babel-register",
       "./dist/test"
