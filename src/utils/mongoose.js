@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 mongoose.Promise = Promise;
 
 export function model(Class) {
-  const schema = new mongoose.Schema(Class.schema);
+  const schema = new mongoose.Schema(Class.schema, Class.options);
 
   for (const propKey of Class.__statics || []) {
     schema.statics[propKey] = Class[propKey];

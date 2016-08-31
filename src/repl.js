@@ -9,13 +9,14 @@ import User from 'models/User';
 import Profile from 'models/Profile';
 import Session from 'models/Session';
 import Conversation from 'models/Conversation';
+import ActionMessage from 'models/ActionMessage';
 import Memory from 'models/Memory';
 
 import Database from 'server/Database';
 
 import Logger from 'server/Logger'; // TODO TEST mock, stderr
 
-const logger = new Logger({silent: true});
+const logger = new Logger({silent: false});
 logger.attachGlobal();
 
 const config = Config.getInstance();
@@ -95,5 +96,13 @@ async function evalMessage(cmd: string) {
     return responses;
   }
   const responses = await witBot.process(cmd);
+  if (!responses.length) {
+    const actionMessage = new ActionMessage({
+      type: 'text',
+      userId: data.user.id,
+      messageText: cmd,
+    });
+    await actionMessage.save();
+  }
   return responses;
 }

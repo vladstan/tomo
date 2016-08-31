@@ -77,6 +77,9 @@ class OnboardingStory {
       case 'ONBOARDING_HUMAN':
         bot.sayText('Ok, someone in our team will get in touch with you ASAP')
           .quickReply('List the activities', 'ONBOARDING_LIST');
+        bot.addActionMessage({
+          messageText: 'Talk to a human',
+        });
         return true;
 
       case 'ONBOARDING_LIST':

@@ -7,6 +7,7 @@ import ResponseManager from 'ai/ResponseManager';
 import BotMemory from 'ai/bot/BotMemory';
 import BotInterface from 'ai/bot/BotInterface';
 import BotPast from 'ai/bot/BotPast';
+import ActionMessage from 'models/ActionMessage';
 
 import Config from 'server/Config';
 
@@ -43,6 +44,13 @@ class WitBot {
     let responses = null;
     if (bestResult) {
       responses = bestResult.responses;
+      for (const actionMessage of bestResult.actionMessages) {
+        await new ActionMessage({ // eslint-disable-line babel/no-await-in-loop
+          type: actionMessage.type,
+          userId: this.data.user.id,
+          messageText: actionMessage.messageText,
+        }).save();
+      }
     } else {
       responses = []; // this.getContactHumanResponses();
     }
@@ -66,6 +74,13 @@ class WitBot {
     let responses = null;
     if (bestResult) {
       responses = bestResult.responses;
+      for (const actionMessage of bestResult.actionMessages) {
+        await new ActionMessage({ // eslint-disable-line babel/no-await-in-loop
+          type: actionMessage.type,
+          userId: this.data.user.id,
+          messageText: actionMessage.messageText,
+        }).save();
+      }
     } else {
       responses = []; // this.getContactHumanResponses();
     }
@@ -114,6 +129,7 @@ class WitBot {
       confidence: 1,
       matched: matched,
       responses: botInterface.getResponses(),
+      actionMessages: botInterface.getActionMessages(),
     };
   }
 
@@ -140,12 +156,14 @@ class WitBot {
         confidence: 1,
         matched: matched,
         responses: botInterface.getResponses(),
+        actionMessages: botInterface.getActionMessages(),
       };
     } else {
       return {
         confidence: 0,
         matched: false,
         responses: botInterface.getResponses(),
+        actionMessages: botInterface.getActionMessages(),
       };
     }
   }

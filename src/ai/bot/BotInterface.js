@@ -7,6 +7,7 @@ class BotInterface {
 
   constructor() {
     this.botResponses = [];
+    this.actionMessages = [];
   }
 
   say(responseId: string, responseContext: Object) {
@@ -62,6 +63,14 @@ class BotInterface {
     this.botResponses.push(imageProps);
   }
 
+  addActionMessage(msg) {
+    // log.debug('addActionMessage(msg)', msg);
+    this.actionMessages.push({
+      type: 'text',
+      ...msg,
+    });
+  }
+
   wait(duration: string) {
     this.botResponses.push({
       type: 'wait',
@@ -71,6 +80,10 @@ class BotInterface {
 
   getResponses() {
     return this.botResponses;
+  }
+
+  getActionMessages() {
+    return this.actionMessages;
   }
 
 }

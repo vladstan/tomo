@@ -61,7 +61,7 @@ class EventsHandler {
   async processEvent(event) {
     log.silly('processing event', JSON.stringify(event));
     try {
-      await this.eventReceiver.receive(event, this.facebookReply, this.witBot);
+      await this.eventReceiver.receive(event, this.facebookReply, this.witBot, this.data);
     } catch (err) {
       log.error('cannot handle event'); // TODO log response body, too
       log.error(err);

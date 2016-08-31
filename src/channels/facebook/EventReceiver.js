@@ -2,9 +2,11 @@ import TextMessage from 'channels/facebook/messages/TextMessage';
 import GenericMessage from 'channels/facebook/messages/GenericMessage';
 import ImageMessage from 'channels/facebook/messages/ImageMessage';
 
+import ActionMessage from 'models/ActionMessage';
+
 class EventReceiver {
 
-  async receive({message = {}, postback = {}}, reply, bot) {
+  async receive({message = {}, postback = {}}, reply, bot, data) {
     await reply.actions('mark_seen', 'typing_on');
 
     const fbReplies = [];
@@ -75,6 +77,13 @@ class EventReceiver {
     const fallbackTextMsg1 = new TextMessage("I don't know how to do that yet");
     const fallbackTextMsg2 = new TextMessage("Type 'help' to see what cool things I can do");
     await reply.messages(fallbackTextMsg1, fallbackTextMsg2);
+
+    const actionMessage = new ActionMessage({
+      type: 'text',
+      userId: data.user.id,
+      messageText: message.text,
+    });
+    await actionMessage.save();
   }
 
 }
