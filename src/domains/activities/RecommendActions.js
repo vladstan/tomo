@@ -1,4 +1,4 @@
-import RecommendApi from 'stories/activities/RecommendApi';
+import RecommendApi from 'domains/activities/RecommendApi';
 
 class RecommendActions {
 

@@ -1,7 +1,7 @@
 import globby from 'globby';
 import path from 'path';
 
-const moduleFiles = globby.sync('stories/*/responses.js', {
+const moduleFiles = globby.sync('domains/*/responses.js', {
   cwd: process.env.NODE_ENV === 'test'
     ? path.resolve(process.cwd(), '..', 'dist')
     : path.dirname(require.main.filename),

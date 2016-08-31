@@ -1,5 +1,5 @@
 import StoryUser from 'ai/StoryUser';
-import WitAiApi from 'stories/core/WitAiApi';
+import WitAiApi from 'domains/core/WitAiApi';
 
 import StoryManager from 'ai/StoryManager';
 import ResponseManager from 'ai/ResponseManager';

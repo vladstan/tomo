@@ -1,7 +1,7 @@
-import WeatherActions from 'stories/weather/WeatherActions';
+import WeatherActions from 'domains/weather/WeatherActions';
 
-import ForecastIoApi from 'stories/weather/ForecastIoApi';
-import GoogleMapsApi from 'stories/weather/GoogleMapsApi';
+import ForecastIoApi from 'domains/weather/ForecastIoApi';
+import GoogleMapsApi from 'domains/weather/GoogleMapsApi';
 
 import Config from 'server/Config';
 import StoryUser from 'ai/StoryUser';

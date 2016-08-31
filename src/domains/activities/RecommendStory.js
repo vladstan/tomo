@@ -1,6 +1,6 @@
-import RecommendActions from 'stories/activities/RecommendActions';
+import RecommendActions from 'domains/activities/RecommendActions';
 
-import RecommendApi from 'stories/activities/RecommendApi';
+import RecommendApi from 'domains/activities/RecommendApi';
 
 import Config from 'server/Config';
 import StoryUser from 'ai/StoryUser';

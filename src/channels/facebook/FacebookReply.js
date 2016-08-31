@@ -1,5 +1,5 @@
 import FacebookMessage from 'channels/facebook/messages/FacebookMessage';
-import FacebookApi from 'stories/core/FacebookApi';
+import FacebookApi from 'domains/core/FacebookApi';
 
 class FacebookReply {
 

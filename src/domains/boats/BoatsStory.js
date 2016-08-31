@@ -1,5 +1,5 @@
-import BoatsActions from 'stories/boats/BoatsActions';
-import BoatsApi from 'stories/boats/BoatsApi';
+import BoatsActions from 'domains/boats/BoatsActions';
+import BoatsApi from 'domains/boats/BoatsApi';
 
 import Config from 'server/Config';
 import StoryUser from 'ai/StoryUser';
