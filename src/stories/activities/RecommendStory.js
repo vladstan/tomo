@@ -1,6 +1,6 @@
-import RestaurantsActions from 'stories/activities/RestaurantsActions';
+import RecommendActions from 'stories/activities/RecommendActions';
 
-import RestaurantsApi from 'stories/activities/RestaurantsApi';
+import RecommendApi from 'stories/activities/RecommendApi';
 
 import Config from 'server/Config';
 import StoryUser from 'ai/StoryUser';
@@ -8,14 +8,14 @@ import StoryUser from 'ai/StoryUser';
 import BotPast from 'ai/bot/BotPast';
 import BotInterface from 'ai/bot/BotInterface';
 
-class RestaurantsStory {
+class RecommendStory {
 
-  restaurantsActions: RestaurantsActions;
+  recommendActions: RecommendActions;
   user: StoryUser;
 
   constructor(config: Config, user: StoryUser) {
-    const restaurantsApi = RestaurantsApi.getInstance(config);
-    this.restaurantsActions = new RestaurantsActions(restaurantsApi);
+    const recommendApi = RecommendApi.getInstance(config);
+    this.recommendActions = new RecommendActions(recommendApi);
 
     this.define(user);
     this.user = user;
@@ -37,7 +37,7 @@ class RestaurantsStory {
   }
 
   async run(past: BotPast, context: Object, entities: Object, bot: BotInterface) {
-    log.debug('running RestaurantsStory with new context', JSON.stringify(context));
+    log.debug('running Recommend Story with new context', JSON.stringify(context));
 
     if (entities.intent[0]) {
       context.intent = entities.intent[0].value;
@@ -51,7 +51,7 @@ class RestaurantsStory {
 
     if (context.intent === 'recommend' && context.property_type === 'restaurant') {
       let location = 'Palma de Mallorca';
-      const listings = await this.restaurantsActions.getRestaurants();
+      const listings = await this.recommendActions.getRecommendations(context.property_type);
       bot.sayText(`Here is a list with probably the best restaurants on ${location}`);
       bot.sendCards(listings);
       // const imageProps = {};
@@ -62,7 +62,7 @@ class RestaurantsStory {
 
     if (context.intent === 'recommend' && context.property_type === 'coffee') {
       let location = 'Palma de Mallorca';
-      const listings = await this.restaurantsActions.getCoffee();
+      const listings = await this.recommendActions.getRecommendations(context.property_type);
       bot.sayText(`Here is a list of places where you can find the best coffee on ${location}`);
       bot.sendCards(listings);
       // We can add here the buttons and the actions.
@@ -74,7 +74,7 @@ class RestaurantsStory {
 
     if (context.intent === 'recommend' && context.property_type === 'club') {
       let location = 'Palma de Mallorca';
-      const listings = await this.restaurantsActions.getClubs();
+      const listings = await this.recommendActions.getRecommendations(context.property_type);
       bot.sayText(`Here is a list with probably best clubs in ${location}`);
       bot.sendCards(listings);
       // We can add here the buttons and the actions.
@@ -83,6 +83,41 @@ class RestaurantsStory {
       // bot.sendImage(imageProps);
       return true;
     }
+
+    if (context.intent === 'recommend' && context.property_type === 'shuttle') {
+      let location = 'Palma de Mallorca';
+      const listings = await this.recommendActions.getRecommendations(context.property_type);
+      bot.sayText(`Here is a list with probably the best airport shuttles in ${location}`);
+      bot.sendCards(listings);
+      // We can add here the buttons and the actions.
+      // const imageProps = {};
+      // imageProps.url = 'http://production.kyero.s3.amazonaws.com/3648/3648907/vwxrvxfy2d_long_term_rent_palma%20%2819%29.jpg';
+      // bot.sendImage(imageProps);
+      return true;
+    }
+
+    if (context.intent === 'recommend' && context.property_type === 'activity') {
+      let location = 'Palma de Mallorca';
+      const listings = await this.recommendActions.getRecommendations(context.property_type);
+      bot.sayText(`Here is a list with probably the best activities you can do in ${location}`);
+      bot.sendCards(listings);
+      // We can add here the buttons and the actions.
+      // const imageProps = {};
+      // imageProps.url = 'http://production.kyero.s3.amazonaws.com/3648/3648907/vwxrvxfy2d_long_term_rent_palma%20%2819%29.jpg';
+      // bot.sendImage(imageProps);
+      return true;
+    }
+
+    if (context.intent === 'recommend' && context.property_type === 'wine_bar') {
+      bot.sayText('Wine bar recommendation is still a special request. Please talk with a coleague about it.')
+        .quickReply('Talk to a colleague', 'ONBOARDING_HUMAN');
+    }
+
+    if (context.intent === 'recommend' && context.property_type === 'beach') {
+      bot.sayText('I\'m still learning about the best beaches. Please talk with a coleague about this.')
+        .quickReply('Talk to a colleague', 'ONBOARDING_HUMAN');
+    }
+
     //
     // // log.silly(context.intent, '===', 'get_weather');
     //
@@ -98,4 +133,4 @@ class RestaurantsStory {
 
 }
 
-export default RestaurantsStory;
+export default RecommendStory;
