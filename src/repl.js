@@ -25,7 +25,7 @@ const witBot = new WitBot(config);
 const database = new Database(config);
 database.connect();
 
-let senderId: string = '100000476749759';
+let senderId: string = '1014709141978512';
 let initDone: boolean = false;
 let data: ?Object = null;
 
