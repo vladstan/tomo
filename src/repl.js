@@ -95,6 +95,12 @@ async function evalMessage(cmd: string) {
     const responses = await witBot.postback(cmd.substring(1));
     return responses;
   }
+
+  if (data.user.botMuted) {
+    log.debug('bot is muted for this user, skipping');
+    return '<muted>';
+  }
+
   const responses = await witBot.process(cmd);
   if (!responses.length) {
     const actionMessage = new ActionMessage({
