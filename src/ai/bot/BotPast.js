@@ -1,32 +1,50 @@
 class BotPast {
 
-  conversation: Object;
-
-  constructor(conversation: Object) {
-    this.conversation = conversation;
+  constructor(messages) {
+    this.messages = messages;
+    this.newMessages = [];
   }
 
-  botAsked(intent: string): boolean {
+  botAsked(intent) {
     // TODO: search only the last 5 messages
-    const messages = this.conversation.messages;
-    const previousMessageFromBot = messages.find((msg) => msg.sender === 'bot');
-    if (previousMessageFromBot) {
+    const messages = this.messages;
+    const previousMessagesFromBot = messages
+      .filter((msg) => msg.senderType === 'bot')
+      .sort((a, b) => {
+        if (a.createdAt < b.createdAt) {
+          return -1;
+        } else if (a.createdAt < b.createdAt) {
+          return +1;
+        } else {
+          return 0;
+        }
+      });
+    if (previousMessagesFromBot.length) {
+      const previousMessageFromBot = previousMessagesFromBot[previousMessagesFromBot.length - 1];
       return previousMessageFromBot.entities.intent === intent;
     }
     return false;
   }
 
-  addUserMessage(parsedMessage: Object) {
-    this.conversation.messages.push({
-      sender: 'user',
+  addUserMessage(parsedMessage, userId) {
+    this.newMessages.push({
+      type: 'text',
+      senderType: 'user',
+      receiverType: 'bot',
+      senderId: userId,
+      receiverId: '0bot0',
       text: parsedMessage._text,
       entities: parsedMessage.entities,
     });
   }
 
-  addBotResponse(response: Object) {
-    this.conversation.messages.push({
-      sender: 'bot',
+  addBotResponse(response, userId) {
+    this.newMessages.push({
+      type: 'text',
+      senderType: 'bot',
+      receiverType: 'user',
+      senderId: '0bot0',
+      receiverId: userId,
       text: response.text,
       entities: response.entities || {},
     });

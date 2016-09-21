@@ -8,7 +8,7 @@ import WitBot from 'ai/bot/WitBot';
 import User from 'models/User';
 import Profile from 'models/Profile';
 import Session from 'models/Session';
-import Conversation from 'models/Conversation';
+import Message from 'models/Message';
 import ActionMessage from 'models/ActionMessage';
 import Memory from 'models/Memory';
 
@@ -64,13 +64,13 @@ async function initDatabaseData(): Promise<void> {
   const user = await User.findOneOrCreate({facebookId: senderId});
   const session = await Session.findOneOrCreate({userId: user.id});
 
-  const [profile, conversation, memory] = await Promise.all([
+  const [profile, messages, memory] = await Promise.all([
     Profile.findOneOrCreate({userId: user.id}),
-    Conversation.findOneOrCreate({sessionId: session.id}),
+    Message.find({sessionId: session.id}),
     Memory.findOneOrCreate({sessionId: session.id}),
   ]);
 
-  data = {user, session, profile, conversation, memory};
+  data = {user, session, profile, messages, memory};
 }
 
 async function saveDatabaseData(): Promise<void> {

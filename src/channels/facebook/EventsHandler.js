@@ -1,11 +1,9 @@
 import TextMessage from 'channels/facebook/messages/TextMessage';
 
-import Config from 'server/Config';
-
 import User from 'models/User';
 import Profile from 'models/Profile';
 import Session from 'models/Session';
-import Conversation from 'models/Conversation';
+import Message from 'models/Message';
 import Memory from 'models/Memory';
 
 import FacebookReply from 'channels/facebook/FacebookReply';
@@ -14,22 +12,23 @@ import WitBot from 'ai/bot/WitBot';
 
 class EventsHandler {
 
-  witBot: WitBot;
-  facebookReply: FacebookReply;
-  eventReceiver: EventReceiver;
-  senderId: string;
-
-  constructor(config: Config) {
+  constructor(config) {
     this.facebookReply = new FacebookReply(config);
     this.eventReceiver = new EventReceiver();
     this.witBot = new WitBot(config);
   }
 
-  async process(senderId: string, events) {
+  async process(senderId, events) {
     this.facebookReply.setRecipientId(senderId);
     this.senderId = senderId;
 
     await this.initDatabaseData();
+
+    if (this.data.user.botMuted) {
+      log.debug('bot is muted for this user, skipping');
+      return;
+    }
+
     this.witBot.init(this.data);
 
     for (const event of events) {
@@ -43,13 +42,13 @@ class EventsHandler {
     const user = await User.findOneOrCreate({facebookId: this.senderId});
     const session = await Session.findOneOrCreate({userId: user.id});
 
-    const [profile, conversation, memory] = await Promise.all([
+    const [profile, messages, memory] = await Promise.all([
       Profile.findOneOrCreate({userId: user.id}),
-      Conversation.findOneOrCreate({sessionId: session.id}),
+      Message.find({sessionId: session.id}),
       Memory.findOneOrCreate({sessionId: session.id}),
     ]);
 
-    this.data = {user, session, profile, conversation, memory};
+    this.data = {user, session, profile, messages, memory};
   }
 
   async saveDatabaseData() {
@@ -67,8 +66,8 @@ class EventsHandler {
       log.error(err);
 
       try {
-        const responseText = this.witBot.getErrorResponse();
-        await this.facebookReply.messages(new TextMessage(responseText));
+        const errorResponseText = this.witBot.getErrorResponse();
+        await this.facebookReply.messages(new TextMessage(errorResponseText));
       } catch (err) {
         log.error('cannot send error message back to user'); // TODO log response body, too
         log.error(err);

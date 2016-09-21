@@ -5,6 +5,7 @@ class User {
 
   static schema = {
     facebookId: {type: String, unique: true, required: true},
+    botMuted: {type: Boolean, default: false},
   }
 
   @staticMethod

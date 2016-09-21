@@ -4,6 +4,8 @@ import WitAiApi from 'domains/core/WitAiApi';
 import StoryManager from 'ai/StoryManager';
 import ResponseManager from 'ai/ResponseManager';
 
+import Message from 'models/Message';
+
 import BotMemory from 'ai/bot/BotMemory';
 import BotInterface from 'ai/bot/BotInterface';
 import BotPast from 'ai/bot/BotPast';
@@ -30,8 +32,8 @@ class WitBot {
     const parsed = await this.witAiApi.parseMessage(messageText);
     log.debug('wit.ai response:', JSON.stringify(parsed));
 
-    const botPast = new BotPast(this.data.conversation);
-    botPast.addUserMessage(parsed);
+    const botPast = new BotPast(this.data.messages);
+    botPast.addUserMessage(parsed, this.data.user.id);
 
     const results = await this.runAllStories(botPast, parsed);
     const sortedResults = results.sort(this.confidenceComparatorDesc);
@@ -39,7 +41,7 @@ class WitBot {
     log.silly('results:', results);
     log.silly('sortedResults:', sortedResults);
     log.silly('bestResult:', bestResult);
-    // TODO store results in conversation
+    // TODO store results in conversation / messages
 
     let responses = null;
     if (bestResult) {
@@ -55,21 +57,26 @@ class WitBot {
       responses = []; // this.getContactHumanResponses();
     }
 
-    responses.forEach((resp) => botPast.addBotResponse(resp));
+    responses.forEach((resp) => botPast.addBotResponse(resp, this.data.user.id));
 
-    // log.silly('WitBot', 'finished processing', responses);
+    for (const newMessage of botPast.newMessages) {
+      newMessage.sessionId = this.data.session.id;
+      await new Message(newMessage).save(); // eslint-disable-line babel/no-await-in-loop
+    }
+
+    log.silly('WitBot', 'finished processing', responses);
     return responses;
   }
 
   async postback(postbackId: string) {
-    const botPast = new BotPast(this.data.conversation);
+    const botPast = new BotPast(this.data.messages);
     botPast.addPostback(postbackId);
 
     const results = await this.postbackAllStories(botPast, postbackId);
     const sortedResults = results.sort(this.confidenceComparatorDesc);
     const bestResult = sortedResults.find((result) => result.matched);
     // log.silly('sortedResults:', JSON.stringify(sortedResults));
-    // TODO store results in conversation
+    // TODO store results in conversation / messages
 
     let responses = null;
     if (bestResult) {
@@ -85,7 +92,7 @@ class WitBot {
       responses = []; // this.getContactHumanResponses();
     }
 
-    responses.forEach((resp) => botPast.addBotResponse(resp));
+    responses.forEach((resp) => botPast.addBotResponse(resp, this.data.user.id));
 
     // log.silly('WitBot', 'finished processing', responses);
     return responses;

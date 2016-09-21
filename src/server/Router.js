@@ -2,6 +2,7 @@ import KoaRouter from 'koa-router';
 
 import MainCtrl from 'server/controllers/MainCtrl';
 import FacebookCtrl from 'server/controllers/FacebookCtrl';
+import MessagesCtrl from 'server/controllers/MessagesCtrl';
 
 import Config from 'server/Config';
 import Middleware from 'server/Middleware';
@@ -17,6 +18,7 @@ class Router {
 
     new MainCtrl().routes(koaRouter);
     new FacebookCtrl(config, middleware).routes(koaRouter);
+    new MessagesCtrl(config).routes(koaRouter);
   }
 
   routes() {
