@@ -25,7 +25,24 @@ class EventsHandler {
     await this.initDatabaseData();
 
     if (this.data.user.botMuted) {
-      log.debug('bot is muted for this user, skipping');
+      log.debug('bot is muted for this user, skipping WitBot processing');
+      for (const event of events) {
+        if (event.message && event.message.text) {
+          const msg = {
+            type: 'text',
+            senderType: 'user',
+            receiverType: 'bot',
+            senderId: this.data.user.id,
+            receiverId: '0bot0',
+            text: event.message.text, //
+            sessionId: this.data.session.id,
+          };
+          await new Message(msg).save(); // eslint-disable-line babel/no-await-in-loop
+        } else {
+          log.silly('event does not have event.message.text:', JSON.stringify(event));
+        }
+        // TODO: do this in REPL as well ??
+      }
       return;
     }
 
