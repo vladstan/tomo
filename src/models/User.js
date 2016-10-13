@@ -9,13 +9,17 @@ class User {
   }
 
   @staticMethod
-  static async findOneOrCreate(query, newDoc = query) {
-    let user = await this.findOne(query);
-    if (!user) {
-      user = new this(newDoc);
-      await user.save();
+  static async findOneOrCreate(query, newDocCallback) {
+    let doc = await this.findOne(query);
+    if (!doc) {
+      if (newDocCallback) {
+        doc = new this(await newDocCallback());
+      } else {
+        doc = new this(query);
+      }
+      await doc.save();
     }
-    return user;
+    return doc;
   }
 
 }

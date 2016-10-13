@@ -9,13 +9,17 @@ class Session {
   }
 
   @staticMethod
-  static async findOneOrCreate(query, newDoc = query) {
-    let session = await this.findOne(query);
-    if (!session) {
-      session = new this(newDoc);
-      await session.save();
+  static async findOneOrCreate(query, newDocCallback) {
+    let doc = await this.findOne(query);
+    if (!doc) {
+      if (newDocCallback) {
+        doc = new this(await newDocCallback());
+      } else {
+        doc = new this(query);
+      }
+      await doc.save();
     }
-    return session;
+    return doc;
   }
 
 }

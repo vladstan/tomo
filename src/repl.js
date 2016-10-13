@@ -12,6 +12,8 @@ import Message from 'models/Message';
 import ActionMessage from 'models/ActionMessage';
 import Memory from 'models/Memory';
 
+import FacebookApi from 'domains/core/FacebookApi';
+
 import Database from 'server/Database';
 
 import Logger from 'server/Logger'; // TODO TEST mock, stderr
@@ -25,7 +27,7 @@ const witBot = new WitBot(config);
 const database = new Database(config);
 database.connect();
 
-let senderId: string = '1014709141978512';
+let senderId: string = '1271264896226433';
 let initDone: boolean = false;
 let data: ?Object = null;
 
@@ -65,7 +67,39 @@ async function initDatabaseData(): Promise<void> {
   const session = await Session.findOneOrCreate({userId: user.id});
 
   const [profile, messages, memory] = await Promise.all([
-    Profile.findOneOrCreate({userId: user.id}),
+    Profile.findOneOrCreate({userId: user.id}, async () => {
+      log.silly('creating new profile for', senderId);
+      const facebookApi = FacebookApi.getInstance(config);
+      const fields = [
+        // 'name',
+        'first_name',
+        'last_name',
+        'profile_pic',
+        'gender',
+        // 'locale',
+        // 'timezone',
+        // 'updated_time',
+        // 'age_range',
+        // 'birthday',
+        // 'currency',
+        // 'hometown',
+        // 'interested_in',
+        // 'languages',
+        // 'location',
+        // 'devices',
+      ];
+
+      const fbData = await facebookApi.getUser(senderId, fields);
+      log.silly('fbData=', fbData);
+
+      return {
+        userId: user.id,
+        firstName: fbData.first_name,
+        lastName: fbData.last_name,
+        pictureUrl: fbData.profile_pic,
+        gender: fbData.gender,
+      };
+    }),
     Message.find({sessionId: session.id}),
     Memory.findOneOrCreate({sessionId: session.id}),
   ]);

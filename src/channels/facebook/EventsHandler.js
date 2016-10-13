@@ -6,6 +6,7 @@ import Session from 'models/Session';
 import Message from 'models/Message';
 import Memory from 'models/Memory';
 
+import FacebookApi from 'domains/core/FacebookApi';
 import FacebookReply from 'channels/facebook/FacebookReply';
 import EventReceiver from 'channels/facebook/EventReceiver';
 import WitBot from 'ai/bot/WitBot';
@@ -13,6 +14,7 @@ import WitBot from 'ai/bot/WitBot';
 class EventsHandler {
 
   constructor(config) {
+    this.facebookApi = FacebookApi.get(config);
     this.facebookReply = new FacebookReply(config);
     this.eventReceiver = new EventReceiver();
     this.witBot = new WitBot(config);
@@ -60,7 +62,38 @@ class EventsHandler {
     const session = await Session.findOneOrCreate({userId: user.id});
 
     const [profile, messages, memory] = await Promise.all([
-      Profile.findOneOrCreate({userId: user.id}),
+      Profile.findOneOrCreate({userId: user.id}, async () => {
+        log.silly('creating new profile for', this.senderId);
+        const fields = [
+          // 'name',
+          'first_name',
+          'last_name',
+          'profile_pic',
+          'gender',
+          // 'locale',
+          // 'timezone',
+          // 'updated_time',
+          // 'age_range',
+          // 'birthday',
+          // 'currency',
+          // 'hometown',
+          // 'interested_in',
+          // 'languages',
+          // 'location',
+          // 'devices',
+        ];
+
+        const fbData = await this.facebookApi.getUser(this.senderId, fields);
+        log.silly('fbData=', fbData);
+
+        return {
+          userId: user.id,
+          firstName: fbData.first_name,
+          lastName: fbData.last_name,
+          pictureUrl: fbData.profile_pic,
+          gender: fbData.gender,
+        };
+      }),
       Message.find({sessionId: session.id}),
       Memory.findOneOrCreate({sessionId: session.id}),
     ]);

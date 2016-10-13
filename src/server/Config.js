@@ -54,7 +54,7 @@ class Config {
     this.facebookAccessToken = process.env.FACEBOOK_ACCESS_TOKEN;
     this.facebookVerifyToken = process.env.FACEBOOK_VERIFY_TOKEN;
     this.facebookAppSecret = process.env.FACEBOOK_APP_SECRET;
-    this.facebookApiUrl = 'https://graph.facebook.com/v2.6';
+    this.facebookApiUrl = 'https://graph.facebook.com/v2.8';
 
     this.witAiAccessToken = process.env.WITAI_ACCESS_TOKEN;
     this.witAiApiUrl = 'https://api.wit.ai';
