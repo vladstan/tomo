@@ -5,6 +5,7 @@ class Profile {
 
   static schema = {
     userId: {type: String, unique: true, required: true},
+    name: {type: String, required: true},
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
     pictureUrl: {type: String, required: true},

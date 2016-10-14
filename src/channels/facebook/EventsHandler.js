@@ -65,7 +65,7 @@ class EventsHandler {
       Profile.findOneOrCreate({userId: user.id}, async () => {
         log.silly('creating new profile for', this.senderId);
         const fields = [
-          // 'name',
+          'name',
           'first_name',
           'last_name',
           'profile_pic',
@@ -88,6 +88,7 @@ class EventsHandler {
 
         return {
           userId: user.id,
+          name: fbData.name,
           firstName: fbData.first_name,
           lastName: fbData.last_name,
           pictureUrl: fbData.profile_pic,

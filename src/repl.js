@@ -71,7 +71,7 @@ async function initDatabaseData(): Promise<void> {
       log.silly('creating new profile for', senderId);
       const facebookApi = FacebookApi.getInstance(config);
       const fields = [
-        // 'name',
+        'name',
         'first_name',
         'last_name',
         'profile_pic',
@@ -94,6 +94,7 @@ async function initDatabaseData(): Promise<void> {
 
       return {
         userId: user.id,
+        name: fbData.name,
         firstName: fbData.first_name,
         lastName: fbData.last_name,
         pictureUrl: fbData.profile_pic,
