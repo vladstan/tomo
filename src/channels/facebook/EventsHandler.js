@@ -14,7 +14,7 @@ import WitBot from 'ai/bot/WitBot';
 class EventsHandler {
 
   constructor(config) {
-    this.facebookApi = FacebookApi.get(config);
+    this.facebookApi = FacebookApi.getInstance(config);
     this.facebookReply = new FacebookReply(config);
     this.eventReceiver = new EventReceiver();
     this.witBot = new WitBot(config);
