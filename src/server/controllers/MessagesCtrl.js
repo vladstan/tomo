@@ -24,7 +24,7 @@ class MessagesCtrl {
 
     log.silly('sendMessage: validation successful, processing messages...');
     for (const message of body.messages) {
-      log.silly('sendMessage: setting recipientId');
+      log.silly('sendMessage: setting recipientId =', message.receiverFacebookId);
       this.facebookReply.setRecipientId(message.receiverFacebookId);
 
       log.silly('sendMessage: sending to Facebook');
