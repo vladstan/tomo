@@ -24,8 +24,8 @@ class MessagesCtrl {
 
     log.silly('sendMessage: validation successful, processing messages...');
     for (const message of body.messages) {
-      log.silly('sendMessage: setting recipientId');
-      this.facebookReply.setRecipientId(message.receiverId);
+      log.silly('sendMessage: setting recipientId =', message.receiverFacebookId);
+      this.facebookReply.setRecipientId(message.receiverFacebookId);
 
       log.silly('sendMessage: sending to Facebook');
       await this.facebookReply.messages(new TextMessage(message.text)); // eslint-disable-line babel/no-await-in-loop

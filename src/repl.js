@@ -94,6 +94,7 @@ async function initDatabaseData(): Promise<void> {
 
       return {
         userId: user.id,
+        // name: fbData.name,
         firstName: fbData.first_name,
         lastName: fbData.last_name,
         pictureUrl: fbData.profile_pic,
