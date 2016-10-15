@@ -26,6 +26,10 @@ class BotPast {
     return false;
   }
 
+  getCurrentMessage() {
+    return this.newMessages[this.newMessages.length - 1];
+  }
+
   addUserMessage(parsedMessage, userId) {
     this.newMessages.push({
       type: 'text',

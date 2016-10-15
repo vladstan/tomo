@@ -16,6 +16,7 @@ class EventReceiver {
       await reply.messages(new TextMessage('Lo siento, no hablo español, sólo el Inglés'));
     }
 
+    // https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-received
     if (message.quick_reply && message.quick_reply.payload) {
       const responses = await bot.postback(message.quick_reply.payload);
       botResponses.push(...responses);
@@ -26,6 +27,7 @@ class EventReceiver {
       botResponses.push(...responses);
     }
 
+    // https://developers.facebook.com/docs/messenger-platform/webhook-reference/postback-received
     if (!botResponses.length && postback.payload) {
       const responses = await bot.postback(postback.payload);
       botResponses.push(...responses);

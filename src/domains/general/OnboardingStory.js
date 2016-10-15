@@ -16,11 +16,26 @@ class OnboardingStory {
     const facebookApi = FacebookApi.getInstance(config);
     this.onboardingActions = new OnboardingActions(facebookApi);
 
-    // this.define(user);
+    this.define(user);
     this.user = user;
   }
 
-  async run(past: BotPast, context: Object, entities: Object, bot: BotInterface) {}
+  define(user: StoryUser) {
+    user.says('Paris')
+      .entity('wit/location', 'location', 'Paris');
+  }
+
+  async run(past: BotPast, context: Object, entities: Object, bot: BotInterface) {
+    log.debug('running OnboardingStory with context', JSON.stringify(context));
+
+    if (past.botAsked('get_pref_airport')) {
+      bot.memory.remember('pref_airport', past.getCurrentMessage().text, '1y');
+      bot.sayText('What type of cabin do you prefer?')
+        .quickReply('Economy', 'ONBOARDING_CABIN_ECONOMY')
+        .quickReply('Business', 'ONBOARDING_CABIN_BUSINESS');
+      return true;
+    }
+  }
 
   async postback(past: BotPast, context: Object, postbackId: string, bot: BotInterface) {
     log.debug('Postback Onboarding with context', JSON.stringify(context));
@@ -28,31 +43,31 @@ class OnboardingStory {
     switch (postbackId) {
       case 'GET_STARTED':
         bot.sayText(`Hi ${userFbProfile.first_name}, I'm Yago your bot assistant.`);
-        bot.sayText(' I want to make sure we’re offering you the best possible experience.');
+        bot.sayText('I want to make sure we’re offering you the best possible experience.');
         bot.sayText('Let me learn few things about you.')
           .quickReply('Ok, let\'s do it', 'ONBOARDING_ACCOMMODATION');
         return true;
 
       case 'ONBOARDING_ACCOMMODATION':
         bot.sayText('Do you prefer to stay at hotel, hostel or Airbnb?')
-          .quickReply('Hotel', 'DUMMY')
-          .quickReply('Airbnb', 'ONBOARDING_ACTIVITIES')
-          .quickReply('Hostel', 'DUMMY');
+          .quickReply('Hotel', 'ONBOARDING_AIRPORT_HOTEL')
+          .quickReply('Airbnb', 'ONBOARDING_AIRPORT_AIRBNB')
+          .quickReply('Hostel', 'ONBOARDING_AIRPORT_HOSTEL');
         return true;
 
-      case 'ONBOARDING_AIRPORT':
+      case 'ONBOARDING_AIRPORT_HOTEL':
+      case 'ONBOARDING_AIRPORT_AIRBNB':
+      case 'ONBOARDING_AIRPORT_HOSTEL':
+        bot.memory.remember('pref_accommodation', postbackId.replace('ONBOARDING_AIRPORT_', '').toLowerCase(), '1y');
         bot.sayText('Great, thank you.');
-        bot.sayText('How much did you spend for accommodation per night last time you was in a trip?')
+        bot.sayText('How much did you spend for accommodation per night last time you were in a trip?')
           .quickReply('Less than $75/day', 'DUMMY')
           .quickReply('Less than $150/day', 'ONBOARDING_REAL_ESTATE')
           .quickReply('More than $200/day', 'ONBOARDING_REAL_ESTATE');
         return true;
 
-      case 'ONBOARDING_SPENDING':
-        bot.sayText('You can rent or buy properties on the Island')
-          .quickReply('Rent an apartment', 'DUMMY')
-          .quickReply('Buy a house', 'DUMMY')
-          .quickReply('Next one', 'ONBOARDING_RESTAURANTS');
+      case 'ONBOARDING_HOME_AIRPORT':
+        bot.sayTextWithIntent("What's the airport closest to you?", 'get_pref_airport');
         return true;
 
       case 'ONBOARDING_RESTAURANTS':

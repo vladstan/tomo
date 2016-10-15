@@ -29,6 +29,16 @@ class BotInterface {
     return this.qrInterface(resp);
   }
 
+  sayTextWithIntent(responseText: string, targetIntent) {
+    const resp = {
+      type: 'text',
+      text: responseText,
+      intent: targetIntent,
+    };
+    this.botResponses.push(resp);
+    return this.qrInterface(resp);
+  }
+
   qrInterface(resp: Object) {
     const that = this;
     return {
