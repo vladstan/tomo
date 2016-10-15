@@ -27,27 +27,28 @@ class OnboardingStory {
     const userFbProfile = await this.onboardingActions.getUser(context.facebookSenderId, ['first_name']);
     switch (postbackId) {
       case 'GET_STARTED':
-        bot.sayText(`Hi ${userFbProfile.first_name}, I'm Claire your personal concierge for your stay in Palma de Mallorca`);
-        bot.sayText('You can use me for free during your stay on the island');
-        bot.sayText('Let me show you want I can do for you')
-          .quickReply('Ok, let\'s start', 'ONBOARDING_POSTCARDS');
+        bot.sayText(`Hi ${userFbProfile.first_name}, I'm Yago your bot assistant.`);
+        bot.sayText(' I want to make sure we’re offering you the best possible experience.');
+        bot.sayText('Let me learn few things about you.')
+          .quickReply('Ok, let\'s do it', 'ONBOARDING_ACCOMMODATION');
         return true;
 
-      case 'ONBOARDING_POSTCARDS':
-        bot.sayText('You can send printed postacards to loved ones.');
-        bot.sayText('Just type \'Send a postacard\' to get started')
-          .quickReply('Send a postcard', 'DUMMY')
-          .quickReply('What else', 'ONBOARDING_ACTIVITIES');
+      case 'ONBOARDING_ACCOMMODATION':
+        bot.sayText('Do you prefer to stay at hotel, hostel or Airbnb?')
+          .quickReply('Hotel', 'DUMMY')
+          .quickReply('Airbnb', 'ONBOARDING_ACTIVITIES')
+          .quickReply('Hostel', 'DUMMY');
         return true;
 
-      case 'ONBOARDING_ACTIVITIES':
-        bot.sayText('You can discover the best activities you can do on the island');
-        bot.sayText('Just type: \'Find me an activity\' to get started')
-          .quickReply('Find me an activity', 'DUMMY')
-          .quickReply('Ok, what else', 'ONBOARDING_REAL_ESTATE');
+      case 'ONBOARDING_AIRPORT':
+        bot.sayText('Great, thank you.');
+        bot.sayText('How much did you spend for accommodation per night last time you was in a trip?')
+          .quickReply('Less than $75/day', 'DUMMY')
+          .quickReply('Less than $150/day', 'ONBOARDING_REAL_ESTATE')
+          .quickReply('More than $200/day', 'ONBOARDING_REAL_ESTATE');
         return true;
 
-      case 'ONBOARDING_REAL_ESTATE':
+      case 'ONBOARDING_SPENDING':
         bot.sayText('You can rent or buy properties on the Island')
           .quickReply('Rent an apartment', 'DUMMY')
           .quickReply('Buy a house', 'DUMMY')
