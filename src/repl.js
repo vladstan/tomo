@@ -129,6 +129,14 @@ async function evalMessage(cmd: string) {
   if (!initDone) {
     return '<init not finished>';
   }
+
+  if (cmd === 'exit') {
+    saveDatabaseData()
+      .then((): void => process.exit(0))
+      .catch(errorThrower);
+    return;
+  }
+
   if (cmd.startsWith('@')) {
     // if (cmd.startsWith('@SEND')) {
     //   const [cmdName, userId, postbackId] = cmd.split();

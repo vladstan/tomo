@@ -8,6 +8,11 @@ class BotInterface {
   constructor() {
     this.botResponses = [];
     this.actionMessages = [];
+    this.prefs = [];
+  }
+
+  savePref(key, value) {
+    this.prefs.push({key, value});
   }
 
   say(responseId: string, responseContext: Object) {

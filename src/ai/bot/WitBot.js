@@ -46,12 +46,20 @@ class WitBot {
     let responses = null;
     if (bestResult) {
       responses = bestResult.responses;
+
+      log.silly('saving action messages');
       for (const actionMessage of bestResult.actionMessages) {
         await new ActionMessage({ // eslint-disable-line babel/no-await-in-loop
           type: actionMessage.type,
           userId: this.data.user.id,
           messageText: actionMessage.messageText,
         }).save();
+      }
+
+      log.silly('saving new prefs');
+      this.data.profile.prefs = this.data.profile.prefs || {};
+      for (const [key, value] of bestResult.newPrefs) {
+        this.data.profile.prefs[key] = value;
       }
     } else {
       responses = []; // this.getContactHumanResponses();
@@ -81,12 +89,20 @@ class WitBot {
     let responses = null;
     if (bestResult) {
       responses = bestResult.responses;
+
+      log.silly('saving action messages');
       for (const actionMessage of bestResult.actionMessages) {
         await new ActionMessage({ // eslint-disable-line babel/no-await-in-loop
           type: actionMessage.type,
           userId: this.data.user.id,
           messageText: actionMessage.messageText,
         }).save();
+      }
+
+      log.silly('saving new prefs');
+      this.data.profile.prefs = this.data.profile.prefs || {};
+      for (const {key, value} of bestResult.newPrefs) {
+        this.data.profile.prefs[key] = value;
       }
     } else {
       responses = []; // this.getContactHumanResponses();
@@ -137,6 +153,7 @@ class WitBot {
       matched: matched,
       responses: botInterface.getResponses(),
       actionMessages: botInterface.getActionMessages(),
+      newPrefs: botInterface.prefs,
     };
   }
 
@@ -164,6 +181,7 @@ class WitBot {
         matched: matched,
         responses: botInterface.getResponses(),
         actionMessages: botInterface.getActionMessages(),
+        newPrefs: botInterface.prefs,
       };
     } else {
       return {
@@ -171,6 +189,7 @@ class WitBot {
         matched: false,
         responses: botInterface.getResponses(),
         actionMessages: botInterface.getActionMessages(),
+        newPrefs: botInterface.prefs,
       };
     }
   }

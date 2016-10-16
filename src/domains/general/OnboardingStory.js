@@ -29,7 +29,7 @@ class OnboardingStory {
     log.debug('running OnboardingStory with context', JSON.stringify(context));
 
     if (past.botAsked('get_pref_airport')) {
-      bot.memory.remember('pref_airport', past.getCurrentMessage().text, '1y');
+      bot.savePref('home_airport', past.getCurrentMessage().text);
       bot.sayText('What type of cabin do you prefer?')
         .quickReply('Economy', 'ONBOARDING_CABIN_ECONOMY')
         .quickReply('Business', 'ONBOARDING_CABIN_BUSINESS');
@@ -58,7 +58,7 @@ class OnboardingStory {
       case 'ONBOARDING_AIRPORT_HOTEL':
       case 'ONBOARDING_AIRPORT_AIRBNB':
       case 'ONBOARDING_AIRPORT_HOSTEL':
-        bot.memory.remember('pref_accommodation', postbackId.replace('ONBOARDING_AIRPORT_', '').toLowerCase(), '1y');
+        bot.savePref('accommodation', postbackId.replace('ONBOARDING_AIRPORT_', '').toLowerCase());
         bot.sayText('Great, thank you.');
         bot.sayText('How much did you spend for accommodation per night last time you were in a trip?')
           .quickReply('Less than $75/day', 'DUMMY')
