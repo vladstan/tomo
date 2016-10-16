@@ -70,8 +70,8 @@ class EventsHandler {
           'last_name',
           'profile_pic',
           'gender',
-          // 'locale',
-          // 'timezone',
+          'locale',
+          'timezone',
           // 'updated_time',
           // 'age_range',
           // 'birthday',
@@ -93,7 +93,9 @@ class EventsHandler {
           lastName: fbData.last_name,
           pictureUrl: fbData.profile_pic,
           gender: fbData.gender,
-        };
+          locale: fbData.locale,
+          timezone: fbData.timezone,
+        }; // TODO refresh these regularly
       }),
       Message.find({sessionId: session.id}),
       Memory.findOneOrCreate({sessionId: session.id}),

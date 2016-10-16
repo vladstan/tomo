@@ -9,6 +9,8 @@ class Profile {
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
     pictureUrl: {type: String, required: true},
+    locale: {type: String, required: true},
+    timezone: {type: Number, required: true},
   }
 
   @staticMethod
