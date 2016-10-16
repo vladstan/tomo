@@ -11,6 +11,21 @@ class Profile {
     pictureUrl: {type: String, required: true},
     locale: {type: String, required: true},
     timezone: {type: Number, required: true},
+    prefs: {
+      type: {
+        home_airport: {type: String},
+        accommodation: {type: String},
+        accommodation_budget: {type: Number},
+        accommodation_budget_currency: {type: String},
+        flight_cabin: {type: String},
+        flight_seat: {type: String},
+        next_trip_type: {type: String, enum: ['solo', 'couple', 'group', 'family']},
+        next_trip_time: {type: String},
+        next_trip_purpose: {type: String, enum: ['relax', 'discover', 'adventure', 'cultural', 'party', 'mix']},
+        next_trip_extra: {type: String},
+      },
+      default: {},
+    },
   }
 
   @staticMethod
