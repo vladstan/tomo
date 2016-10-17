@@ -20,6 +20,7 @@ class Profile {
         flight_cabin: {type: String},
         flight_seat: {type: String},
         next_trip_type: {type: String, enum: ['solo', 'couple', 'group', 'family']},
+        next_trip_destination: {type: String},
         next_trip_time: {type: String},
         next_trip_purpose: {type: String, enum: ['relax', 'discover', 'adventure', 'cultural', 'party', 'mix']},
         next_trip_extra: {type: String},

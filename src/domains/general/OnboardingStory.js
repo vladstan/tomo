@@ -28,11 +28,23 @@ class OnboardingStory {
   async run(past: BotPast, context: Object, entities: Object, bot: BotInterface) {
     log.debug('running OnboardingStory with context', JSON.stringify(context));
 
-    if (past.botAsked('get_pref_airport')) {
-      bot.savePref('home_airport', past.getCurrentMessage().text);
+    if (past.botAsked('get_accommodation_budget')) {
+      bot.savePref('accommodation_budget', past.getCurrentMessage().text); //TODO Ask Alex here
+      bot.sayText('Ok, let\'s talk about your flight preferences');
       bot.sayText('What type of cabin do you prefer?')
         .quickReply('Economy', 'ONBOARDING_CABIN_ECONOMY')
-        .quickReply('Business', 'ONBOARDING_CABIN_BUSINESS');
+        .quickReply('Economy Plus', 'ONBOARDING_CABIN_ECONOMY-PLUS')
+        .quickReply('Business', 'ONBOARDING_CABIN_BUSINESS')
+        .quickReply('First Class', 'ONBOARDING_CABIN_FIRST');
+      return true;
+    }
+
+    if (past.botAsked('get_pref_airport')) {
+      bot.savePref('home_airport', past.getCurrentMessage().text);
+      bot.sayText('Ok, thank you!');
+      bot.sayText('Do you want to tell me know few things about your next trip?')
+        .quickReply('Yes', 'ONBOARDING_NEXT_TRIP_YES')
+        .quickReply('No', 'ONBOARDING_NEXT_TRIP_NO');
       return true;
     }
   }
@@ -50,69 +62,98 @@ class OnboardingStory {
 
       case 'ONBOARDING_ACCOMMODATION':
         bot.sayText('Do you prefer to stay at hotel, hostel or Airbnb?')
-          .quickReply('Hotel', 'ONBOARDING_AIRPORT_HOTEL')
-          .quickReply('Airbnb', 'ONBOARDING_AIRPORT_AIRBNB')
-          .quickReply('Hostel', 'ONBOARDING_AIRPORT_HOSTEL');
+          .quickReply('Hotel', 'ONBOARDING_ACCOMMODATION_HOTEL')
+          .quickReply('Airbnb', 'ONBOARDING_ACCOMMODATION_AIRBNB')
+          .quickReply('Hostel', 'ONBOARDING_ACCOMMODATION_HOSTEL');
         return true;
 
-      case 'ONBOARDING_AIRPORT_HOTEL':
-      case 'ONBOARDING_AIRPORT_AIRBNB':
-      case 'ONBOARDING_AIRPORT_HOSTEL':
-        bot.savePref('accommodation', postbackId.replace('ONBOARDING_AIRPORT_', '').toLowerCase());
-        bot.sayText('Great, thank you.');
-        bot.sayText('How much did you spend for accommodation per night last time you were in a trip?')
-          .quickReply('Less than $75/day', 'DUMMY')
-          .quickReply('Less than $150/day', 'ONBOARDING_REAL_ESTATE')
-          .quickReply('More than $200/day', 'ONBOARDING_REAL_ESTATE');
+      case 'ONBOARDING_ACCOMMODATION_HOTEL':
+      case 'ONBOARDING_ACCOMMODATION_AIRBNB':
+      case 'ONBOARDING_ACCOMMODATION_HOSTEL':
+        bot.savePref('accommodation', postbackId.replace('ONBOARDING_ACCOMMODATION_', '').toLowerCase());
+        bot.sayTextWithIntent('How much did you spend for accommodation per night last time you was in a trip?', 'get_accommodation_budget');
         return true;
 
-      case 'ONBOARDING_HOME_AIRPORT':
-        bot.sayTextWithIntent("What's the airport closest to you?", 'get_pref_airport');
+      case 'ONBOARDING_CABIN_ECONOMY':
+      case 'ONBOARDING_CABIN_ECONOMY-PLUS':
+      case 'ONBOARDING_CABIN_BUSINESS':
+      case 'ONBOARDING_CABIN_FIRST':
+        bot.savePref('flight_cabin', postbackId.replace('ONBOARDING_CABIN_', '').toLowerCase());
+        bot.sayText('And what seat do you prefer?')
+          .quickReply('Aisle', 'ONBOARDING_SEAT_AISLE')
+          .quickReply('Window', 'ONBOARDING_SEAT_WINDOW');
         return true;
 
-      case 'ONBOARDING_RESTAURANTS':
-        bot.sayText('You can find the best restaurants, cofeeshops or clubs on the island');
-        bot.sayText('Just type: \'Find me the best club or restaurant or coffee\' to get started')
-          .quickReply('Find me a club', 'DUMMY')
-          .quickReply('Find a restaurant', 'DUMMY')
-          .quickReply('Not now, what else', 'ONBOARDING_SHUTLLE');
+      case 'ONBOARDING_SEAT_AISLE':
+      case 'ONBOARDING_SEAT_WINDOW':
+        bot.savePref('flight_seat', postbackId.replace('ONBOARDING_SEAT_', '').toLowerCase());
+        bot.sayTextWithIntent("What's the closest airport?", 'get_pref_airport');
         return true;
 
-      case 'ONBOARDING_SHUTLLE':
-        bot.sayText('I can find you a shuttle for the airport');
-        bot.sayText('Just type: \'I want a shuttle\' to get started')
-          .quickReply('Airport shuttle', 'DUMMY')
-          .quickReply('What else', 'ONBOARDING_FEEDBACK');
+      case 'ONBOARDING_NEXT_TRIP_NO':
+        bot.sayText('Ok, thank you. Just ping me back when you have some time.');
         return true;
 
-      case 'ONBOARDING_FEEDBACK':
-        bot.sayText('Type \'help\' to see what cool things I can do');
-        bot.sayText('If you have any feedback for us just let me know.');
+      case 'ONBOARDING_NEXT_TRIP_YES':
+        bot.sayText('Do you travel solo or with others')
+          .quickReply('Solo', 'ONBOARDING_TYPE_SOLO')
+          .quickReply('Couple', 'ONBOARDING_TYPE_COUPLE')
+          .quickReply('Family', 'ONBOARDING_TYPE_FAMILY')
+          .quickReply('Group', 'ONBOARDING_TYPE_GROUP');
         return true;
 
-      case 'ONBOARDING_HUMAN':
-        bot.sayText('Ok, someone in our team will get in touch with you ASAP')
-          .quickReply('List the activities', 'ONBOARDING_LIST');
-        bot.addActionMessage({
-          messageText: 'Talk to a human',
-        });
+      case 'ONBOARDING_TYPE_SOLO':
+      case 'ONBOARDING_TYPE_COUPLE':
+      case 'ONBOARDING_TYPE_FAMILY':
+      case 'ONBOARDING_TYPE_GROUP':
+        bot.savePref('next_trip_type', postbackId.replace('ONBOARDING_TYPE_', '').toLowerCase());
+        bot.sayText('Ok, do you have a destination in mind?')
+          .quickReply('Europe', 'ONBOARDING_DESTINATION_EUROPE')
+          .quickReply('North America', 'ONBOARDING_DESTINATION_NORTH-AMERICA')
+          .quickReply('South America', 'ONBOARDING_DESTINATION_SOUTH-AMERICA')
+          .quickReply('Australia and NZ', 'ONBOARDING_DESTINATION_AUSTRALIA-NZ')
+          .quickReply('Asia', 'ONBOARDING_DESTINATION_ASIA')
+          .quickReply('Not really', 'ONBOARDING_DESTINATION_NO-DESTINATION');
         return true;
 
-      case 'ONBOARDING_LIST':
-        bot.sayText('Type one of these things I can do for you to start');
-        bot.sayText('I want to send a postcard');
-        bot.sayText('What\'s the weather in {location}');
-        bot.sayText('I want to rent or buy an apartment');
-        bot.sayText('Find a restaurant / club or coffeeshop');
-        bot.sayText('Find me an airport shuttle');
-        bot.sayText('Find me activity or things to do on the island');
-        bot.sayText('Enjoy <3 Palma');
+      case 'ONBOARDING_DESTINATION_EUROPE':
+      case 'ONBOARDING_DESTINATION_NORTH-AMERICA':
+      case 'ONBOARDING_DESTINATION_SOUTH-AMERICA':
+      case 'ONBOARDING_DESTINATION_ASIA':
+      case 'ONBOARDING_DESTINATION_AUSTRALIA-NZ':
+      case 'ONBOARDING_DESTINATION_NO-DESTINATION':
+        bot.savePref('next_trip_destination', postbackId.replace('ONBOARDING_DESTINATION_', '').toLowerCase());
+        bot.sayText('Do you have a specific date for your trip?')
+          .quickReply('Next 3 months', 'ONBOARDING_TIME_NEXT-3-MONTHS')
+          .quickReply('Next 6 months', 'ONBOARDING_TIME_NEXT-6-MONTHS')
+          .quickReply('Next year', 'ONBOARDING_TIME_YEAR');
         return true;
 
-      // case 'REENGAGE_DAY_1':
-      //   bot.sayText('Day 1!!')
-      //     .quickReply('Ok', 'OK');
-      //   return true;
+      case 'ONBOARDING_TIME_NEXT-3':
+      case 'ONBOARDING_TIME_NEXT-6':
+      case 'ONBOARDING_TIME_YEAR':
+        bot.savePref('next_trip_time', postbackId.replace('ONBOARDING_TIME_', '').toLowerCase());
+        bot.sayText('What type of trip do you want?')
+          .quickReply('Relax', 'ONBOARDING_PURPOSE_RELAX')
+          .quickReply('Adventure', 'ONBOARDING_PURPOSE_ADVENTURE')
+          .quickReply('Cultural', 'ONBOARDING_PURPOSE_CULTURAL')
+          .quickReply('Party', 'ONBOARDING_PURPOSE_PARTY')
+          .quickReply('Discover', 'ONBOARDING_PURPOSE_DISCOVER')
+          .quickReply('Mix', 'ONBOARDING_PURPOSE_MIX');
+        return true;
+
+      case 'ONBOARDING_PURPOSE_RELAX':
+      case 'ONBOARDING_PURPOSE_DISCOVER':
+      case 'ONBOARDING_PURPOSE_ADVENTURE':
+      case 'ONBOARDING_PURPOSE_CULTURAL':
+      case 'ONBOARDING_PURPOSE_PARTY':
+      case 'ONBOARDING_PURPOSE_MIX':
+        bot.savePref('next_trip_purpose', postbackId.replace('ONBOARDING_TYPE_', '').toLowerCase());
+        bot.sayText('Ok, thank you.');
+        bot.sayText('Let me introduce you to one of our agents to help you with your next trip.');
+        bot.sayText('We will get back to you shortly.');
+        return true;
+
     }
   }
 
