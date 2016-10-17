@@ -8,6 +8,8 @@ class BotPast {
   botAsked(intent) {
     // TODO: search only the last 5 messages
     const messages = this.messages;
+    console.log('messages=', messages);
+    console.log('newMessages=', this.newMessages);
     const previousMessagesFromBot = messages
       .filter((msg) => msg.senderType === 'bot')
       .sort((a, b) => {
@@ -21,6 +23,7 @@ class BotPast {
       });
     if (previousMessagesFromBot.length) {
       const previousMessageFromBot = previousMessagesFromBot[previousMessagesFromBot.length - 1];
+      console.log('previousMessageFromBot', previousMessageFromBot);
       return previousMessageFromBot.entities.intent === intent;
     }
     return false;

@@ -58,7 +58,7 @@ class WitBot {
 
       log.silly('saving new prefs');
       this.data.profile.prefs = this.data.profile.prefs || {};
-      for (const [key, value] of bestResult.newPrefs) {
+      for (const {key, value} of bestResult.newPrefs) {
         this.data.profile.prefs[key] = value;
       }
     } else {

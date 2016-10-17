@@ -111,17 +111,18 @@ async function initDatabaseData(): Promise<void> {
 }
 
 async function saveDatabaseData(): Promise<void> {
+  data.profile.prefs.fieldNotInModel = 5;
   const docs = [
     data.user,
     data.session,
     data.profile,
     data.memory,
   ];
-  const tasks = docs.map((doc) => doc.save());
+  const tasks = docs.map((doc, index) => doc.save());
   await Promise.all(tasks);
 }
 
-async function evalMessage(cmd: string) {
+async function evalMessage(cmd) {
   cmd = cmd.trim();
   if (!cmd) {
     return;
@@ -132,7 +133,10 @@ async function evalMessage(cmd: string) {
 
   if (cmd === 'exit') {
     saveDatabaseData()
-      .then((): void => process.exit(0))
+      .then(() => {
+        log.silly('database data saved');
+        process.exit(0);
+      })
       .catch(errorThrower);
     return;
   }
