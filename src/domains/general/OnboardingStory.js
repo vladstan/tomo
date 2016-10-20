@@ -151,7 +151,7 @@ class OnboardingStory {
       case 'ONBOARDING_PURPOSE_CULTURAL':
       case 'ONBOARDING_PURPOSE_PARTY':
       case 'ONBOARDING_PURPOSE_MIX':
-        bot.savePref('next_trip_purpose', postbackId.replace('ONBOARDING_TYPE_', '').toLowerCase());
+        bot.savePref('next_trip_purpose', postbackId.replace('ONBOARDING_PURPOSE_', '').toLowerCase());
         bot.sayText('Awesome, thank you!');
         bot.sayText('Let me introduce you to one of our agents. They\'ll help you with your next trip.');
         bot.sayText('They will get back to you shortly.');
