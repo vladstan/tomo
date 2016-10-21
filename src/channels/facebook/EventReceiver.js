@@ -18,7 +18,7 @@ class EventReceiver {
 
     // https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-received
     if (message.quick_reply && message.quick_reply.payload) {
-      const responses = await bot.postback(message.quick_reply.payload);
+      const responses = await bot.postback(message.quick_reply.payload, message.text);
       botResponses.push(...responses);
     }
 
@@ -29,7 +29,7 @@ class EventReceiver {
 
     // https://developers.facebook.com/docs/messenger-platform/webhook-reference/postback-received
     if (!botResponses.length && postback.payload) {
-      const responses = await bot.postback(postback.payload);
+      const responses = await bot.postback(postback.payload, '@' + postback.payload);
       botResponses.push(...responses);
     }
 

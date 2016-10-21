@@ -38,7 +38,7 @@ class WitBot {
     const results = await this.runAllStories(botPast, parsed);
     const sortedResults = results.sort(this.confidenceComparatorDesc);
     const bestResult = sortedResults.find((result) => result.matched);
-    log.silly('results:', results);
+    // log.silly('results:', results);
     log.silly('sortedResults:', sortedResults);
     log.silly('bestResult:', bestResult);
     // TODO store results in conversation / messages
@@ -58,7 +58,7 @@ class WitBot {
 
       log.silly('saving new prefs');
       this.data.profile.prefs = this.data.profile.prefs || {};
-      for (const [key, value] of bestResult.newPrefs) {
+      for (const {key, value} of bestResult.newPrefs) {
         this.data.profile.prefs[key] = value;
       }
     } else {
@@ -72,13 +72,13 @@ class WitBot {
       await new Message(newMessage).save(); // eslint-disable-line babel/no-await-in-loop
     }
 
-    log.silly('WitBot', 'finished processing', responses);
+    log.silly('WitBot', 'finished processing', responses.length, 'responses');
     return responses;
   }
 
-  async postback(postbackId: string) {
+  async postback(postbackId, postbackMessage) {
     const botPast = new BotPast(this.data.messages);
-    botPast.addPostback(postbackId);
+    botPast.addPostback(postbackId, this.data.user.id, postbackMessage);
 
     const results = await this.postbackAllStories(botPast, postbackId);
     const sortedResults = results.sort(this.confidenceComparatorDesc);
@@ -110,7 +110,12 @@ class WitBot {
 
     responses.forEach((resp) => botPast.addBotResponse(resp, this.data.user.id));
 
-    // log.silly('WitBot', 'finished processing', responses);
+    for (const newMessage of botPast.newMessages) {
+      newMessage.sessionId = this.data.session.id;
+      await new Message(newMessage).save(); // eslint-disable-line babel/no-await-in-loop
+    }
+
+    log.silly('WitBot', 'finished processing', responses.length, 'responses');
     return responses;
   }
 

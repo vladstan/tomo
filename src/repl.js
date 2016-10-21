@@ -23,46 +23,21 @@ logger.attachGlobal();
 
 const config = Config.getInstance();
 
-const witBot = new WitBot(config);
 const database = new Database(config);
 database.connect();
 
 let senderId: string = '1271264896226433';
-let initDone: boolean = false;
-let data: ?Object = null;
 
-const replServer = repl.start({
+repl.start({
   prompt: '> ',
-  eval: (cmd: string, context: any, filename: string, cb: (err: ?Error, result: ?any) => void) => {
+  eval: (cmd, context, filename, cb) => {
     evalMessage(cmd)
-      .then((result: any): void => cb(null, result))
-      .catch((err: Error): void => cb(err));
+      .then((result) => cb(null, result))
+      .catch((err) => cb(err));
   },
 });
 
-replServer.on('exit', () => {
-  saveDatabaseData()
-    .then((): void => process.exit(0))
-    .catch(errorThrower);
-});
-
-init()
-  .then(() => {
-    initDone = true;
-    log.info('init finished');
-  })
-  .catch(errorThrower);
-
-function errorThrower(err: Error) {
-  log.error(err);
-}
-
-async function init(): Promise<void> {
-  await initDatabaseData();
-  witBot.init(data);
-}
-
-async function initDatabaseData(): Promise<void> {
+async function initDatabaseData() {
   const user = await User.findOneOrCreate({facebookId: senderId});
   const session = await Session.findOneOrCreate({userId: user.id});
 
@@ -107,35 +82,31 @@ async function initDatabaseData(): Promise<void> {
     Memory.findOneOrCreate({sessionId: session.id}),
   ]);
 
-  data = {user, session, profile, messages, memory};
+  return {user, session, profile, messages, memory};
 }
 
-async function saveDatabaseData(): Promise<void> {
+async function saveDatabaseData(data) {
+  data.profile.prefs.fieldNotInModel = 5;
   const docs = [
     data.user,
     data.session,
     data.profile,
     data.memory,
   ];
-  const tasks = docs.map((doc) => doc.save());
+  const tasks = docs.map((doc, index) => doc.save());
   await Promise.all(tasks);
 }
 
-async function evalMessage(cmd: string) {
+async function evalMessage(cmd) {
   cmd = cmd.trim();
   if (!cmd) {
     return;
   }
-  if (!initDone) {
-    return '<init not finished>';
-  }
 
-  if (cmd === 'exit') {
-    saveDatabaseData()
-      .then((): void => process.exit(0))
-      .catch(errorThrower);
-    return;
-  }
+  // init
+  const data = await initDatabaseData();
+  const witBot = new WitBot(config);
+  witBot.init(data);
 
   if (cmd.startsWith('@')) {
     // if (cmd.startsWith('@SEND')) {
@@ -160,5 +131,10 @@ async function evalMessage(cmd: string) {
     });
     await actionMessage.save();
   }
+
+  // teardown
+  await saveDatabaseData(data);
+
+  // printed in repl
   return responses;
 }

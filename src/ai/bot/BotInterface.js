@@ -38,7 +38,9 @@ class BotInterface {
     const resp = {
       type: 'text',
       text: responseText,
-      intent: targetIntent,
+      entities: {
+        intent: targetIntent,
+      },
     };
     this.botResponses.push(resp);
     return this.qrInterface(resp);
@@ -62,7 +64,9 @@ class BotInterface {
     this.botResponses.push({
       type: 'text',
       text: responseText,
-      intent: targetIntent,
+      entities: {
+        intent: targetIntent,
+      },
     });
   }
 

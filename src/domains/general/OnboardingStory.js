@@ -28,9 +28,12 @@ class OnboardingStory {
   async run(past: BotPast, context: Object, entities: Object, bot: BotInterface) {
     log.debug('running OnboardingStory with context', JSON.stringify(context));
 
+    console.log("past.botAsked('get_accommodation_budget')", past.botAsked('get_accommodation_budget'));
+    // console.log("past.botAskedd('get_pref_airport')", past.botAsked('get_pref_airport'));
+
     if (past.botAsked('get_accommodation_budget')) {
-      bot.savePref('accommodation_budget', past.getCurrentMessage().text); //TODO Ask Alex here
-      bot.sayText('Ok, let\'s talk about your flight preferences');
+      bot.savePref('accommodation_budget', past.getCurrentMessage().text);
+      bot.sayText('Ok, let\'s talk about your flight preferences.');
       bot.sayText('What type of cabin do you prefer?')
         .quickReply('Economy', 'ONBOARDING_CABIN_ECONOMY')
         .quickReply('Economy Plus', 'ONBOARDING_CABIN_ECONOMY-PLUS')
@@ -42,9 +45,13 @@ class OnboardingStory {
     if (past.botAsked('get_pref_airport')) {
       bot.savePref('home_airport', past.getCurrentMessage().text);
       bot.sayText('Ok, thank you!');
+<<<<<<< HEAD
       bot.sayText('Do you want to tell me few things about your next trip?')
+=======
+      bot.sayText('Would you like to start planning your next trip right now?')
+>>>>>>> 095e93d8abbc7fc0bbede83b19166212fcb653c5
         .quickReply('Yes', 'ONBOARDING_NEXT_TRIP_YES')
-        .quickReply('No', 'ONBOARDING_NEXT_TRIP_NO');
+        .quickReply('No, later', 'ONBOARDING_NEXT_TRIP_NO');
       return true;
     }
   }
@@ -54,14 +61,14 @@ class OnboardingStory {
     const userFbProfile = await this.onboardingActions.getUser(context.facebookSenderId, ['first_name']);
     switch (postbackId) {
       case 'GET_STARTED':
-        bot.sayText(`Hi ${userFbProfile.first_name}, I'm Yago your bot assistant.`);
-        bot.sayText('I want to make sure we’re offering you the best possible experience.');
-        bot.sayText('Let me learn few things about you.')
+        bot.sayText(`Hi, ${userFbProfile.first_name}! I'm Yago, your bot assistant.`);
+        bot.sayText('I want to make sure we\'re offering you the best possible experience.');
+        bot.sayText('Let me learn a few things about you.')
           .quickReply('Ok, let\'s do it', 'ONBOARDING_ACCOMMODATION');
         return true;
 
       case 'ONBOARDING_ACCOMMODATION':
-        bot.sayText('Do you prefer to stay at hotel, hostel or Airbnb?')
+        bot.sayText('Do you prefer to stay at a hotel, hostel or Airbnb?')
           .quickReply('Hotel', 'ONBOARDING_ACCOMMODATION_HOTEL')
           .quickReply('Airbnb', 'ONBOARDING_ACCOMMODATION_AIRBNB')
           .quickReply('Hostel', 'ONBOARDING_ACCOMMODATION_HOSTEL');
@@ -71,7 +78,7 @@ class OnboardingStory {
       case 'ONBOARDING_ACCOMMODATION_AIRBNB':
       case 'ONBOARDING_ACCOMMODATION_HOSTEL':
         bot.savePref('accommodation', postbackId.replace('ONBOARDING_ACCOMMODATION_', '').toLowerCase());
-        bot.sayTextWithIntent('How much did you spend for accommodation per night last time you was in a trip?', 'get_accommodation_budget');
+        bot.sayTextWithIntent('How much $/night did you spend for accommodation the last time you went in a trip?', 'get_accommodation_budget');
         return true;
 
       case 'ONBOARDING_CABIN_ECONOMY':
@@ -91,11 +98,11 @@ class OnboardingStory {
         return true;
 
       case 'ONBOARDING_NEXT_TRIP_NO':
-        bot.sayText('Ok, thank you. Just ping me back when you have some time.');
+        bot.sayText('Ok, thank you. Just ping me back when you\'d like to start.');
         return true;
 
       case 'ONBOARDING_NEXT_TRIP_YES':
-        bot.sayText('Do you travel solo or with others')
+        bot.sayText('What kind of trip is this going to be?')
           .quickReply('Solo', 'ONBOARDING_TYPE_SOLO')
           .quickReply('Couple', 'ONBOARDING_TYPE_COUPLE')
           .quickReply('Family', 'ONBOARDING_TYPE_FAMILY')
@@ -111,7 +118,7 @@ class OnboardingStory {
           .quickReply('Europe', 'ONBOARDING_DESTINATION_EUROPE')
           .quickReply('North America', 'ONBOARDING_DESTINATION_NORTH-AMERICA')
           .quickReply('South America', 'ONBOARDING_DESTINATION_SOUTH-AMERICA')
-          .quickReply('Australia and NZ', 'ONBOARDING_DESTINATION_AUSTRALIA-NZ')
+          .quickReply('Australia & NZ', 'ONBOARDING_DESTINATION_AUSTRALIA-NZ')
           .quickReply('Asia', 'ONBOARDING_DESTINATION_ASIA')
           .quickReply('Not really', 'ONBOARDING_DESTINATION_NO-DESTINATION');
         return true;
@@ -123,22 +130,22 @@ class OnboardingStory {
       case 'ONBOARDING_DESTINATION_AUSTRALIA-NZ':
       case 'ONBOARDING_DESTINATION_NO-DESTINATION':
         bot.savePref('next_trip_destination', postbackId.replace('ONBOARDING_DESTINATION_', '').toLowerCase());
-        bot.sayText('Do you have a specific date for your trip?')
+        bot.sayText('When would you like to go?')
           .quickReply('Next 3 months', 'ONBOARDING_TIME_NEXT-3-MONTHS')
           .quickReply('Next 6 months', 'ONBOARDING_TIME_NEXT-6-MONTHS')
           .quickReply('Next year', 'ONBOARDING_TIME_YEAR');
         return true;
 
-      case 'ONBOARDING_TIME_NEXT-3':
-      case 'ONBOARDING_TIME_NEXT-6':
+      case 'ONBOARDING_TIME_NEXT-3-MONTHS':
+      case 'ONBOARDING_TIME_NEXT-6-MONTHS':
       case 'ONBOARDING_TIME_YEAR':
         bot.savePref('next_trip_time', postbackId.replace('ONBOARDING_TIME_', '').toLowerCase());
-        bot.sayText('What type of trip do you want?')
-          .quickReply('Relax', 'ONBOARDING_PURPOSE_RELAX')
+        bot.sayText('What\'s the purpose of this trip?')
+          .quickReply('Relaxation', 'ONBOARDING_PURPOSE_RELAX')
           .quickReply('Adventure', 'ONBOARDING_PURPOSE_ADVENTURE')
           .quickReply('Cultural', 'ONBOARDING_PURPOSE_CULTURAL')
           .quickReply('Party', 'ONBOARDING_PURPOSE_PARTY')
-          .quickReply('Discover', 'ONBOARDING_PURPOSE_DISCOVER')
+          .quickReply('Discovery', 'ONBOARDING_PURPOSE_DISCOVER')
           .quickReply('Mix', 'ONBOARDING_PURPOSE_MIX');
         return true;
 
@@ -148,10 +155,10 @@ class OnboardingStory {
       case 'ONBOARDING_PURPOSE_CULTURAL':
       case 'ONBOARDING_PURPOSE_PARTY':
       case 'ONBOARDING_PURPOSE_MIX':
-        bot.savePref('next_trip_purpose', postbackId.replace('ONBOARDING_TYPE_', '').toLowerCase());
-        bot.sayText('Ok, thank you.');
-        bot.sayText('Let me introduce you to one of our agents to help you with your next trip.');
-        bot.sayText('We will get back to you shortly.');
+        bot.savePref('next_trip_purpose', postbackId.replace('ONBOARDING_PURPOSE_', '').toLowerCase());
+        bot.sayText('Awesome, thank you!');
+        bot.sayText('Let me introduce you to one of our agents. They\'ll help you with your next trip.');
+        bot.sayText('They will get back to you shortly.');
         return true;
 
     }

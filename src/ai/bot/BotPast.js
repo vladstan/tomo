@@ -7,8 +7,10 @@ class BotPast {
 
   botAsked(intent) {
     // TODO: search only the last 5 messages
-    const messages = this.messages;
-    const previousMessagesFromBot = messages
+    console.log('messages=', this.messages);
+    console.log('newMessages=', this.newMessages);
+    const previousMessagesFromBot = this.messages
+      .concat(this.newMessages)
       .filter((msg) => msg.senderType === 'bot')
       .sort((a, b) => {
         if (a.createdAt < b.createdAt) {
@@ -19,10 +21,12 @@ class BotPast {
           return 0;
         }
       });
+
     if (previousMessagesFromBot.length) {
       const previousMessageFromBot = previousMessagesFromBot[previousMessagesFromBot.length - 1];
       return previousMessageFromBot.entities.intent === intent;
     }
+
     return false;
   }
 
@@ -54,8 +58,16 @@ class BotPast {
     });
   }
 
-  addPostback(postbackId: string) { // TODO
-
+  addPostback(postbackId, userId, postbackMessage) {
+    this.newMessages.push({
+      type: 'text',
+      senderType: 'user',
+      receiverType: 'bot',
+      senderId: userId,
+      receiverId: '0bot0',
+      text: postbackMessage,
+      entities: {},
+    });
   }
 
 }
