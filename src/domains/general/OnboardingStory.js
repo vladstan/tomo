@@ -42,7 +42,7 @@ class OnboardingStory {
     if (past.botAsked('get_pref_airport')) {
       bot.savePref('home_airport', past.getCurrentMessage().text);
       bot.sayText('Ok, thank you!');
-      bot.sayText('Do you want to tell me know few things about your next trip?')
+      bot.sayText('Do you want to tell me few things about your next trip?')
         .quickReply('Yes', 'ONBOARDING_NEXT_TRIP_YES')
         .quickReply('No', 'ONBOARDING_NEXT_TRIP_NO');
       return true;
