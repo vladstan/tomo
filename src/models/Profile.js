@@ -9,8 +9,8 @@ class Profile {
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
     pictureUrl: {type: String, required: true},
-    locale: {type: String, required: true},
-    timezone: {type: Number, required: true},
+    locale: {type: String},
+    timezone: {type: Number},
     prefs: {
       home_airport: {type: String},
       accommodation: {type: String},
