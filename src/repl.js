@@ -124,12 +124,17 @@ async function evalMessage(cmd) {
 
   const responses = await witBot.process(cmd);
   if (!responses.length) {
-    const actionMessage = new ActionMessage({
+    const query = {userId: data.user.id};
+    const newDoc = {
       type: 'text',
       userId: data.user.id,
       messageText: cmd,
-    });
-    await actionMessage.save();
+    };
+    const actionMsg = await ActionMessage.findOneOrCreate(query, async () => newDoc);
+    if (actionMsg.messageText !== cmd) {
+      actionMsg.messageText = cmd;
+      await actionMsg.save();
+    }
   }
 
   // teardown

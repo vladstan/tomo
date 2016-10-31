@@ -77,15 +77,21 @@ class EventReceiver {
     }
 
     const fallbackTextMsg1 = new TextMessage("I don't know how to do that yet");
-    const fallbackTextMsg2 = new TextMessage("Type 'help' to see what cool things I can do");
+    const fallbackTextMsg2 = new TextMessage("I'll notify my humans about it");
+
     await reply.messages(fallbackTextMsg1, fallbackTextMsg2);
 
-    const actionMessage = new ActionMessage({
+    const query = {userId: data.user.id};
+    const newDoc = {
       type: 'text',
       userId: data.user.id,
       messageText: message.text,
-    });
-    await actionMessage.save();
+    };
+    const actionMsg = await ActionMessage.findOneOrCreate(query, async () => newDoc); // eslint-disable-line babel/no-await-in-loop
+    if (actionMsg.messageText !== message.text) {
+      actionMsg.messageText = message.text;
+      await actionMsg.save(); // eslint-disable-line babel/no-await-in-loop
+    }
   }
 
 }

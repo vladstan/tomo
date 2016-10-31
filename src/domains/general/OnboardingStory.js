@@ -155,6 +155,9 @@ class OnboardingStory {
         bot.sayText('Awesome, thank you!');
         bot.sayText('Let me introduce you to one of our agents. They\'ll help you with your next trip.');
         bot.sayText('They will get back to you shortly.');
+        bot.addActionMessage({
+          messageText: '<finished onboarding>',
+        });
         return true;
 
     }

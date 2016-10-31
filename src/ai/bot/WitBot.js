@@ -49,11 +49,17 @@ class WitBot {
 
       log.silly('saving action messages');
       for (const actionMessage of bestResult.actionMessages) {
-        await new ActionMessage({ // eslint-disable-line babel/no-await-in-loop
+        const query = {userId: this.data.user.id};
+        const newDoc = {
           type: actionMessage.type,
           userId: this.data.user.id,
           messageText: actionMessage.messageText,
-        }).save();
+        };
+        const actionMsg = await ActionMessage.findOneOrCreate(query, async () => newDoc); // eslint-disable-line babel/no-await-in-loop
+        if (actionMsg.messageText !== actionMessage.messageText) {
+          actionMsg.messageText = actionMessage.messageText;
+          await actionMsg.save(); // eslint-disable-line babel/no-await-in-loop
+        }
       }
 
       log.silly('saving new prefs');
@@ -92,11 +98,17 @@ class WitBot {
 
       log.silly('saving action messages');
       for (const actionMessage of bestResult.actionMessages) {
-        await new ActionMessage({ // eslint-disable-line babel/no-await-in-loop
+        const query = {userId: this.data.user.id};
+        const newDoc = {
           type: actionMessage.type,
           userId: this.data.user.id,
           messageText: actionMessage.messageText,
-        }).save();
+        };
+        const actionMsg = await ActionMessage.findOneOrCreate(query, async () => newDoc); // eslint-disable-line babel/no-await-in-loop
+        if (actionMsg.messageText !== actionMessage.messageText) {
+          actionMsg.messageText = actionMessage.messageText;
+          await actionMsg.save(); // eslint-disable-line babel/no-await-in-loop
+        }
       }
 
       log.silly('saving new prefs');
