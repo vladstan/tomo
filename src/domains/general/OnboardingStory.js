@@ -57,7 +57,13 @@ class OnboardingStory {
     const userFbProfile = await this.onboardingActions.getUser(context.facebookSenderId, ['first_name']);
     switch (postbackId) {
       case 'GET_STARTED':
-        bot.sayText(`Hi, ${userFbProfile.first_name}! I'm Yago, your bot assistant.`);
+        bot.sayText(`Hi, ${userFbProfile.first_name}! I'm Tomo, your bot travel mate`);
+        bot.sayText('Thank you for joining our waiting list! 🎉');
+        bot.sayText("I'll message you here once I have something to show you");
+        return true;
+
+      case 'GET_STARTED_FULL':
+        bot.sayText(`Hi, ${userFbProfile.first_name}!`);
         bot.sayText('I want to make sure we\'re offering you the best possible experience.');
         bot.sayText('Let me learn a few things about you.')
           .quickReply('Ok, let\'s do it', 'ONBOARDING_ACCOMMODATION');
