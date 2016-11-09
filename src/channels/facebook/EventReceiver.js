@@ -3,6 +3,7 @@ import GenericMessage from 'channels/facebook/messages/GenericMessage';
 import ImageMessage from 'channels/facebook/messages/ImageMessage';
 
 import ActionMessage from 'models/ActionMessage';
+import Message from 'models/Message';
 
 class EventReceiver {
 
@@ -79,7 +80,20 @@ class EventReceiver {
     const fallbackTextMsg1 = new TextMessage("I don't know how to do that yet");
     const fallbackTextMsg2 = new TextMessage("I'll notify my humans about it");
 
+    const getDocForMsg = (msgText) => ({
+      type: 'text',
+      senderType: 'bot',
+      receiverType: 'user',
+      senderId: '0bot0',
+      receiverId: data.user.id,
+      sessionId: data.session.id,
+      text: msgText,
+      entities: {},
+    });
+
     await reply.messages(fallbackTextMsg1, fallbackTextMsg2);
+    await new Message(getDocForMsg(fallbackTextMsg1.text)).save();
+    await new Message(getDocForMsg(fallbackTextMsg2.text)).save();
 
     const query = {userId: data.user.id};
     const newDoc = {
