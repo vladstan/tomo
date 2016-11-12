@@ -40,8 +40,21 @@ class EventsHandler {
             sessionId: this.data.session.id,
           };
           await new Message(msg).save(); // eslint-disable-line babel/no-await-in-loop
+        } else if (event.message && event.message.attachments && event.message.attachments.find((a) => a.type === 'image')) {
+          const imageAtt = event.message.attachments.find((a) => a.type === 'image');
+          const msg = {
+            type: 'image',
+            senderType: 'user',
+            receiverType: 'bot',
+            senderId: this.data.user.id,
+            receiverId: '0bot0',
+            // text: event.message.text, //
+            sessionId: this.data.session.id,
+            imageUrl: imageAtt.payload.url,
+          };
+          await new Message(msg).save(); // eslint-disable-line babel/no-await-in-loop
         } else {
-          log.silly('event does not have event.message.text:', JSON.stringify(event));
+          log.silly('event does not have event.message.text or an image attachment:', JSON.stringify(event));
         }
         // TODO: do this in REPL as well ??
       }
