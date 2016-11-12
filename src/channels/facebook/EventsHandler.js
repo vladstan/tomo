@@ -64,7 +64,11 @@ class EventsHandler {
     this.witBot.init(this.data);
 
     for (const event of events) {
-      await this.processEvent(event); // eslint-disable-line babel/no-await-in-loop
+      if (event.message && event.message.text) {
+        await this.processEvent(event); // eslint-disable-line babel/no-await-in-loop
+      } else {
+        log.silly('skipping event (missing event.message.text):', JSON.stringify(event));
+      }
     }
 
     await this.saveDatabaseData();
