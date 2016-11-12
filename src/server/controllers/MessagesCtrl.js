@@ -1,4 +1,5 @@
 import TextMessage from 'channels/facebook/messages/TextMessage';
+import ImageMessage from 'channels/facebook/messages/ImageMessage';
 import FacebookReply from 'channels/facebook/FacebookReply';
 
 import Message from 'models/Message';
@@ -28,7 +29,13 @@ class MessagesCtrl {
       this.facebookReply.setRecipientId(message.receiverFacebookId);
 
       log.silly('sendMessage: sending to Facebook');
-      await this.facebookReply.messages(new TextMessage(message.text)); // eslint-disable-line babel/no-await-in-loop
+      if (message.type === 'text') {
+        await this.facebookReply.messages(new TextMessage(message.text)); // eslint-disable-line babel/no-await-in-loop
+      } else if (message.type === 'image') {
+        await this.facebookReply.messages(new ImageMessage(message.imageUrl)); // eslint-disable-line babel/no-await-in-loop
+      } else {
+        log.debug('MessagesCtrl.send unrecognised message.type:', message.type);
+      }
 
       log.silly('sendMessage: saving to db');
       await new Message(message).save(); // eslint-disable-line babel/no-await-in-loop
