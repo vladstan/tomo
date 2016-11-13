@@ -4,7 +4,7 @@ import {model} from 'utils/mongoose';
 class Message {
 
   static options = {
-    capped: 10 * 1000,
+    capped: 10 * 1000 * 100,
   }
 
   static schema = {

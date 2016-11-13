@@ -85,6 +85,7 @@ class EventsHandler {
           receiverId: '0bot0',
           text: event.message.text, //
           sessionId: this.data.session.id,
+          timestamp: event.timestamp,
         };
         await new Message(msg).save(); // eslint-disable-line babel/no-await-in-loop
       } else if (event.message && event.message.attachments && event.message.attachments.find((a) => a.type === 'image')) {
@@ -97,6 +98,7 @@ class EventsHandler {
           receiverId: '0bot0',
           // text: event.message.text, //
           sessionId: this.data.session.id,
+          timestamp: event.timestamp,
           imageUrl: imageAtt.payload.url,
         };
         await new Message(msg).save(); // eslint-disable-line babel/no-await-in-loop

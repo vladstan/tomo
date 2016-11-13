@@ -12,7 +12,25 @@ class MessagesCtrl {
   }
 
   routes(koa) {
+    koa.post('/messages/read', ::this.markConvRead);
     koa.post('/messages', ::this.sendMessages);
+  }
+
+  async markConvRead(ctx) {
+    log.silly('marking conv as read');
+
+    const body = ctx.request.body;
+    if (!body) ctx.throw(400, 'body required');
+    if (!body.receiverFacebookId) ctx.throw(400, 'body.receiverFacebookId is required');
+    // TODO use a validation lib?
+
+    log.silly('markConvRead: validation successful, marking...');
+    log.silly('markConvRead: setting recipientId =', body.receiverFacebookId);
+    this.facebookReply.setRecipientId(body.receiverFacebookId);
+    await this.facebookReply.actions('mark_seen');
+    log.silly('markConvRead: sent to Facebook');
+
+    ctx.body = 'ok';
   }
 
   async sendMessages(ctx) {
