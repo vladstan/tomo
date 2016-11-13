@@ -28,12 +28,12 @@ class WitBot {
     this.data = data;
   }
 
-  async process(messageText: string) {
+  async process(messageText: string, event) {
     const parsed = await this.witAiApi.parseMessage(messageText);
     log.debug('wit.ai response:', JSON.stringify(parsed));
 
     const botPast = new BotPast(this.data.messages);
-    botPast.addUserMessage(parsed, this.data.user.id);
+    botPast.addUserMessage(parsed, this.data.user.id, event && event.timestamp || 0);
 
     const results = await this.runAllStories(botPast, parsed);
     const sortedResults = results.sort(this.confidenceComparatorDesc);
@@ -71,7 +71,7 @@ class WitBot {
       responses = []; // this.getContactHumanResponses();
     }
 
-    responses.forEach((resp) => botPast.addBotResponse(resp, this.data.user.id));
+    responses.forEach((resp) => botPast.addBotResponse(resp, this.data.user.id, event && event.timestamp || 0, event && event.timestamp || 0));
 
     for (const newMessage of botPast.newMessages) {
       newMessage.sessionId = this.data.session.id;
@@ -82,7 +82,7 @@ class WitBot {
     return responses;
   }
 
-  async postback(postbackId, postbackMessage) {
+  async postback(postbackId, postbackMessage, event) {
     const botPast = new BotPast(this.data.messages);
     botPast.addPostback(postbackId, this.data.user.id, postbackMessage);
 
@@ -120,7 +120,7 @@ class WitBot {
       responses = []; // this.getContactHumanResponses();
     }
 
-    responses.forEach((resp) => botPast.addBotResponse(resp, this.data.user.id));
+    responses.forEach((resp) => botPast.addBotResponse(resp, this.data.user.id, event && event.timestamp || 0));
 
     for (const newMessage of botPast.newMessages) {
       newMessage.sessionId = this.data.session.id;

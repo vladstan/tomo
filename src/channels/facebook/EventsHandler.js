@@ -26,48 +26,85 @@ class EventsHandler {
 
     await this.initDatabaseData();
 
-    if (this.data.user.botMuted) {
-      log.debug('bot is muted for this user, skipping WitBot processing');
-      for (const event of events) {
-        if (event.message && event.message.text) {
-          const msg = {
-            type: 'text',
-            senderType: 'user',
-            receiverType: 'bot',
-            senderId: this.data.user.id,
-            receiverId: '0bot0',
-            text: event.message.text, //
-            sessionId: this.data.session.id,
-          };
-          await new Message(msg).save(); // eslint-disable-line babel/no-await-in-loop
-        } else if (event.message && event.message.attachments && event.message.attachments.find((a) => a.type === 'image')) {
-          const imageAtt = event.message.attachments.find((a) => a.type === 'image');
-          const msg = {
-            type: 'image',
-            senderType: 'user',
-            receiverType: 'bot',
-            senderId: this.data.user.id,
-            receiverId: '0bot0',
-            // text: event.message.text, //
-            sessionId: this.data.session.id,
-            imageUrl: imageAtt.payload.url,
-          };
-          await new Message(msg).save(); // eslint-disable-line babel/no-await-in-loop
-        } else {
-          log.silly('event does not have event.message.text or an image attachment:', JSON.stringify(event));
-        }
-        // TODO: do this in REPL as well ??
+    await this.processStatusEvents(events);
+    events = events.filter((e) => !e.delivery && !e.read);
+
+    if (events.length) {
+      if (this.data.user.botMuted) {
+        log.debug('bot is muted for this user, skipping WitBot processing');
+        await this.processEventsWhenBotMuted(events);
+        return;
       }
-      return;
-    }
 
-    this.witBot.init(this.data);
+      this.witBot.init(this.data);
 
-    for (const event of events) {
-      await this.processEvent(event); // eslint-disable-line babel/no-await-in-loop
+      for (const event of events) {
+        await this.processEvent(event); // eslint-disable-line babel/no-await-in-loop
+      }
+    } else {
+      log.silly('all events were status messages, no bot processing');
     }
 
     await this.saveDatabaseData();
+  }
+
+  async processStatusEvents(events) {
+    for (const event of events) {
+      // delivery status
+      // https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-delivered
+      if (event.delivery) {
+        log.silly('event.delivery status event');
+        if (!this.data.user.lastDeliveredWatermark || event.delivery.watermark > this.data.user.lastDeliveredWatermark) {
+          this.data.user.lastDeliveredWatermark = event.delivery.watermark;
+          log.silly('saved data.user.lastDeliveredWatermark =', event.delivery.watermark);
+        }
+        return;
+      }
+
+      // read status
+      // https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-read
+      if (event.read) {
+        log.silly('event.read status event');
+        if (!this.data.user.lastReadWatermark || event.read.watermark > this.data.user.lastReadWatermark) {
+          this.data.user.lastReadWatermark = event.read.watermark;
+          log.silly('saved data.user.lastReadWatermark =', event.read.watermark);
+        }
+        return;
+      }
+    }
+  }
+
+  async processEventsWhenBotMuted(events) {
+    for (const event of events) {
+      if (event.message && event.message.text) {
+        const msg = {
+          type: 'text',
+          senderType: 'user',
+          receiverType: 'bot',
+          senderId: this.data.user.id,
+          receiverId: '0bot0',
+          text: event.message.text, //
+          sessionId: this.data.session.id,
+        };
+        await new Message(msg).save(); // eslint-disable-line babel/no-await-in-loop
+      } else if (event.message && event.message.attachments && event.message.attachments.find((a) => a.type === 'image')) {
+        const imageAtt = event.message.attachments.find((a) => a.type === 'image');
+        const msg = {
+          type: 'image',
+          senderType: 'user',
+          receiverType: 'bot',
+          senderId: this.data.user.id,
+          receiverId: '0bot0',
+          // text: event.message.text, //
+          sessionId: this.data.session.id,
+          imageUrl: imageAtt.payload.url,
+        };
+        await new Message(msg).save(); // eslint-disable-line babel/no-await-in-loop
+      } else {
+        log.silly('event does not have event.message.text or an image attachment:', JSON.stringify(event));
+      }
+      // TODO: do this in REPL as well ??
+    }
   }
 
   async initDatabaseData() {

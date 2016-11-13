@@ -7,6 +7,8 @@ class User {
     facebookId: {type: String, unique: true, required: true},
     botMuted: {type: Boolean, default: false},
     stripe: {type: Object},
+    lastReadWatermark: {type: Number, default: 0},
+    lastDeliveredWatermark: {type: Number, default: 0},
   }
 
   @staticMethod

@@ -18,6 +18,7 @@ class Message {
     senderType: {type: String, enum: ['bot', 'user'], required: true},
     receiverType: {type: String, enum: ['bot', 'user'], required: true},
     createdAt: {type: Date, default: Date.now},
+    timestamp: {type: Number, default: 0},
   }
 
 }

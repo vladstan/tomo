@@ -49,7 +49,7 @@ class BotPast {
     return this.newMessages[this.newMessages.length - 1];
   }
 
-  addUserMessage(parsedMessage, userId) {
+  addUserMessage(parsedMessage, userId, timestamp) {
     this.newMessages.push({
       type: 'text',
       senderType: 'user',
@@ -58,6 +58,7 @@ class BotPast {
       receiverId: '0bot0',
       text: parsedMessage._text,
       entities: parsedMessage.entities,
+      timestamp,
     });
   }
 
@@ -70,10 +71,11 @@ class BotPast {
       receiverId: userId,
       text: response.text,
       entities: response.entities || {},
+      timestamp: Date.now(),
     });
   }
 
-  addPostback(postbackId, userId, postbackMessage) {
+  addPostback(postbackId, userId, postbackMessage, timestamp) {
     this.newMessages.push({
       type: 'text',
       senderType: 'user',
@@ -82,6 +84,7 @@ class BotPast {
       receiverId: '0bot0',
       text: postbackMessage,
       entities: {},
+      timestamp: timestamp,
     });
   }
 
