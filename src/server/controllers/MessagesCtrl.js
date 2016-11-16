@@ -12,6 +12,7 @@ class MessagesCtrl {
   }
 
   routes(koa) {
+    koa.post('/typing_status', ::this.setTypingStatus);
     koa.post('/messages/read', ::this.markConvRead);
     koa.post('/messages', ::this.sendMessages);
   }
@@ -29,6 +30,28 @@ class MessagesCtrl {
     this.facebookReply.setRecipientId(body.receiverFacebookId);
     await this.facebookReply.actions('mark_seen');
     log.silly('markConvRead: sent to Facebook');
+
+    ctx.body = 'ok';
+  }
+
+  async setTypingStatus(ctx) {
+    log.silly('setting typing status');
+
+    const body = ctx.request.body;
+    if (!body) ctx.throw(400, 'body required');
+    if (!body.receiverFacebookId) ctx.throw(400, 'body.receiverFacebookId is required');
+    if (typeof body.isTyping !== 'boolean') ctx.throw(400, 'body.isTyping is required (must be boolean)');
+    // TODO use a validation lib?
+
+    log.silly('setTypingStatus: validation successful, setting...');
+    log.silly('setTypingStatus: setting recipientId =', body.receiverFacebookId);
+    this.facebookReply.setRecipientId(body.receiverFacebookId);
+    if (body.isTyping) {
+      await this.facebookReply.actions('typing_on');
+    } else {
+      await this.facebookReply.actions('typing_off');
+    }
+    log.silly('setTypingStatus: sent to Facebook');
 
     ctx.body = 'ok';
   }
