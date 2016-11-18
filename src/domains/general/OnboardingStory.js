@@ -92,6 +92,12 @@ class OnboardingStory {
       bot.sayText('Next time you can simply say: I want to go for 2 weeks in Peru with my Family. And we are on it.');
       return true;
     }
+
+    if (past.botAsked('get_fare_alert_destination')) {
+      bot.savePref('fare_alert_destination', past.getCurrentMessage().text);
+      bot.sayText('This is super cool! I will notify you every time the price drop for this destination');
+      return true;
+    }
   }
 
   async postback(past: BotPast, context: Object, postbackId: string, bot: BotInterface) {
@@ -154,6 +160,13 @@ class OnboardingStory {
         bot.sayText('Here we need to ask you about your info, like official name, phone and date of birth');
         return true;
 
+// Fare Alerts
+
+      case 'FARE_ALERT':
+        bot.sayText('We\'re sending a notification on the price drop for that destination');
+        bot.sayTextWithIntent('For what destination do you want to get fare alert?', 'get__fare_alert_destination');
+        return true;
+
 // Onboarding business trip for the first time
 
       case 'ONBOARDING_NEXT_TRIP_YES':
@@ -170,7 +183,7 @@ class OnboardingStory {
 
       case 'ONBOARDING_BUSINESS_GROUP':
       case 'ONBOARDING_BUSINESS_SOLO':
-        bot.savePref('trip group', postbackId.replace('ONBOARDING_BUSINESS_', '').toLowerCase()); // TODO we need to create a new collection for each customer(trips)
+        bot.savePref('trip_size', postbackId.replace('ONBOARDING_BUSINESS_', '').toLowerCase()); // TODO we need to create a new collection for each customer(trips)
         bot.sayTextWithIntent('Where do you have to go?', 'get_business_trip_location');
         return true;
 
