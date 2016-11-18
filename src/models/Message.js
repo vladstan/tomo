@@ -9,9 +9,19 @@ class Message {
 
   static schema = {
     sessionId: {type: String, required: true},
-    type: {type: String, enum: ['text', 'card', 'image'], required: true},
+    type: {type: String, enum: ['text', 'card', 'image', 'cards'], required: true},
     text: {type: String}, // TODO other message types
     imageUrl: {type: String}, // TODO other message types
+    cards: [{
+      url: String,
+      pictureUrl: String,
+      title: String,
+      description: String,
+      buttons: [{
+        title: String,
+        payload: String,
+      }],
+    }],
     entities: {type: Object, default: {}},
     senderId: {type: String, required: true},
     receiverId: {type: String, required: true},

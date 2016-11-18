@@ -1,4 +1,5 @@
 import TextMessage from 'channels/facebook/messages/TextMessage';
+import GenericMessage from 'channels/facebook/messages/GenericMessage';
 import ImageMessage from 'channels/facebook/messages/ImageMessage';
 import FacebookReply from 'channels/facebook/FacebookReply';
 
@@ -74,6 +75,22 @@ class MessagesCtrl {
         await this.facebookReply.messages(new TextMessage(message.text)); // eslint-disable-line babel/no-await-in-loop
       } else if (message.type === 'image') {
         await this.facebookReply.messages(new ImageMessage(message.imageUrl)); // eslint-disable-line babel/no-await-in-loop
+      } else if (message.type === 'cards') {
+        let genericMessage = new GenericMessage();
+
+        for (const card of message.cards) {
+          genericMessage = genericMessage
+            .addBubble(card.title, (card.description || '').substr(0, 80))
+            .addUrl(card.link)
+            .addImage(card.pictureUrl);
+
+          for (const btn of card.buttons) {
+            genericMessage = genericMessage
+              .addButton(btn.title, btn.url || btn.payload);
+          }
+        }
+
+        await this.facebookReply.messages(genericMessage); // eslint-disable-line babel/no-await-in-loop
       } else {
         log.debug('MessagesCtrl.send unrecognised message.type:', message.type);
       }
