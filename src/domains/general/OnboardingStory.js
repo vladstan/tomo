@@ -164,7 +164,7 @@ class OnboardingStory {
 
       case 'FARE_ALERT':
         bot.sayText('We\'re sending a notification on the price drop for that destination');
-        bot.sayTextWithIntent('For what destination do you want to get fare alert?', 'get__fare_alert_destination');
+        bot.sayTextWithIntent('For what destination do you want to get fare alert?', 'get_fare_alert_destination');
         return true;
 
 // Onboarding business trip for the first time
