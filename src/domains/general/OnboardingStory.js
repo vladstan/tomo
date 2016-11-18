@@ -50,6 +50,48 @@ class OnboardingStory {
         .quickReply('No, later', 'ONBOARDING_NEXT_TRIP_NO');
       return true;
     }
+
+    if (past.botAsked('get_business_trip_location')) {
+      bot.savePref('trip_location', past.getCurrentMessage().text);
+      bot.sayText('Ok, thank you!');
+      bot.sayTextWithIntent('What are the dates for you business trip?', 'get_dates_business_trip');
+      return true;
+    }
+
+    if (past.botAsked('get_dates_business_trip')) {
+      bot.savePref('dates_business_trip', past.getCurrentMessage().text);
+      bot.sayTextWithIntent('Do you have any special requests?', 'get_special_requests_business_trip');
+      return true;
+    }
+
+    if (past.botAsked('get_special_requests_business_trip')) {
+      bot.savePref('special_requests_business_trip', past.getCurrentMessage().text);
+      bot.sayText('Awesome, thank you! ');
+      bot.sayText('Let me introduce you to one of our booking experts. They\'ll help you with your next trip.');
+      bot.sayText('Next time you can simply say: I\'ll fly to NYC next week for a meeting in the fincial district. And we are on it.');
+      return true;
+    }
+
+    if (past.botAsked('get_leisure_location')) {
+      bot.savePref('trip_leisure_location', past.getCurrentMessage().text);
+      bot.sayText('Awesome!');
+      bot.sayTextWithIntent('What are the dates for you leisure trip?', 'get_dates_leisure_trip');
+      return true;
+    }
+
+    if (past.botAsked('get_dates_leisure_trip')) {
+      bot.savePref('dates_leisure_trip', past.getCurrentMessage().text);
+      bot.sayTextWithIntent('Do you have any special requests?', 'get_special_requests_leisure_trip');
+      return true;
+    }
+
+    if (past.botAsked('get_special_requests_leisure_trip')) {
+      bot.savePref('special_requests_leisure_trip', past.getCurrentMessage().text);
+      bot.sayText('Awesome, thank you! ');
+      bot.sayText('Let me introduce you to one of our travel mates. They\'ll help you with your next trip.');
+      bot.sayText('Next time you can simply say: I want to go for 2 weeks in Peru with my Family. And we are on it.');
+      return true;
+    }
   }
 
   async postback(past: BotPast, context: Object, postbackId: string, bot: BotInterface) {
@@ -61,6 +103,8 @@ class OnboardingStory {
         bot.sayText('Thank you for joining our waiting list! 🎉');
         bot.sayText("I'll message you here once I have something to show you");
         return true;
+
+// Onboarding full script
 
       case 'GET_STARTED_FULL':
         bot.sayText(`Hi, ${userFbProfile.first_name}!`);
@@ -103,7 +147,36 @@ class OnboardingStory {
         bot.sayText('Ok, thank you. Just ping me back when you\'d like to start.');
         return true;
 
+// Passenger Information
+
+      case 'PASSENGER_INFO':
+        bot.sayText(`Hi, ${userFbProfile.first_name}! I'm Tomo, your bot travel mate`);
+        bot.sayText('Here we need to ask you about your info, like official name, phone and date of birth');
+        return true;
+
+// Onboarding business trip for the first time
+
       case 'ONBOARDING_NEXT_TRIP_YES':
+        bot.sayText('What kind of trip is this going to be?')
+          .quickReply('Business', 'ONBOARDING_BUSINESS_TRIP')
+          .quickReply('Leisure', 'ONBOARDING_LEISURE_TRIP');
+        return true;
+
+      case 'ONBOARDING_BUSINESS_TRIP':
+        bot.sayText('What kind of trip is this going to be?')
+          .quickReply('Solo', 'ONBOARDING_BUSINESS_SOLO')
+          .quickReply('Group', 'ONBOARDING_BUSINESS_GROUP');
+        return true;
+
+      case 'ONBOARDING_BUSINESS_GROUP':
+      case 'ONBOARDING_BUSINESS_SOLO':
+        bot.savePref('trip group', postbackId.replace('ONBOARDING_BUSINESS_', '').toLowerCase()); // TODO we need to create a new collection for each customer(trips)
+        bot.sayTextWithIntent('Where do you have to go?', 'get_business_trip_location');
+        return true;
+
+// Onboarding Leisure trip for the first time
+
+      case 'ONBOARDING_LEISURE_TRIP':
         bot.sayText('What kind of trip is this going to be?')
           .quickReply('Solo', 'ONBOARDING_TYPE_SOLO')
           .quickReply('Couple', 'ONBOARDING_TYPE_COUPLE')
@@ -117,37 +190,20 @@ class OnboardingStory {
       case 'ONBOARDING_TYPE_GROUP':
         bot.savePref('next_trip_type', postbackId.replace('ONBOARDING_TYPE_', '').toLowerCase());
         bot.sayText('Ok, do you have a destination in mind?')
-          .quickReply('Europe', 'ONBOARDING_DESTINATION_EUROPE')
-          .quickReply('North America', 'ONBOARDING_DESTINATION_NORTH-AMERICA')
-          .quickReply('South America', 'ONBOARDING_DESTINATION_SOUTH-AMERICA')
-          .quickReply('Australia & NZ', 'ONBOARDING_DESTINATION_AUSTRALIA-NZ')
-          .quickReply('Asia', 'ONBOARDING_DESTINATION_ASIA')
-          .quickReply('Not really', 'ONBOARDING_DESTINATION_NO-DESTINATION');
+          .quickReply('Yes', 'ONBOARDING_DESTINATION_YES')
+          .quickReply('No, give me options', 'ONBOARDING_DESTINATION_NO');
         return true;
 
-      case 'ONBOARDING_DESTINATION_EUROPE':
-      case 'ONBOARDING_DESTINATION_NORTH-AMERICA':
-      case 'ONBOARDING_DESTINATION_SOUTH-AMERICA':
-      case 'ONBOARDING_DESTINATION_ASIA':
-      case 'ONBOARDING_DESTINATION_AUSTRALIA-NZ':
-      case 'ONBOARDING_DESTINATION_NO-DESTINATION':
-        bot.savePref('next_trip_destination', postbackId.replace('ONBOARDING_DESTINATION_', '').toLowerCase());
-        bot.sayText('When would you like to go?')
-          .quickReply('Next 3 months', 'ONBOARDING_TIME_NEXT-3-MONTHS')
-          .quickReply('Next 6 months', 'ONBOARDING_TIME_NEXT-6-MONTHS')
-          .quickReply('Next year', 'ONBOARDING_TIME_YEAR');
+      case 'ONBOARDING_DESTINATION_YES':
+        bot.sayTextWithIntent('Where do you want to go next?', 'get_leisure_location');
         return true;
 
-      case 'ONBOARDING_TIME_NEXT-3-MONTHS':
-      case 'ONBOARDING_TIME_NEXT-6-MONTHS':
-      case 'ONBOARDING_TIME_YEAR':
-        bot.savePref('next_trip_time', postbackId.replace('ONBOARDING_TIME_', '').toLowerCase());
-        bot.sayText('What\'s the purpose of this trip?')
-          .quickReply('Relaxation', 'ONBOARDING_PURPOSE_RELAX')
+      case 'ONBOARDING_DESTINATION_NO':
+        bot.sayText('What\'s the purpose for this trip?')
+          .quickReply('Relax', 'ONBOARDING_PURPOSE_RELAX')
+          .quickReply('Discover', 'ONBOARDING_PURPOSE_DISCOVER')
           .quickReply('Adventure', 'ONBOARDING_PURPOSE_ADVENTURE')
-          .quickReply('Cultural', 'ONBOARDING_PURPOSE_CULTURAL')
           .quickReply('Party', 'ONBOARDING_PURPOSE_PARTY')
-          .quickReply('Discovery', 'ONBOARDING_PURPOSE_DISCOVER')
           .quickReply('Mix', 'ONBOARDING_PURPOSE_MIX');
         return true;
 
@@ -159,7 +215,7 @@ class OnboardingStory {
       case 'ONBOARDING_PURPOSE_MIX':
         bot.savePref('next_trip_purpose', postbackId.replace('ONBOARDING_PURPOSE_', '').toLowerCase());
         bot.sayText('Awesome, thank you!');
-        bot.sayText('Let me introduce you to one of our agents. They\'ll help you with your next trip.');
+        bot.sayText('Let me introduce you to one of our planning experts.');
         bot.sayText('They will get back to you shortly.');
         bot.addActionMessage({
           messageText: '<finished onboarding>',
