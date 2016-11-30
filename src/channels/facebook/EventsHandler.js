@@ -102,8 +102,22 @@ class EventsHandler {
           imageUrl: imageAtt.payload.url,
         };
         await new Message(msg).save(); // eslint-disable-line babel/no-await-in-loop
+      } else if (event.message && event.message.quick_reply && event.message.quick_reply.payload ||
+          event.postback && event.postback.payload) {
+        const msg = {
+          type: 'text',
+          senderType: 'user',
+          receiverType: 'bot',
+          senderId: this.data.user.id,
+          receiverId: '0bot0',
+          text: event.message && event.message.quick_reply && event.message.quick_reply.payload ||
+            event.postback && event.postback.payload,
+          sessionId: this.data.session.id,
+          timestamp: event.timestamp,
+        };
+        await new Message(msg).save(); // eslint-disable-line babel/no-await-in-loop
       } else {
-        log.silly('event does not have event.message.text or an image attachment:', JSON.stringify(event));
+        log.silly('event does not have event.message.text or an image attachment or ...payload:', JSON.stringify(event));
       }
       // TODO: do this in REPL as well ??
     }
