@@ -38,7 +38,7 @@ class EventReceiver {
     if (event.message) {
       const {message} = event;
       return message.text ||
-        (message.quick_reply && ('@' + message.quick_reply.payload)) ||
+        (message.quick_reply && message.quick_reply.payload && ('@' + message.quick_reply.payload)) ||
         (message.attachments && '<message with attachments>') ||
         '<message>';
     }
