@@ -4,6 +4,7 @@ import ImageMessage from 'channels/facebook/messages/ImageMessage';
 
 import ActionMessage from 'models/ActionMessage';
 import Message from 'models/Message';
+import Trip from 'models/Trip';
 
 class EventReceiver {
 
@@ -23,6 +24,11 @@ class EventReceiver {
       }
     }
 
+    // save a suggestion choice for a trip
+    if (await this.saveSuggestion(event)) {
+      return;
+    }
+
     // no responses, send fallback reply
     await this.sendFallbackReply(reply, data);
     await this.saveFallbackActionMessage(this.getFallbackMessageText(event), data);
@@ -32,6 +38,79 @@ class EventReceiver {
     if (event.message && event.message.text === 'Empezar') {
       await reply.messages(new TextMessage('Lo siento, no hablo español, sólo el Inglés'));
     }
+  }
+
+  async saveSuggestion(event) {
+    const {postback} = event;
+
+    if (postback && postback.payload) {
+      if (postback.payload.startsWith('BOOK_FLIGHT:')) {
+        const payloadData = JSON.parse(postback.payload.substr('BOOK_FLIGHT:'.length));
+        const {tripId} = payloadData;
+
+        const trip = await Trip.findOne({_id: tripId});
+        if (!trip) {
+          throw new Error('trip not found for id: ' + tripId);
+        }
+
+        const objDoc = {
+          pictureUrl: payloadData.pictureUrl,
+          airline: payloadData.airline,
+          price: payloadData.price,
+        };
+
+        await Trip.update({_id: tripId}, {'$push': {'flights': objDoc}});
+        return true;
+      }
+
+      if (postback.payload.startsWith('BOOK_ACCOMMODATION:')) {
+        const payloadData = JSON.parse(postback.payload.substr('BOOK_ACCOMMODATION:'.length));
+        const {tripId} = payloadData;
+
+        const trip = await Trip.findOne({_id: tripId});
+        if (!trip) {
+          throw new Error('trip not found for id: ' + tripId);
+        }
+
+        const objDoc = {
+          link: payloadData.link,
+          pictureUrl: payloadData.pictureUrl,
+          name: payloadData.name,
+          price: payloadData.price,
+        };
+
+        await Trip.update({_id: tripId}, {'$push': {'accommodation': objDoc}});
+        return true;
+      }
+
+      if (postback.payload.startsWith('BOOK_ACTIVITY:')) {
+        log.debug('postback.payload.startsWith(BOOK_ACTIVITY:)');
+
+        const payloadData = JSON.parse(postback.payload.substr('BOOK_ACTIVITY:'.length));
+        const {tripId} = payloadData;
+
+        // log.debug('payloadData=', JSON.stringify(payloadData));
+        // log.debug('payloadDataFields=', Object.keys(payloadData));
+        // log.debug('tripId=', JSON.stringify(payloadData.tripId));
+
+        const trip = await Trip.findOne({_id: tripId});
+        console.log('trip=', JSON.stringify(trip));
+        if (!trip) {
+          throw new Error('trip not found for id: ' + tripId);
+        }
+
+        const objDoc = {
+          pictureUrl: payloadData.pictureUrl,
+          name: payloadData.name,
+          price: payloadData.price,
+        };
+
+        await Trip.update({_id: tripId}, {'$push': {'activities': objDoc}});
+        return true;
+      }
+    }
+
+    return false;
   }
 
   getFallbackMessageText(event) {

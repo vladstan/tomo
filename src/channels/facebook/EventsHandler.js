@@ -5,6 +5,7 @@ import Profile from 'models/Profile';
 import Session from 'models/Session';
 import Message from 'models/Message';
 import Memory from 'models/Memory';
+import Trip from 'models/Trip';
 
 import FacebookApi from 'domains/core/FacebookApi';
 import FacebookReply from 'channels/facebook/FacebookReply';
@@ -104,6 +105,11 @@ class EventsHandler {
         await new Message(msg).save(); // eslint-disable-line babel/no-await-in-loop
       } else if (event.message && event.message.quick_reply && event.message.quick_reply.payload ||
           event.postback && event.postback.payload) {
+        // save suggestion pick
+        if (event.postback && event.postback.payload) {
+          this.saveSuggestion(event);
+        }
+
         const msg = {
           type: 'text',
           senderType: 'user',
@@ -121,6 +127,79 @@ class EventsHandler {
       }
       // TODO: do this in REPL as well ??
     }
+  }
+
+  async saveSuggestion(event) {
+    const {postback} = event;
+
+    if (postback && postback.payload) {
+      if (postback.payload.startsWith('BOOK_FLIGHT:')) {
+        const payloadData = JSON.parse(postback.payload.substr('BOOK_FLIGHT:'.length));
+        const {tripId} = payloadData;
+
+        const trip = await Trip.findOne({_id: tripId});
+        if (!trip) {
+          throw new Error('trip not found for id: ' + tripId);
+        }
+
+        const objDoc = {
+          pictureUrl: payloadData.pictureUrl,
+          airline: payloadData.airline,
+          price: payloadData.price,
+        };
+
+        await Trip.update({_id: tripId}, {'$push': {'flights': objDoc}});
+        return true;
+      }
+
+      if (postback.payload.startsWith('BOOK_ACCOMMODATION:')) {
+        const payloadData = JSON.parse(postback.payload.substr('BOOK_ACCOMMODATION:'.length));
+        const {tripId} = payloadData;
+
+        const trip = await Trip.findOne({_id: tripId});
+        if (!trip) {
+          throw new Error('trip not found for id: ' + tripId);
+        }
+
+        const objDoc = {
+          link: payloadData.link,
+          pictureUrl: payloadData.pictureUrl,
+          name: payloadData.name,
+          price: payloadData.price,
+        };
+
+        await Trip.update({_id: tripId}, {'$push': {'accommodation': objDoc}});
+        return true;
+      }
+
+      if (postback.payload.startsWith('BOOK_ACTIVITY:')) {
+        log.debug('postback.payload.startsWith(BOOK_ACTIVITY:)');
+
+        const payloadData = JSON.parse(postback.payload.substr('BOOK_ACTIVITY:'.length));
+        const {tripId} = payloadData;
+
+        // log.debug('payloadData=', JSON.stringify(payloadData));
+        // log.debug('payloadDataFields=', Object.keys(payloadData));
+        // log.debug('tripId=', JSON.stringify(payloadData.tripId));
+
+        const trip = await Trip.findOne({_id: tripId});
+        console.log('trip=', JSON.stringify(trip));
+        if (!trip) {
+          throw new Error('trip not found for id: ' + tripId);
+        }
+
+        const objDoc = {
+          pictureUrl: payloadData.pictureUrl,
+          name: payloadData.name,
+          price: payloadData.price,
+        };
+
+        await Trip.update({_id: tripId}, {'$push': {'activities': objDoc}});
+        return true;
+      }
+    }
+
+    return false;
   }
 
   async initDatabaseData() {
