@@ -1,3 +1,5 @@
+import mongoose from 'mongoose';
+
 import TextMessage from 'channels/facebook/messages/TextMessage';
 
 import User from 'models/User';
@@ -143,6 +145,7 @@ class EventsHandler {
         }
 
         const objDoc = {
+          _id: mongoose.Types.ObjectId(),
           pictureUrl: payloadData.pictureUrl,
           airline: payloadData.airline,
           price: payloadData.price,
@@ -162,6 +165,7 @@ class EventsHandler {
         }
 
         const objDoc = {
+          _id: mongoose.Types.ObjectId(),
           link: payloadData.link,
           pictureUrl: payloadData.pictureUrl,
           name: payloadData.name,
@@ -189,6 +193,7 @@ class EventsHandler {
         }
 
         const objDoc = {
+          _id: mongoose.Types.ObjectId(),
           pictureUrl: payloadData.pictureUrl,
           name: payloadData.name,
           price: payloadData.price,

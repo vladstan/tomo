@@ -1,3 +1,5 @@
+import mongoose from 'mongoose';
+
 import TextMessage from 'channels/facebook/messages/TextMessage';
 import GenericMessage from 'channels/facebook/messages/GenericMessage';
 import ImageMessage from 'channels/facebook/messages/ImageMessage';
@@ -54,6 +56,7 @@ class EventReceiver {
         }
 
         const objDoc = {
+          _id: mongoose.Types.ObjectId(),
           pictureUrl: payloadData.pictureUrl,
           airline: payloadData.airline,
           price: payloadData.price,
@@ -73,6 +76,7 @@ class EventReceiver {
         }
 
         const objDoc = {
+          _id: mongoose.Types.ObjectId(),
           link: payloadData.link,
           pictureUrl: payloadData.pictureUrl,
           name: payloadData.name,
@@ -100,6 +104,7 @@ class EventReceiver {
         }
 
         const objDoc = {
+          _id: mongoose.Types.ObjectId(),
           pictureUrl: payloadData.pictureUrl,
           name: payloadData.name,
           price: payloadData.price,
