@@ -118,8 +118,8 @@ class EventsHandler {
           receiverType: 'bot',
           senderId: this.data.user.id,
           receiverId: '0bot0',
-          text: event.message && event.message.quick_reply && event.message.quick_reply.payload ||
-            event.postback && event.postback.payload,
+          text: '@' + (event.message && event.message.quick_reply && event.message.quick_reply.payload ||
+            event.postback && event.postback.payload),
           sessionId: this.data.session.id,
           timestamp: event.timestamp,
         };
